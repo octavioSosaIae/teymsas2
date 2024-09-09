@@ -12,7 +12,7 @@ class conn
         $db = "Teymsas2";
         $port = 3306;
 
-        $mysqli = new mysqli($host, $user, $pass, $db, $puerto);
+        $mysqli = new mysqli($host, $user, $pass, $db, $port);
         return $mysqli;
     }
 }
