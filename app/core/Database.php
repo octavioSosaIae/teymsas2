@@ -9,10 +9,11 @@ class conn
         $host = "localhost";
         $user = "root";
         $pass = "";
-        $db = "Teymsas2";
+        $db = "ecommerce";
         $port = 3306;
 
         $mysqli = new mysqli($host, $user, $pass, $db, $port);
         return $mysqli;
     }
 }
+
