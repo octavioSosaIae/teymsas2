@@ -48,6 +48,47 @@ class User{
         }
     }
 
+    
+    //  Función para que devuelva la informacion de todos los usuarios
+
+    function getAll()
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+            $sql = "SELECT * FROM users;";
+
+            $response = $conn->query($sql);
+            $user = $response->fetch_all(MYSQL_ASSOC);
+            return $user;
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+    
+    //  Función para que devuelva la informacion de todos los usuarios por ID
+
+    function getAllById($id)
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+            $sql = "SELECT * FROM users WHERE id_user = '$id';";
+
+            $response = $conn->query($sql);
+            $user = $response->fetch_all(MYSQL_ASSOC);
+            return $user;
+
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    
+
 
 
 
