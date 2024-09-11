@@ -43,6 +43,9 @@ class User{
                 throw new Exception("Error al loguear el usuario: email o contraseña incorrecto");
             }
 
+            session_start();
+            $_SESSION['id_user'] = $user['id_user'];
+
             return $user;
 
         } catch (Exception $e) {
@@ -92,19 +95,22 @@ class User{
     
         //  Función para actualizar los usuarios sin la contraseña
 
-        public function updateWithoutPassword($complete_name, $email, $phone, $userId)
+         function updateWithoutPassword($complete_name, $email, $phone)
         {
             try {           
                 $connection = new conn;
                 $conn = $connection->connect();
                           
     
-                $sql = "UPDATE users SET complete_name_user = '$complete_name', email_user = '$email',  phone_user = '$phone' WHERE id_user = '$userId';";
+                $sql = "UPDATE users SET complete_name_user = '$complete_name', email_user = '$email',  phone_user = '$phone';";
                 $response = $conn->query($sql);
                 return $response;
             } catch (Exception) {
                 return "Error";
             }
         }
+
+
+     
     
 }
