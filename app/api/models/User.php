@@ -14,6 +14,8 @@ class User{
 
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+
+
             $sql = "INSERT INTO users (complete_name_user, password_user, email_user, phone_user) VALUES('$complete_name','$hashedPassword', '$email','$full_name', '$phone');";
             $response = $conn->query($sql);
 
@@ -60,7 +62,7 @@ class User{
             $sql = "SELECT * FROM users;";
 
             $response = $conn->query($sql);
-            $user = $response->fetch_all(MYSQL_ASSOC);
+            $user = $response->fetch_all(MYSQLI_ASSOC);
             return $user;
 
         } catch (Exception $e) {
@@ -79,7 +81,7 @@ class User{
             $sql = "SELECT * FROM users WHERE id_user = '$id';";
 
             $response = $conn->query($sql);
-            $user = $response->fetch_all(MYSQL_ASSOC);
+            $user = $response->fetch_all(MYSQLI_ASSOC);
             return $user;
 
         } catch (Exception $e) {
@@ -88,9 +90,21 @@ class User{
     }
 
     
+        //  Función para actualizar los usuarios sin la contraseña
 
-
-
-
-
+        public function updateWithoutPassword($complete_name, $email, $phone, $userId)
+        {
+            try {           
+                $connection = new conn;
+                $conn = $connection->connect();
+                          
+    
+                $sql = "UPDATE users SET complete_name_user = '$complete_name', email_user = '$email',  phone_user = '$phone' WHERE id_user = '$userId';";
+                $response = $conn->query($sql);
+                return $response;
+            } catch (Exception) {
+                return "Error";
+            }
+        }
+    
 }
