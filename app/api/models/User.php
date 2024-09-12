@@ -12,44 +12,62 @@ class User
         try {
             $connection = new conn;
             $conn = $connection->connect();
-
+            $role = 'C';
+            $stmt = $conn->prepare("INSERT INTO users (complete_name_user, email_user , password_user, phone_user, role_user) VALUES( ? , ? , ? , ? ,?);");
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $stmt->bind_param("sssis", $complete_name, $email, $hashedPassword, $phone, $role);
 
-
-
-            $sql = "INSERT INTO users (complete_name_user, password_user, email_user, phone_user, role_user) VALUES('$complete_name','$hashedPassword', '$email', '$phone','C');";
-            $response = $conn->query($sql);
-
-            return $response;
-        } catch (Exception $e) {
-            throw new Exception("Error al crear el usuario: " . $e->getMessage());
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                throw new Exception("Error al crear el usuario: " . $stmt->error);
+            }
+        }catch(Exception $e)
+        {
+            throw new Exception("Error al conectar con la base de datos: ". $e->getMessage());
         }
+    
     }
+
 
     //  Función para login de usuarios
 
     function login($email, $password)
     {
+
+        $user=[];
         try {
             $connection = new conn;
             $conn = $connection->connect();
 
-            $sql = "SELECT * FROM users WHERE email_user='$email';";
+           $stmt= $conn->prepare("SELECT * FROM users WHERE email_user= ? ;");
+           $stmt->bind_param("s" ,$email);
 
-            $response = $conn->query($sql);
-            $user = $response->fetch_assoc();
 
-            if (!password_verify($password, $user['password_user'])) {
-                throw new Exception("Error al loguear el usuario: email o contraseña incorrecto");
-            }
 
-            $_SESSION['id_user'] = $user['id_user'];
+           if ($stmt->execute()) {
 
-            return $user;
-        } catch (Exception $e) {
-            throw new Exception("Error al loguearse: " . $e->getMessage());
+        
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+
+             if (!password_verify($password, $user['password_user'])) {
+                 throw new Exception("Error al loguear el usuario: email o contraseña incorrecto");
+             }
+
+             $_SESSION['id_user'] = $user['id_user'];
+            }  else {
+            throw new Exception("Error al obtener los usuarios: " . $stmt->error);
         }
-    }
+
+        return $user;
+
+        
+        }catch(Exception $e){
+
+            throw new Exception("Error al conectar con la base de datos: ". $e->getMessage());
+        }
+      }
 
 
     //  Función para que devuelva la informacion de todos los usuarios
@@ -66,7 +84,6 @@ class User
             $user = $response->fetch_all(MYSQLI_ASSOC);
 
             return $user;
-            
         } catch (Exception $e) {
             throw new Exception("Error al obtener los usuarios: " . $e->getMessage());
         }
@@ -147,6 +164,27 @@ class User
     }
 
 
+    //  Función para eliminar un usuario
+
+
+
+    function delete()
+    {
+
+
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+            $id_user = $_SESSION['id_user'];
+
+            $sql = "DELETE FROM users WHERE id_user='$id_user';";
+            $response = $conn->query($sql);
+            return $response;
+        } catch (Exception $e) {
+            throw new Exception("Error al eliminar los usuarios: " . $e->getMessage());
+        }
+    }
 
 
     //  Función para que un admin cree a otro admin
@@ -172,10 +210,34 @@ class User
 
 
     // funcion para salir de la sesion
-    
+
     function logout()
     {
 
-        
+
+        if (isset($_SESSION['id_user'])) {
+
+
+            session_destroy();
+
+            // Opcionalmente, borra la cookie de la sesión
+            if (ini_get("session.use_cookies")) {
+                $params = session_get_cookie_params();
+                setcookie(
+                    session_name(),
+                    '',
+                    time() - 42000,
+                    $params["path"],
+                    $params["domain"],
+                    $params["secure"],
+                    $params["httponly"]
+                );
+            }
+        } else {
+
+            return false;
+        }
+
+        return true;
     }
 }

@@ -5,6 +5,8 @@ require_once "../models/User.php";
 
 $function = $_GET['function'];
 
+
+
 switch ($function) {
 
     case "login":
@@ -28,7 +30,7 @@ switch ($function) {
 
     case "getById":
 
-        getUsersById();
+        getUserById();
 
         break;
 
@@ -40,7 +42,13 @@ switch ($function) {
 
     case "updatePassword":
 
-        updatePasswordUser();
+        updatePassword();
+
+        break;
+
+    case "delete":
+        
+        delete();
 
         break;
 
@@ -52,6 +60,7 @@ switch ($function) {
 
     case "logout":
 
+        logout();
         break;
 }
 
@@ -76,13 +85,14 @@ function login()
         if (!empty($_POST['email_user']) && !empty($_POST['password_user'])) {
 
 
-            (new User())->login($user['email_user'], $user['password_user']);
+           $user = (new User())->login($user['email_user'], $user['password_user']);
 
             // Responder con el usuario logueado
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
-                'message' => 'Usuario logueado exitosamente.'
+                'message' => 'Usuario logueado exitosamente.',
+                'data' => $user     
             ]);
         }
     } catch (Exception $e) {
@@ -129,7 +139,6 @@ function register()
             $response->setBody([
                 'success' => true,
                 'message' => 'Usuario registrado exitosamente.',
-                $user
             ]);
         }
     } catch (Exception $e) {
@@ -175,7 +184,7 @@ function getAllUsers()
     $response->send();
 }
 
-function getUsersById()
+function getUserById()
 {
 
     try {
@@ -256,7 +265,7 @@ function updateWithoutPass()
     $response->send();
 }
 
-function updatePasswordUser()
+function updatePassword()
 {
 
     try {
@@ -284,6 +293,36 @@ function updatePasswordUser()
                 'message' => 'Contraseña actualizada exitosamente.'
             ]);
         }
+    } catch (Exception $e) {
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+
+    $response->send();
+}
+
+function delete()
+{
+
+    try {
+
+        $response = new Response;
+
+        (new User())->delete();
+
+
+        //responde con los codigos correspondientes 
+
+        $response->setStatusCode(200);
+        $response->setBody([
+            'success' => true,
+            'message' => 'Usuario eliminado exitosamente.'
+        ]);
     } catch (Exception $e) {
 
         // Responder con un error
@@ -327,6 +366,42 @@ function adminCreateAdmin()
                 $admin
             ]);
         }
+    } catch (Exception $e) {
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+
+    $response->send();
+}
+
+function logout()
+{
+
+    try {
+
+        $response = new Response;
+
+
+        $logout = (new User())->logout();
+
+
+
+        if (!$logout) {
+
+            throw new Errorexception("Ocurrio un error");
+        }
+
+        // Responder con el usuario deslogueado
+        $response->setStatusCode(200);
+        $response->setBody([
+            'success' => true,
+            'message' => 'Usuario deslogueado exitosamente.'
+        ]);
     } catch (Exception $e) {
 
         // Responder con un error
