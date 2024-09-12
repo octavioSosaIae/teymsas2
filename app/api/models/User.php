@@ -170,6 +170,9 @@ class User
         }
     }
 
+
+    // funcion para salir de la sesion
+    
     function logout()
     {}
 }
