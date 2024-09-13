@@ -78,33 +78,55 @@ class User
             $connection = new conn;
             $conn = $connection->connect();
 
-            $sql = "SELECT * FROM users;";
 
-            $response = $conn->query($sql);
-            $user = $response->fetch_all(MYSQLI_ASSOC);
+            $stmt= $conn->prepare("SELECT * FROM users;");
 
-            return $user;
-        } catch (Exception $e) {
-            throw new Exception("Error al obtener los usuarios: " . $e->getMessage());
-        }
+            if ($stmt->execute()) {
+
+        
+                $result = $stmt->get_result();
+                $users = $result->fetch_all(MYSQLI_ASSOC);
+                }  else {
+                throw new Exception("Error al obtener los usuarios: " . $stmt->error);
+            }
+    
+            return $users;
+    
+            
+            }catch(Exception $e){
+    
+                throw new Exception("Error al conectar con la base de datos: ". $e->getMessage());
+            }
+        
     }
 
     //  Función para que devuelva la informacion de todos los usuarios por ID
 
-    function getById($id)
+    function getById($user_id)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
 
-            $sql = "SELECT * FROM users WHERE id_user = '$id';";
+            $stmt= $conn->prepare("SELECT * FROM users WHERE id_user = ?;");
+            $stmt->bind_param("i",$user_id);
 
-            $response = $conn->query($sql);
-            $user = $response->fetch_assoc();
-            return $user;
-        } catch (Exception $e) {
-            throw new Exception("Error al obtener los usuarios: " . $e->getMessage());
-        }
+            if ($stmt->execute()) {
+
+        
+                $result = $stmt->get_result();
+                $users = $result->fetch_assoc();
+                }  else {
+                throw new Exception("Error al obtener usuario: " . $stmt->error);
+            }
+    
+            return $users;
+    
+            
+            }catch(Exception $e){
+    
+                throw new Exception("Error al conectar con la base de datos: ". $e->getMessage());
+            }
     }
 
 
@@ -119,12 +141,24 @@ class User
 
             $id_user = $_SESSION['id_user'];
 
-            $sql = "UPDATE users SET complete_name_user = '$complete_name', email_user = '$email',  phone_user = '$phone' WHERE id_user = '$id_user';";
-            $response = $conn->query($sql);
-            return $response;
-        } catch (Exception $e) {
-            throw new Exception("Error al actualizar el usuario: " . $e->getMessage());
-        }
+            $stmt= $conn->prepare("UPDATE users SET complete_name_user = ?, email_user = ?,  phone_user = ? WHERE id_user = '$id_user';");
+            $stmt->bind_param("ssi", $complete_name, $email, $phone);
+          
+            if ($stmt->execute()) {
+
+                return true;
+
+                }  else {
+                throw new Exception("Error al actualizar usuario: " . $stmt->error);
+            }
+    
+            return $users;
+    
+            
+            }catch(Exception $e){
+    
+                throw new Exception("Error al conectar con la base de datos: ". $e->getMessage());
+            }
     }
 
 
@@ -178,9 +212,12 @@ class User
 
             $id_user = $_SESSION['id_user'];
 
-            $sql = "DELETE FROM users WHERE id_user='$id_user';";
-            $response = $conn->query($sql);
-            return $response;
+            $stmt = $conn ->prepare("DELETE FROM users WHERE id_user='$id_user';");
+
+            if($stmt->execute())
+            {
+                return true;
+            }
         } catch (Exception $e) {
             throw new Exception("Error al eliminar los usuarios: " . $e->getMessage());
         }
@@ -197,12 +234,15 @@ class User
 
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+            $stmt = $conn->prepare("INSERT INTO users (complete_name_user, password_user, email_user, phone_user, role_user) VALUES(? , ? , ? , ? ,'A');");
+            $stmt->bind_param("sssi", $complete_name, $email, $hashedPassword, $phone);
 
+            if($stmt->execute())
+            {
 
-            $sql = "INSERT INTO users (complete_name_user, password_user, email_user, phone_user, role_user) VALUES('$complete_name','$hashedPassword', '$email', '$phone','A');";
-            $response = $conn->query($sql);
+                return true;
+            }
 
-            return $response;
         } catch (Exception $e) {
             throw new Exception("Error al crear el usuario: " . $e->getMessage());
         }

@@ -363,7 +363,7 @@ function adminCreateAdmin()
             $response->setBody([
                 'success' => true,
                 'message' => 'Administrador registrado exitosamente.',
-                $admin
+                
             ]);
         }
     } catch (Exception $e) {
