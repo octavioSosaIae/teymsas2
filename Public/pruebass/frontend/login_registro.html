@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="../frontend/css/estilo_login_registro.css">
+    <script src="../frontend/js/login_registro.js"></script>
+</head>
+<body>
+    <div class="panelformulario">
+        <div class="panelbtn">
+          <button id="botonlogin">iniciar sesion </button>
+          <button id="botonregistrarse">Registrarse</button>
+        </div>
+        <div class="panelvista">
+          <div id="contenedorformulario">
+    
+            <!-- iniciar secion  -->
+            <div class="formLogin">
+              <img src="../img/logo.png" class="img">
+              <h1>Iniciar sesión</h1>
+              <form id="formularioLogin">
+                <label for="emailLogin">E-mail:</label>
+                <input type="email" id="emailLogin" name="emailLogin" placeholder="example@example.com" class="formInput" required>
+    
+                <label for="passwordLogin">Contraseña:</label>
+                <input type="password" id="passwordLogin" name="passwordLogin" placeholder="**********" class="formInput" required>
+                <button type="submit">Login</button>
+                <button type="submit">admin</button>
+              </form>
+            </div>
+            <!-- Registrarse -->
+            <div class="formLoginRegistro">
+              <h1>Registrarse</h1>
+              <form id="formRegistro">
+                <label for="full_name">Nombre completo:</label>
+                <input type="text" id="full_name" name="full_name" class="formInput" required>
+    
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" class="formInput" required>
+    
+                <label for="phone">Teléfono:</label>
+                <input type="tel" id="phone" name="phone" class="formInput">
+    
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" placeholder="example@example.com" class="formInput" required>
+    
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" placeholder="**********" class="formInput" required>
+    
+                <label for="password_confirm">Confirmar Contraseña:</label>
+                <input type="password" id="password_confirm" name="password_confirm" placeholder="**********"
+                  class="formInput" required>
+    
+                <button type="submit">Registrarse</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+</body>
+</html>
