@@ -46,18 +46,6 @@ switch ($function) {
 
         break;
 
-    case "delete":
-        
-        delete();
-
-        break;
-
-    case "adminCreateAdmin":
-
-        adminCreateAdmin();
-
-        break;
-
     case "logout":
 
         logout();
@@ -121,7 +109,8 @@ function register()
             "complete_name_user" => $_POST['complete_name_user'],
             "email_user" => $_POST['email_user'],
             "password_user" => $_POST['password_user'],
-            "phone_user" => $_POST['phone_user']
+            "phone_user" => $_POST['phone_user'],
+            "role_user" => $_POST['role_user']
 
         ];
 
@@ -131,7 +120,7 @@ function register()
         if (!empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user'])  && !empty($_POST['phone_user'])) {
 
 
-            (new User())->register($user['complete_name_user'], $user['email_user'], $user['password_user'], $user['phone_user']);
+            (new User())->register($user['complete_name_user'], $user['email_user'], $user['password_user'], $user['phone_user'], $user['role_user']);
 
 
             // Responder con el usuario registrado
@@ -306,78 +295,6 @@ function updatePassword()
     $response->send();
 }
 
-function delete()
-{
-
-    try {
-
-        $response = new Response;
-
-        (new User())->delete();
-
-
-        //responde con los codigos correspondientes 
-
-        $response->setStatusCode(200);
-        $response->setBody([
-            'success' => true,
-            'message' => 'Usuario eliminado exitosamente.'
-        ]);
-    } catch (Exception $e) {
-
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
-        $response->setBody([
-            'success' => false,
-            'error' => $e->getMessage()
-        ]);
-    }
-
-    $response->send();
-}
-
-function adminCreateAdmin()
-{
-    try {
-
-        $response = new Response;
-
-
-        $admin = [
-            "complete_name_user" => $_POST['complete_name_user'],
-            "email_user" => $_POST['email_user'],
-            "password_user" => $_POST['password_user'],
-            "phone_user" => $_POST['phone_user']
-
-        ];
-
-
-        // para evitar enviar datos vacios a la base de datos
-
-        if (!empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user'])  && !empty($_POST['phone_user'])) {
-
-            (new User())->adminCreateAdmin($admin['complete_name_user'], $admin['email_user'], $admin['password_user'], $admin['phone_user']);
-
-            // Responder con el usuario registrado
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'Administrador registrado exitosamente.',
-                $admin
-            ]);
-        }
-    } catch (Exception $e) {
-
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
-        $response->setBody([
-            'success' => false,
-            'error' => $e->getMessage()
-        ]);
-    }
-
-    $response->send();
-}
 
 function logout()
 {
