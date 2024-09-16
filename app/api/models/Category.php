@@ -3,23 +3,49 @@ class Category
 {
     // Funcion para crear una categoria
     public function create($description)
-    {
+{
+   
+    $connection = new conn;
+    $conn = $connection->connect();
+
+   
+    $sql = "INSERT INTO categories (description_category) VALUES (?)";
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt == false) {
+        throw new Exception("Error al preparar la consulta: " . $conn->error);
+    }
+
+    
+    $stmt->bind_param("s", $description);
+
+
+    if ($stmt->execute()) {
+       
+        $insert_id = $stmt->insert_id;
+    
+        return new self($insert_id, $description);
+    } else {
+        throw new Exception("Error al crear la categoría: " . $stmt->error);
+    }
+}
+
+public function getById($idCategory)
+{
+    try {
+        
         $connection = new conn;
         $conn = $connection->connect();
-        $mysqli = Database::getInstanceDB();
-        $sql = ("INSERT INTO categories (description_category) VALUES (?)");
-        $stmt->bind_param("s", $description);
-        if ($stmt->execute()) {
-            return new self($stmt->insert_id, $description);
-        } else {
-            throw new Exception("Error al crear la categoría: " . $stmt->error);
+
+        
+        $stmt = $conn->prepare("SELECT * FROM categories WHERE id_category = ?");
+        if ($stmt === false) {
+            throw new Exception("Error al preparar la consulta: " . $conn->error);
         }
-    }
-    public static function getById($idCategory)
-    {
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("SELECT * FROM categories WHERE id_category = ?");
+
+        
         $stmt->bind_param("i", $idCategory);
+
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             if ($row = $result->fetch_assoc()) {
@@ -28,47 +54,59 @@ class Category
                 throw new Exception("Categoría no encontrada");
             }
         } else {
-            throw new Exception("Error al obtener la categoría: " . $stmt->error);
+            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         }
+    } catch (Exception $e) {
+        throw new Exception("Error al obtener la categoría: " . $e->getMessage());
     }
+}
+
 
     public static function getAll()
     {
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("SELECT * FROM categories");
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            $categories = [];
-            while ($row = $result->fetch_assoc()) {
-                $categories[] = [
-                    'idCategory' => $row['id_category'],
-                    'description' => $row['description_category']
-                ];    
-            }
-            return $categories;
-        } else {
-            throw new Exception("Error al obtener las categorías: " . $stmt->error);
+        try{
+        $connection = new conn;
+        $conn = $connection->connect();
+
+       $sql = ("SELECT * FROM categories");
+       $categories = $response-> feche_all(MYSQL_ASSOC);
+       return $categories;
+       $response = $conn->query($sql);
+       return $categories;
+       
+
+       }catch(Exception $e)
+            throw new Exception("Error al obtener las categorías: " . $e->error);
         }
-    }
+    
     public function update()
     {
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("UPDATE categories SET description_category = ? WHERE id_category = ?");
-        $stmt->bind_param("si", $this->description, $this->idCategory);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al actualizar la categoría: " . $stmt->error);
+        try{
+        
+        $connection = new conn;
+        $conn = $connection->connect();
+        $sql=("UPDATE categories SET description_category = ? WHERE id_category = ?");
+        $response = $conn->query($sql);
+        return $response;
+        }
+        catch (Exception $e){
+            throw new Exception("Error al actualizar la categoría: " . $e->error);
         }
     }
 
     public static function delete($idCategory)
     {
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("DELETE FROM categories WHERE id_category = ?");
-        $stmt->bind_param("i", $idCategory);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al eliminar la categoría: " . $stmt->error);
+       try{
+        $connection = new conn;
+        $conn = $connection->connect();
+        $sql=("DELETE FROM categories WHERE id_category = ?");
+        $response = $conn->query($sql);
+        return $response;
+       }catch (Exception $e){
+            throw new Exception("Error al eliminar la categoría: " . $e->error);
         }
     }
+
 }
 
 ?>

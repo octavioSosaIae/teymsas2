@@ -11,16 +11,12 @@ header {
     align-items: center;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-
-}
-
 .logo img {
     height: 50px;
     width: 80px;
     margin-right: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .logo h1 {
@@ -34,56 +30,6 @@ header {
     align-items: center;
 }
 
-.contact a {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-    text-decoration: none;
-    color: #333;
-}
-
-.contact i {
-    margin-right: 5px;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-nav li {
-    margin: 0 10px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-    padding: 10px 15px;
-    border-bottom: 2px solid transparent;
-    transition: border-bottom-color 0.3s ease;
-}
-
-nav a:hover {
-    border-bottom-color: #333;
-}
-
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-    }
-
-    nav li {
-        margin: 10px 0;
-    }
-}
 footer{
     background-color: #828282;
     padding: 20px;
@@ -174,4 +120,42 @@ button {
     border-radius: 4px;
     cursor: pointer;
     width: 48%;
-  }
+}
+h1{
+
+}
+/* Estilo general para el contenedor del menú de navegación */
+nav {
+    background-color: #c41919ba; /* Color de fondo del menú */
+    padding: 10px; /* Espacio interior alrededor del menú */
+}
+
+/* Estilo para la lista de elementos del menú */
+nav ul {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    margin: 0; /* Elimina los márgenes por defecto */
+    padding: 0; /* Elimina el relleno por defecto */
+    display: flex; /* Usa el modelo de caja flexible para alinear los elementos en una fila */
+    gap: 20px; /* Espacio entre los elementos de la lista */
+}
+
+/* Estilo para cada elemento de la lista */
+nav li {
+    display: inline; /* Alinea los elementos en línea */
+}
+
+/* Estilo para los enlaces dentro del menú */
+nav a {
+    color: #fff; /* Color del texto del enlace */
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    padding: 10px 15px; /* Espacio interior dentro de los enlaces */
+    display: block; /* Hace que el enlace sea un bloque para que el área clicable sea más grande */
+    border-radius: 5px; /* Redondea las esquinas del enlace */
+    transition: background-color 0.3s; /* Añade una transición suave para el cambio de color de fondo */
+}
+
+/* Estilo para el estado hover de los enlaces */
+nav a:hover {
+    background-color: #c76a6a; /* Color de fondo cuando el usuario pasa el ratón por encima */
+}
+
