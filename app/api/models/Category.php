@@ -3,61 +3,34 @@ class Category
 {
     // Funcion para crear una categoria
     public function create($description)
-{
+    {
+    try{
+        $connection = new conn;
+        $conn = $connection->connect();
+        $sql = "INSERT INTO categories (description_category) VALUES (?)";
+        $response = $conn->query($sql);
+        return $response;
+    }catch(Exception $e){
+        throw new Exception("Error al obtener la categoría: " . $e);
+    }
    
-    $connection = new conn;
-    $conn = $connection->connect();
 
-   
-    $sql = "INSERT INTO categories (description_category) VALUES (?)";
-    $stmt = $conn->prepare($sql);
-
-    if ($stmt == false) {
-        throw new Exception("Error al preparar la consulta: " . $conn->error);
     }
 
-    
-    $stmt->bind_param("s", $description);
-
-
-    if ($stmt->execute()) {
-       
-        $insert_id = $stmt->insert_id;
-    
-        return new self($insert_id, $description);
-    } else {
-        throw new Exception("Error al crear la categoría: " . $stmt->error);
-    }
-}
-
-public function getById($idCategory)
-{
-    try {
+    public function getById($idCategory)
+    {
+        try {
         
         $connection = new conn;
         $conn = $connection->connect();
 
         
-        $stmt = $conn->prepare("SELECT * FROM categories WHERE id_category = ?");
-        if ($stmt === false) {
-            throw new Exception("Error al preparar la consulta: " . $conn->error);
-        }
-
-        
-        $stmt->bind_param("i", $idCategory);
-
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            if ($row = $result->fetch_assoc()) {
-                return new self($row['id_category'], $row['description_category']);
-            } else {
-                throw new Exception("Categoría no encontrada");
-            }
-        } else {
-            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
-        }
-    } catch (Exception $e) {
-        throw new Exception("Error al obtener la categoría: " . $e->getMessage());
+        $sql = ("SELECT * FROM categories WHERE id_category = ?");
+        $respose = $conn->query($sql);
+        return $respose;
+       
+        } catch (Exception $e) {
+        throw new Exception("Error al obtener la categoría: " . $e);
     }
 }
 
@@ -67,18 +40,15 @@ public function getById($idCategory)
         try{
         $connection = new conn;
         $conn = $connection->connect();
+        $sql = ("SELECT * FROM categories");
+        $response = $conn->query($sql);
+        $categories = $response-> fetch_all(MYSQLI_ASSOC);
+        return $categories;
 
-       $sql = ("SELECT * FROM categories");
-       $categories = $response-> feche_all(MYSQL_ASSOC);
-       return $categories;
-       $response = $conn->query($sql);
-       return $categories;
-       
-
-       }catch(Exception $e)
-            throw new Exception("Error al obtener las categorías: " . $e->error);
+       }catch(Exception $e){
+            throw new Exception("Error al obtener las categorías: " . $e);
         }
-    
+    }
     public function update()
     {
         try{
@@ -90,7 +60,7 @@ public function getById($idCategory)
         return $response;
         }
         catch (Exception $e){
-            throw new Exception("Error al actualizar la categoría: " . $e->error);
+            throw new Exception("Error al actualizar la categoría: " . $e);
         }
     }
 
@@ -103,10 +73,11 @@ public function getById($idCategory)
         $response = $conn->query($sql);
         return $response;
        }catch (Exception $e){
-            throw new Exception("Error al eliminar la categoría: " . $e->error);
+            throw new Exception("Error al eliminar la categoría: " . $e);
         }
     }
 
+    
 }
 
 ?>
