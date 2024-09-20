@@ -11,11 +11,9 @@ class Category
         $response = $conn->query($sql);
         return $response;
     }catch(Exception $e){
-        throw new Exception("Error al obtener la categoría: " . $e);
+        throw new Exception("Error al obtener la categoría: " . $e->getMessage());
     }
-   
-
-    }
+}
 
     public function getById($idCategory)
     {
@@ -30,7 +28,7 @@ class Category
         return $respose;
        
         } catch (Exception $e) {
-        throw new Exception("Error al obtener la categoría: " . $e);
+        throw new Exception("Error al obtener la categoría: " . $e->getMessage());
     }
 }
 
@@ -46,7 +44,7 @@ class Category
         return $categories;
 
        }catch(Exception $e){
-            throw new Exception("Error al obtener las categorías: " . $e);
+            throw new Exception("Error al obtener las categorías: " . $e->getMessage());
         }
     }
     public function update()
@@ -60,7 +58,7 @@ class Category
         return $response;
         }
         catch (Exception $e){
-            throw new Exception("Error al actualizar la categoría: " . $e);
+            throw new Exception("Error al actualizar la categoría: " . $e->getMessage());
         }
     }
 
@@ -73,11 +71,8 @@ class Category
         $response = $conn->query($sql);
         return $response;
        }catch (Exception $e){
-            throw new Exception("Error al eliminar la categoría: " . $e);
+            throw new Exception("Error al eliminar la categoría: " . $e->getMessage());
         }
     }
-
-    
-}
-
+    }
 ?>

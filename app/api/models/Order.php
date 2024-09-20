@@ -14,7 +14,7 @@ class OrderStatus
             $response = $conn->query($sql);
             return $response;
             }catch(Exception $e){
-                throw new Exception("Error al crear el estado del pedido: " . $e);
+                throw new Exception("Error al crear el estado del pedido: " . $e->getMessage());
             }    
     } 
       
