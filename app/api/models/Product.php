@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__) . '../../core/Database.php';
 
-class Provider
+class Product
 {
     public function create($name)
     {
@@ -30,13 +30,11 @@ class Provider
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $privides= $result->fetch_assoc() 
-            } else {
+         } else {
                 throw new Exception("Proveedor no encontrado");
             }
-         else {
-            throw new Exception("Error al obtener el proveedor: " . $stmt->error);
-        }
-    }catch(Exception $e){
+         
+        }catch(Exception $e){
         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
     }
     }
@@ -72,12 +70,11 @@ class Provider
         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
     }
     }
-    public static function delete($idProvider)
+    public function delete($idProvider)
     {
         try{
         $connection = new conn;
         $conn = $connection->connect();
-        
         $stmt = $conn->prepare("DELETE FROM providers WHERE id_provider = ?");
         $stmt->bind_param("i", $idProvider);
         if (!$stmt->execute()) {

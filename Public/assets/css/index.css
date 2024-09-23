@@ -1,7 +1,12 @@
 body {
     margin: 0;
     font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto;
 }
+
 
 header {
     background-color: #828282;
@@ -9,6 +14,12 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column;
+}
+header .contenido{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .logo img {
@@ -18,7 +29,14 @@ header {
     display: flex;
     align-items: center;
 }
+iframe{
+    width: 100%;
+    height: calc(100% - 110px - 64px);
+}
 
+/* ::-webkit-scrollbar{
+    
+} */
 .logo h1 {
     font-size: 24px;
     color: #333;
@@ -40,6 +58,7 @@ footer{
 .imgContactos{
     width: 20px;
     height: 20px;
+    padding: 15px;
     
 }
 
@@ -52,7 +71,9 @@ footer{
     background-color: rgb(139, 47, 47);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    justify-content: center
+    justify-content: center;
+    width: 1500px;
+    height: 500px;
 }
 
 .producto {
@@ -165,13 +186,14 @@ nav a:hover {
     background-color: rgb(139, 47, 47);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
 }
 
 
 /* Estilo para el carril de imagenes*/
 section{
     display: flex;
-    width: 1520px;
+    width: 2030px;
     height: 430px;
 }
 section img{
