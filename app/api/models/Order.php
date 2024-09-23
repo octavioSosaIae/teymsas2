@@ -10,13 +10,12 @@ class OrderStatus
         try{
             $connection = new conn;
             $conn = $connection->connect();
-            $stmt = $mysqli->prepare("INSERT INTO order_status (description_status) VALUES (?)");
+            $stmt = $conn->prepare("INSERT INTO order_status (description_status) VALUES (?)");
             $stmt->bind_param("s", $descriptionStatus);
             if ($stmt->execute()) {
-            return $stmt->insert_id, $descriptionStatus;
             } else {
             throw new Exception("Error al crear el estado del pedido: " . $stmt->error);
-        }
+        } return true;
         }catch(Exception $e){
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
@@ -30,14 +29,18 @@ class OrderStatus
         try{
             $connection = new conn;
             $conn = $connection->connect();
-            $sql=("SELECT * FROM order_status");
-            $response = $conn ->query($sql);
-            $statuses= $response->fetch_all(MYSQLI_ASSOC);
-            return $statuses;
-
-        }catch(Exception $e){
-        
-        throw new Exception("Error al obtener los estados del pedido: " . $e);
+            $stmt = $conn->prepare("SELECT * FROM order_status");
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $order_status=$result->fetch_assoc(MYSQLI_ASSOC);
+            
+            
+        } else {
+            throw new Exception("Error al obtener los estados del pedido: " . $stmt->error);
+        }
+        return $order_status;  
+    }catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
     }
 
@@ -46,32 +49,49 @@ class OrderStatus
         try{
             $connection = new conn;
             $conn = $connection->connect();
-            $sql=("SELECT * FROM order_status WHERE id_order_status = ?");
-            $respo
-        
-                throw new Exception("Estado del pedido no encontrado");
-            }catch(Exception $e)
-            throw new Exception("Error al obtener el estado del pedido: " . $e);
+            $stmt = $conn->prepare("SELECT * FROM order_status WHERE id_order_status = ?");
+            $stmt->bind_param("i", $idOrderStatus);
+            if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $order_status=$result->fetch_assoc();
+            } else {
+                throw new Exception("Estado del pedido no encontrado".$stmt->error);
+            }
+            
+        } 
+         catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage()); 
         }
     }
+     
 
     public function update()
     {
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("UPDATE order_status SET description_status = ? WHERE id_order_status = ?");
-        $stmt->bind_param("si", $this->descriptionStatus, $this->idOrderStatus);
+        try{
+        $connection = new conn;
+        $conn = $connection->connect();
+        $stmt = $conn->prepare("UPDATE order_status SET description_status = ? WHERE id_order_status = ?");
+        $stmt->bind_param("si", $descriptionStatus, $idOrderStatus);
         if (!$stmt->execute()) {
             throw new Exception("Error al actualizar el estado del pedido: " . $stmt->error);
+        }
+        }catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());  
         }
     }
 
     public static function delete($idOrderStatus)
     {
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("DELETE FROM order_status WHERE id_order_status = ?");
+        try{
+        $connection = new conn;
+        $conn = $connection->connect();
+        $stmt = $conn->prepare("DELETE FROM order_status WHERE id_order_status = ?");
         $stmt->bind_param("i", $idOrderStatus);
         if (!$stmt->execute()) {
             throw new Exception("Error al eliminar el estado del pedido: " . $stmt->error);
+        }
+        }catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage()); 
         }
     }
 }
