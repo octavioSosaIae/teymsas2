@@ -11,7 +11,7 @@ class Category
         $stmt = $conn->prepare("INSERT INTO categories (description_category) VALUES (?)");
         $stmt->bind_param("s", $description);
         if ($stmt->execute()) {
-            return $stmt->insert_id, $description;
+            return $description;
         } else {
             throw new Exception("Error al crear la categoría: " . $stmt->error);
         }
@@ -39,14 +39,14 @@ class Category
             }
             return $category;
         } catch(Exception $e) {
-            throw new Exception("Error al obtener la categoría: " . $e->getMessage);
+            throw new Exception("Error al obtener la categoría: " . $e->getMessage());
         }
     }
     
 
 
 
-    public static function getAll()
+    public function getAll()
     {
         try{
         $connection = new conn;
@@ -71,7 +71,7 @@ class Category
         $connection = new conn;
         $conn = $connection->connect();
         $stmt = $conn->prepare("UPDATE categories SET description_category = ? WHERE id_category = ?");
-        $stmt->bind_param("si", $this->description, $this->idCategory);
+        $stmt->bind_param("si", $description, $idCategory);
         if (!$stmt->execute()) {
             throw new Exception("Error al actualizar la categoría: " . $stmt->error);
         }
@@ -81,7 +81,7 @@ class Category
         }
     }
 
-    public static function delete($idCategory)
+    public function delete($idCategory)
     {
        try{
         $connection = new conn;
@@ -97,4 +97,3 @@ class Category
     }
 }
 
-?>
