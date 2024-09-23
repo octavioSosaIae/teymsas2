@@ -12,7 +12,12 @@ class OrderStatus
             $conn = $connection->connect();
             $stmt = $conn->prepare("INSERT INTO order_status (description_status) VALUES (?)");
             $stmt->bind_param("s", $descriptionStatus);
+          
             if ($stmt->execute()) {
+
+            return true;
+
+
             } else {
             throw new Exception("Error al crear el estado del pedido: " . $stmt->error);
         } return true;
