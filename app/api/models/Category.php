@@ -7,7 +7,8 @@ class Category
     try{
         $connection = new conn;
         $conn = $connection->connect();
-        $sql = "INSERT INTO categories (description_category) VALUES (?)";
+        $stmt = $mysqli->prepare("SELECT * FROM categories");
+
         $response = $conn->query($sql);
         return $response;
     }catch(Exception $e){

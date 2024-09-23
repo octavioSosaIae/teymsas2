@@ -47,11 +47,12 @@ footer{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 20px;
-    max-width: 2000px;
-    background-color: white;
+    padding: 30px;
+    max-width: 600px;
+    background-color: rgb(139, 47, 47);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    justify-content: center
 }
 
 .producto {
@@ -80,35 +81,13 @@ footer{
 .product .price {
     font-size: 24px;
     font-weight: bold;
-    color: #007bff;
     margin-bottom: 10px;
 }
-
-.product .discount {
-    font-size: 14px;
-    color: #6c757d;
-}
-
-.product .availability {
-    font-size: 14px;
-    color: #28a745;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.button {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #0056b3;
+.carrusel{
+    position: relative;
+    width: 80%;
+    max-width: 1000px;
+    overflow: hidden;
 }
 
 button {
@@ -121,41 +100,91 @@ button {
     cursor: pointer;
     width: 48%;
 }
-h1{
-
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
 }
-/* Estilo general para el contenedor del menú de navegación */
+
+/* Menú de Navegación */
 nav {
-    background-color: #c41919ba; /* Color de fondo del menú */
-    padding: 10px; /* Espacio interior alrededor del menú */
+    background-color: #c41919ba; 
+    padding: 10px;
 }
 
-/* Estilo para la lista de elementos del menú */
 nav ul {
-    list-style-type: none; /* Elimina los puntos de la lista */
-    margin: 0; /* Elimina los márgenes por defecto */
-    padding: 0; /* Elimina el relleno por defecto */
-    display: flex; /* Usa el modelo de caja flexible para alinear los elementos en una fila */
-    gap: 20px; /* Espacio entre los elementos de la lista */
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0;
+    display: flex; 
+    gap: 20px;
 }
 
-/* Estilo para cada elemento de la lista */
 nav li {
-    display: inline; /* Alinea los elementos en línea */
+    position: relative; /* Necesario para el submenu */
 }
 
-/* Estilo para los enlaces dentro del menú */
+nav li ul.submenu {
+    display: none;
+    position: absolute;
+    background-color: #771a1a; 
+    padding: 10px;
+    top: 100%;
+    left: 0;
+    width: 200px;
+}
+
+nav li:hover ul.submenu {
+    display: block; /* Mostrar el submenu cuando se pasa el cursor */
+}
+
 nav a {
-    color: #fff; /* Color del texto del enlace */
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-    padding: 10px 15px; /* Espacio interior dentro de los enlaces */
-    display: block; /* Hace que el enlace sea un bloque para que el área clicable sea más grande */
-    border-radius: 5px; /* Redondea las esquinas del enlace */
-    transition: background-color 0.3s; /* Añade una transición suave para el cambio de color de fondo */
+    color: #fff; 
+    text-decoration: none;
+    padding: 10px 15px; 
+    display: block; 
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-/* Estilo para el estado hover de los enlaces */
 nav a:hover {
-    background-color: #c76a6a; /* Color de fondo cuando el usuario pasa el ratón por encima */
+    background-color: #901b1b;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    background-color: rgb(139, 47, 47);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Estilo para el carril de imagenes*/
+section{
+    display: flex;
+    width: 1520px;
+    height: 430px;
+}
+section img{
+    width: 0px;
+    flex-grow: 1;
+    object-fit: cover;
+    opacity: .8;
+    transition: .5s ease;
+}
+section img:hover{
+    width: 300px;
+    opacity: 1;
+    filter: contrast(120%);
+}
+
 
