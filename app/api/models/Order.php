@@ -12,8 +12,9 @@ class OrderStatus
             $conn = $connection->connect();
             $stmt = $mysqli->prepare("INSERT INTO order_status (description_status) VALUES (?)");
             $stmt->bind_param("s", $descriptionStatus);
+          
             if ($stmt->execute()) {
-            return $stmt->insert_id, $descriptionStatus;
+            return true;
             } else {
             throw new Exception("Error al crear el estado del pedido: " . $stmt->error);
         }
