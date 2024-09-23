@@ -5,16 +5,21 @@ class Category
     public function create($description)
     {
     try{
+    
         $connection = new conn;
         $conn = $connection->connect();
-        $stmt = $mysqli->prepare("SELECT * FROM categories");
-
-        $response = $conn->query($sql);
-        return $response;
+        $stmt = $mysqli->prepare("INSERT INTO categories (description_category) VALUES (?)");
+        $stmt->bind_param("s", $description);
+        if ($stmt->execute()) {
+            return $stmt->insert_id, $description;
+        } else {
+            throw new Exception("Error al crear la categoría: " . $stmt->error);
+        }
     }catch(Exception $e){
-        throw new Exception("Error al obtener la categoría: " . $e->getMessage());
+        throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
     }
-}
+    }
+
 
     public function getById($idCategory)
     {
@@ -22,16 +27,23 @@ class Category
         
         $connection = new conn;
         $conn = $connection->connect();
-
-        
-        $sql = ("SELECT * FROM categories WHERE id_category = ?");
-        $respose = $conn->query($sql);
-        return $respose;
+        $stmt = $mysqli->prepare("SELECT * FROM categories WHERE id_category = ?");
        
-        } catch (Exception $e) {
-        throw new Exception("Error al obtener la categoría: " . $e->getMessage());
+        $stmt->bind_param("i", $idCategory);
+        if ($stmt->execute()) 
+        {
+            $result = $stmt->get_result();
+            $category = $result->fetch_assoc();
+        } else {
+                throw new Exception("Categoría no encontrada". $stmt->error);
+            }
+            return $category;
+        } catch(Exception $e) {
+            throw new Exception("Error al obtener la categoría: " . $e->getMessage);
+        }
     }
-}
+    }
+
 
 
     public static function getAll()
@@ -39,13 +51,19 @@ class Category
         try{
         $connection = new conn;
         $conn = $connection->connect();
-        $sql = ("SELECT * FROM categories");
-        $response = $conn->query($sql);
-        $categories = $response-> fetch_all(MYSQLI_ASSOC);
-        return $categories;
+        $stmt = $mysqli->prepare("SELECT * FROM categories");
+        if ($stmt->execute()) {
+            
+            $result = $stmt->get_result();
+            $categories = $result->fetch_assoc();
 
-       }catch(Exception $e){
-            throw new Exception("Error al obtener las categorías: " . $e->getMessage());
+        }
+            return $categories;
+        else {
+            throw new Exception("Error al obtener las categorías: " . $stmt->error);
+        } 
+        } catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());  
         }
     }
     public function update()
@@ -54,12 +72,14 @@ class Category
         
         $connection = new conn;
         $conn = $connection->connect();
-        $sql=("UPDATE categories SET description_category = ? WHERE id_category = ?");
-        $response = $conn->query($sql);
-        return $response;
+        $stmt = $mysqli->prepare("UPDATE categories SET description_category = ? WHERE id_category = ?");
+        $stmt->bind_param("si", $this->description, $this->idCategory);
+        if (!$stmt->execute()) {
+            throw new Exception("Error al actualizar la categoría: " . $stmt->error);
+        }
         }
         catch (Exception $e){
-            throw new Exception("Error al actualizar la categoría: " . $e->getMessage());
+            throw new Exception("Error al conectar con la base de datos:" . $e->getMessage());
         }
     }
 
@@ -68,12 +88,15 @@ class Category
        try{
         $connection = new conn;
         $conn = $connection->connect();
-        $sql=("DELETE FROM categories WHERE id_category = ?");
-        $response = $conn->query($sql);
-        return $response;
-       }catch (Exception $e){
-            throw new Exception("Error al eliminar la categoría: " . $e->getMessage());
+        $stmt = $mysqli->prepare("DELETE FROM users WHERE id_user = ?");
+        $stmt->bind_param("i", $id);
+        if (!$stmt->execute()) {
+            throw new Exception("Error al eliminar el usuario: " . $stmt->error);
+        }
+        }catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos:" . $e->getMessage());
         }
     }
-    }
+}
+
 ?>

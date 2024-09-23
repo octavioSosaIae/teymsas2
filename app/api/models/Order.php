@@ -10,13 +10,17 @@ class OrderStatus
         try{
             $connection = new conn;
             $conn = $connection->connect();
-            $sql=("INSERT INTO order_status (description_status) VALUES (?)");
-            $response = $conn->query($sql);
-            return $response;
-            }catch(Exception $e){
-                throw new Exception("Error al crear el estado del pedido: " . $e->getMessage());
-            }    
-    } 
+            $stmt = $mysqli->prepare("INSERT INTO order_status (description_status) VALUES (?)");
+            $stmt->bind_param("s", $descriptionStatus);
+            if ($stmt->execute()) {
+            return $stmt->insert_id, $descriptionStatus;
+            } else {
+            throw new Exception("Error al crear el estado del pedido: " . $stmt->error);
+        }
+        }catch(Exception $e){
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    }
       
             
 
@@ -70,5 +74,5 @@ class OrderStatus
             throw new Exception("Error al eliminar el estado del pedido: " . $stmt->error);
         }
     }
-
 }
+
