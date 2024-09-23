@@ -77,8 +77,7 @@ class PaymentMethod
         try{
         $connection = new conn;
         $conn = $connection->connect();
-        $mysqli = Database::getInstanceDB();
-        $stmt = $mysqli->prepare("DELETE FROM payment_methods WHERE id_payment_method = ?");
+        $stmt = $conn->prepare("DELETE FROM payment_methods WHERE id_payment_method = ?");
         $stmt->bind_param("i", $idPaymentMethod);
         if (!$stmt->execute()) {
             throw new Exception("Error al eliminar el método de pago: " . $stmt->error);
