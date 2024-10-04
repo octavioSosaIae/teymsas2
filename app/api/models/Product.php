@@ -30,7 +30,7 @@ class Product
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $privides= $result->fetch_assoc() 
-         } else {
+        }else {
                 throw new Exception("Proveedor no encontrado");
             }
          
