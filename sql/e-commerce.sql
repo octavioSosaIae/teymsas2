@@ -3,16 +3,16 @@ USE ecommerce;
 
 -- Tabla de Departamentos
 CREATE TABLE departments (
-    id_departament INT PRIMARY KEY AUTO_INCREMENT,
-    name_departament VARCHAR(255) NOT NULL
+    id_department INT PRIMARY KEY AUTO_INCREMENT,
+    name_department VARCHAR(255) NOT NULL
 );
 
 -- Tabla de Ciudades
 CREATE TABLE cities (
     id_city INT PRIMARY KEY AUTO_INCREMENT,
     name_city VARCHAR(30) NOT NULL,
-    id_departament INT NOT NULL,
-    CONSTRAINT fk_id_departament_city FOREIGN KEY (id_departament) REFERENCES departments(id_departament)
+    id_department INT NOT NULL,
+    CONSTRAINT fk_id_department_city FOREIGN KEY (id_department) REFERENCES departments(id_department)
 );
 
 -- Tabla de Usuarios
