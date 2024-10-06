@@ -148,3 +148,16 @@ CREATE TABLE order_products_purchases (
     CONSTRAINT fk_id_purchase_order_order_product_purchase FOREIGN KEY (id_purchase_order) REFERENCES purchase_orders(id_purchase_order),
     CONSTRAINT fk_id_product_order_product_purchase FOREIGN KEY (id_product) REFERENCES products(id_product)
 );
+
+-- Tabla de Comentarios de Productos
+CREATE TABLE product_reviews (
+    id_review INT PRIMARY KEY AUTO_INCREMENT,
+    id_customer_order INT NOT NULL,
+    id_product INT NOT NULL,
+    id_customer INT NOT NULL,
+    rating_review TINYINT CHECK (rating_review BETWEEN 1 AND 5),
+    comment_review TEXT,
+    created_at_review DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_id_customer_review FOREIGN KEY (id_customer) REFERENCES customers(id_user_customer),
+    CONSTRAINT fk_id_order_product_review FOREIGN KEY (id_customer_order, id_product) REFERENCES order_products_customers(id_customer_order, id_product)
+);
