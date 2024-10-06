@@ -41,6 +41,7 @@ switch ($function) {
         break;
 }
     function create(){
+        try{
         $response = new Response();
 
         $description = $_POST['description'] ?? null;
@@ -61,6 +62,7 @@ switch ($function) {
 
         $response->send();
     }
+}
     function getById($id){
         $response = new Response();
 
