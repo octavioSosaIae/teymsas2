@@ -32,7 +32,6 @@ class City
             $result = $stmt->get_result();
             $cities = $result->fetch_assoc(MYSQLI_ASSOC);
             }
-            
          else {
             throw new Exception("Error al obtener las ciudades: " . $stmt->error);
         }return $cities; 
