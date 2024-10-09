@@ -13,7 +13,7 @@ class City
         $stmt = $conn->prepare("INSERT INTO cities (name_city, id_departament) VALUES (?, ?)");
         $stmt->bind_param("si", $nameCity, $idDepartment);
         if ($stmt->execute()) {
-            return $nameCity, $idDepartment;
+            return true;
         } else {
             throw new Exception("Error al crear la ciudad: " . $stmt->error);
         }
@@ -59,13 +59,13 @@ class City
     }
     }
 
-    public function update()
+    public function update($nameCity, $idDepartment, $idCity)
     {
         try{
         $connection = new conn;
         $conn = $connection->connect();
         $stmt = $conn->prepare("UPDATE cities SET name_city = ?, id_departament = ? WHERE id_city = ?");
-        $stmt->bind_param("sii", $this->nameCity, $this->idDepartment, $this->idCity);
+        $stmt->bind_param("sii", $nameCity, $idDepartment, $idCity);
         if (!$stmt->execute()) {
             throw new Exception("Error al actualizar la ciudad: " . $stmt->error);
         }
