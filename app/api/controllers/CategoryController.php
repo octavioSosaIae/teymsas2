@@ -1,153 +1,142 @@
 <?php
 require_once "../../core/Response.php";
-require_once "../models/User.php";
-
+require_once "../models/Category.php";
 
 $function = $_GET['function'];
 
-
-
 switch ($function) {
-
     case "create":
-
         create();
-
         break;
 
-
     case "getById":
-
         getById();
-
         break;
 
     case "getAll":
-
         getAll();
-
         break;
 
     case "update":
-
         update();
-
         break;
 
     case "delete":
-
         delete();
-
         break;
 }
-    function create(){
-        try{
+
+function create() {
+    try {
         $response = new Response();
+        $description = $_POST['description'];
 
-        $description = $_POST['description'] ?? null;
-
-        try {
-            if (!$description) {
-                throw new Exception("Descripción es requerida");
-            }
-
-            $category = Category::create($description);
-
-            $response->setStatusCode(201);
-            $response->setBody(['id' => $category->getIdCategory(), 'message' => 'Categoría creada exitosamente']);
-        } catch (Exception $e) {
-            $response->setStatusCode(400);
-            $response->setBody(['error' => $e->getMessage()]);
+        if (empty($description)) {
+            throw new Exception("Descripción es requerida");
         }
 
-        $response->send();
+        $category = Categorycreate($description);
+
+        $response->setStatusCode(201);
+        $response->setBody(['id' => $category->getIdCategory(), 'message' => 'Categoría creada exitosamente']);
+    } catch (Exception $e) {
+        $response->setStatusCode(400);
+        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
     }
+
+    $response->send();
 }
-    function getById($id){
+
+function getById() {
+    try {
         $response = new Response();
+        $id = $_GET['id'] ?? null; // Assuming the ID comes from the query parameters
 
-        try {
-            $id = intval($id[0]);
-            if (!is_numeric($id)) {
-                throw new Exception("ID de categoría inválido");
-            }
-
-            $category = Category::getById($id);
-
-            $response->setStatusCode(200);
-            $response->setBody([
-                'idCategory' => $category->getIdCategory(),
-                'description' => $category->getDescription()
-            ]);
-        } catch (Exception $e) {
-            $response->setStatusCode(404);
-            $response->setBody(['error' => $e->getMessage()]);
+        if (!is_numeric($id)) {
+            throw new Exception("ID de categoría inválido");
         }
 
-        $response->send();
+        $category = Category::getById(intval($id));
+
+        $response->setStatusCode(200);
+        $response->setBody([
+            'success' => true,
+            'idCategory' => $category->getIdCategory(),
+            'description' => $category->getDescription()
+        ]);
+    } catch (Exception $e) {
+        $response->setStatusCode(404);
+        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
     }
 
-    function getAll(){
+    $response->send();
+}
+
+function getAll() {
+    try {
         $response = new Response();
+        $categories = Category::getAll();
 
-        try {
-            $categories = Category::getAll();
-
-            $response->setStatusCode(200);
-            $response->setBody($categories);
-        } catch (Exception $e) {
-            $response->setStatusCode(500);
-            $response->setBody(['error' => $e->getMessage()]);
-        }
-
-        $response->send();
+        $response->setStatusCode(200);
+        $response->setBody(['success' => true, 'categories' => $categories]);
+    } catch (Exception $e) {
+        $response->setStatusCode(500);
+        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
     }
 
-    function update($id){
+    $response->send();
+}
+
+function update() {
+    try {
         $response = new Response();
         $data = json_decode(file_get_contents('php://input'), true);
-        $id = intval($id[0]);
+        $id = $_GET['id'] ?? null; // Assuming the ID comes from the query parameters
 
-        try {
-            $category = Category::getById($id);
-
-            $description = $data['description'] ?? $category->getDescription();
-
-            if (!$description) {
-                throw new Exception("Descripción es requerida");
-            }
-
-            $category->setDescription($description);
-            $category->update();
-
-            $response->setStatusCode(200);
-            $response->setBody(['id' => $category->getIdCategory(), 'message' => 'Categoría actualizada exitosamente']);
-        } catch (Exception $e) {
-            $response->setStatusCode(400);
-            $response->setBody(['error' => $e->getMessage()]);
+        if (!is_numeric($id)) {
+            throw new Exception("ID de categoría inválido");
         }
 
-        $response->send();
+        $category = Category::getById(intval($id));
+        $description = $data['description'] ?? $category->getDescription();
+
+        if (empty($description)) {
+            throw new Exception("Descripción es requerida");
+        }
+
+        $category->setDescription($description);
+        $category->update();
+
+        $response->setStatusCode(200);
+        $response->setBody(['success' => true, 'message' => 'Categoría actualizada exitosamente']);
+    } catch (Exception $e) {
+        $response->setStatusCode(400);
+        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
     }
 
-    function delete($id){
+    $response->send();
+}
+
+function delete() {
+    try {
         $response = new Response();
-        $id = intval($id[0]);
+        $id = $_GET['id'] ?? null; // Assuming the ID comes from the query parameters
 
-        try {
-            if (!is_numeric($id)) {
-                throw new Exception("ID de categoría inválido");
-            }
-
-            Category::getById($id);
-            Category::delete($id);
-
-            $response->setStatusCode(200);
-            $response->setBody(['message' => 'Categoría eliminada exitosamente']);
-        } catch (Exception $e) {
-            $response->setStatusCode(400);
-            $response->setBody(['error' => $e->getMessage()]);
+        if (!is_numeric($id)) {
+            throw new Exception("ID de categoría inválido");
         }
 
-        $response->send();
+        Category::getById(intval($id));
+        Category::delete(intval($id));
+
+        $response->setStatusCode(200);
+        $response->setBody(['success' => true, 'message' => 'Categoría eliminada exitosamente']);
+    } catch (Exception $e) {
+        $response->setStatusCode(400);
+        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
     }
+
+    $response->send();
+}
+
+   

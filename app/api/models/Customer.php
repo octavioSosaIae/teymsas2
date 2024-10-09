@@ -56,19 +56,22 @@ class Customer
 
     public static function getById($idUser)
     {
+        try{
         $connection = new conn;
         $conn = $connection->connect();
         $stmt = $conn->prepare("SELECT * FROM customers WHERE id_user_customer = ?");
         $stmt->bind_param("i", $idUser);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
-            $idUser= $result->fetch_assoc() {
-                return new self($row['id_user_customer'], $row['document_customer'], $row['address_customer'], $row['business_name_customer'], $row['rut_customer'], $row['id_city']);
-            } else {
-                throw new Exception("Cliente no encontrado");
+            $idUser= $result->fetch_assoc() 
+        }
+                //return new self($row['id_user_customer'], $row['document_customer'], $row['address_customer'], $row['business_name_customer'], $row['rut_customer'], $row['id_city']);
+             else {
+                throw new Exception("Cliente no encontrado". $stmt->error);
             }
-        } else {
-            throw new Exception("Error al obtener el cliente: " . $stmt->error);
+         return idUser;
+    }catch(Exception $e) {
+            throw new Exception("Error al obtener el cliente:" . $e->getMessage());
         }
     }
 
@@ -78,7 +81,7 @@ class Customer
         $connection = new conn;
         $conn = $connection->connect();
         $stmt = $conn->prepare("UPDATE customers SET document_customer = ?, address_customer = ?, business_name_customer = ?, rut_customer = ?, id_city = ? WHERE id_user_customer = ?");
-        $stmt->bind_param("ssssii", $this->document, $this->address, $this->businessName, $this->rut, $this->idCity, $this->idUser);
+        $stmt->bind_param("ssssii", $document, $address, $businessName, $rut, $idCity, $idUser);
         if (!$stmt->execute()) {
             throw new Exception("Error al actualizar el cliente: " . $stmt->error);
         }

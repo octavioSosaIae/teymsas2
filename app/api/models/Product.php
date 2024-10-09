@@ -30,13 +30,13 @@ class Product
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $privides= $result->fetch_assoc() 
-        }else {
-                throw new Exception("Proveedor no encontrado");
+        } else {
+                throw new Exception("Proveedor no encontrado". $stmt->error);
             }
          
         }catch(Exception $e){
         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
-    }
+        }
     }
     public function getAll()
     {

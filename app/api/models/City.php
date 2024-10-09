@@ -51,9 +51,7 @@ class City
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $id_city = $result->fetch_assoc();
-            } else {
-                throw new Exception("Ciudad no encontrada");
-            }
+            } 
          else {
             throw new Exception("Error al obtener la ciudad: " . $stmt->error);
         } 
