@@ -6,7 +6,7 @@ class Provider
 {
 
 
-    function add($name_provider)
+    function create($name_provider)
     {
         try {
             $connection = new conn;

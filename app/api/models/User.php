@@ -7,7 +7,7 @@ class User
 
     //  Función para registro de usuarios
 
-    function register($complete_name, $email, $password, $phone, $role)
+    function create($complete_name, $email, $password, $phone, $role)
     {
         try {
             $connection = new conn;
