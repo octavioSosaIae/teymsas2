@@ -9,12 +9,12 @@ class Product
         try{
         $connection = new conn;
         $conn = $connection->connect();
-        $stmt = $conn->prepare("INSERT INTO providers (name_provider) VALUES (?)");
+        $stmt = $conn->prepare("INSERT INTO product (name_provider) VALUES (?)");
         $stmt->bind_param("s", $name);
         if ($stmt->execute()) {
             return $name;
         } else {
-            throw new Exception("Error al crear el proveedor: " . $stmt->error);
+            throw new Exception("Error al crear el producto: " . $stmt->error);
         }
     }catch(Exception $e){
         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -29,8 +29,8 @@ class Product
         $stmt->bind_param("i", $idProvider);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
-            $privides= $result->fetch_assoc() 
-        } else {
+            $privides= $result->fetch_assoc();
+        }else {
                 throw new Exception("Proveedor no encontrado". $stmt->error);
             }
          
@@ -51,7 +51,8 @@ class Product
             
          else {
             throw new Exception("Error al obtener los proveedores: " . $stmt->error);
-        }return $providers;
+        }
+        return $providers;
     }catch(Exception $e){
         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
     }

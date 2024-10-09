@@ -17,7 +17,7 @@ class Customer
             $connection = new conn;
             $conn = $connection->connect();
 
-            $user = (new User())->register($complete_name_user, $email_user, $password_user, $phone_user, 'C');
+            $user = (new User())->create($complete_name_user, $email_user, $password_user, $phone_user, 'C');
 
             $id_user_customer = $user;  // retorna el id_user para insertar foreign key id_user_customer
             
@@ -63,13 +63,11 @@ class Customer
         $stmt->bind_param("i", $idUser);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
-            $idUser= $result->fetch_assoc() 
-        }
-                //return new self($row['id_user_customer'], $row['document_customer'], $row['address_customer'], $row['business_name_customer'], $row['rut_customer'], $row['id_city']);
-             else {
+            $idUser= $result->fetch_assoc();
+        }else {
                 throw new Exception("Cliente no encontrado". $stmt->error);
             }
-         return idUser;
+         return $idUser;
     }catch(Exception $e) {
             throw new Exception("Error al obtener el cliente:" . $e->getMessage());
         }
