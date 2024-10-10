@@ -53,7 +53,7 @@ function addProvider()
         if (!empty($_POST['name_provider'])) {
 
 
-            (new Provider())->add($provider['name_provider']);
+            (new Provider())->create($provider['name_provider']);
 
 
             // Responder con el usuario registrado
