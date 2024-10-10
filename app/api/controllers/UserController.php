@@ -79,8 +79,7 @@ function login()
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
-                'message' => 'Usuario logueado exitosamente.',
-                'data' => $user     
+                'message' => 'Usuario logueado exitosamente.'     
             ]);
         }
     } catch (Exception $e) {
