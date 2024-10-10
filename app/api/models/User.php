@@ -1,5 +1,5 @@
 <?php
-require_once "../../core/Database.php";
+require_once dirname(__DIR__) . '../../core/Database.php';
 session_start();
 
 class User
@@ -17,9 +17,8 @@ class User
             $stmt->bind_param("sssis", $complete_name, $email, $hashedPassword, $phone, $role);
 
             if ($stmt->execute()) {
-                
+
                 return $stmt->insert_id;
-                
             } else {
                 throw new Exception("Error al crear el usuario: " . $stmt->error);
             }
@@ -39,6 +38,7 @@ class User
             $connection = new conn;
             $conn = $connection->connect();
 
+
             $stmt = $conn->prepare("SELECT * FROM users WHERE email_user= ? ;");
             $stmt->bind_param("s", $email);
 
@@ -47,8 +47,15 @@ class User
             if ($stmt->execute()) {
 
 
+
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc();
+
+
+
+                if ($user == NULL) {
+                    throw new Exception("Usuario o contraseña incorrecto");
+                }
 
                 if (!password_verify($password, $user['password_user'])) {
                     throw new Exception("Error al loguear el usuario: email o contraseña incorrecto");
@@ -59,7 +66,7 @@ class User
                 throw new Exception("Error al obtener los usuarios: " . $stmt->error);
             }
 
-            return $user;
+            return true;
         } catch (Exception $e) {
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -189,7 +196,7 @@ class User
             if ($conn->affected_rows > 0) {
 
                 return true;
-            } 
+            }
         } catch (Exception $e) {
             throw new Exception("Error al actualizar la contraseña: " . $e->getMessage());
         }

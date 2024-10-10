@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../core";
+require_once dirname(__DIR__) . '../../core/Database.php';
 
 class Provider
 {

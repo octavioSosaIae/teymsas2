@@ -24,7 +24,7 @@ switch ($function) {
 
     case "getAll":
 
-        getAllUsers();
+        getAll();
 
         break;
 
@@ -79,8 +79,7 @@ function login()
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
-                'message' => 'Usuario logueado exitosamente.',
-                'data' => $user     
+                'message' => 'Usuario logueado exitosamente.'     
             ]);
         }
     } catch (Exception $e) {
@@ -120,7 +119,7 @@ function register()
         if (!empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user'])  && !empty($_POST['phone_user'])) {
 
 
-            (new User())->register($user['complete_name_user'], $user['email_user'], $user['password_user'], $user['phone_user'], $user['role_user']);
+            (new User())->create($user['complete_name_user'], $user['email_user'], $user['password_user'], $user['phone_user'], $user['role_user']);
 
 
             // Responder con el usuario registrado
@@ -144,7 +143,7 @@ function register()
 }
 
 
-function getAllUsers()
+function getAll()
 {
 
     try {
