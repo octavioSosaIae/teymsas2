@@ -36,3 +36,19 @@ function create() {
             }
             }
 }
+
+function getById(){
+
+}
+
+function getAll(){
+
+}
+
+function update(){
+
+}
+
+function delete(){
+    
+}
