@@ -58,30 +58,44 @@ class Purchase{
 
     }
 
-
-    function update(){
-        function update()
-        {
-            try {
-                $connection = new conn;
-                $conn = $connection->connect();
+    function update()
+    {
+    try {
+        $connection = new conn;
+        $conn = $connection->connect();
     
-                $stmt = $conn->prepare("UPDATE providers SET name_provider = ? WHERE id_provider = ? ;");
-                $stmt->bind_param("ssii", $name_provider, $id_provider);
+        $stmt = $conn->prepare("UPDATE purchase SET  = ? WHERE = ? ;");
+        $stmt->bind_param("ssii", , );
     
-                if ($stmt->execute()) {
-    
-                    return true;
-                } else {
-                    throw new Exception("Error al actualizar proovedor: " . $stmt->error);
-                }
-            } catch (Exception $e) {
-    
-                throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
-            }
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            throw new Exception("Error al actualizar la compra: " . $stmt->error);
+        }
+        } catch (Exception $e) {
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
         }   
-    } 
+
     
+   function delete($id_purchase_order)
+    {
+    try {
+        $connection = new conn;
+        $conn = $connection->connect();
+
+        $stmt = $conn->prepare("DELETE FROM purchase WHERE id_purchase_order = ?;");
+        $stmt->bind_param("i", $id_purchase_order);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            throw new Exception("Error al eliminar la compra: " . $stmt->error);
+        }
+        } catch (Exception $e) {
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    } 
 
 
 
