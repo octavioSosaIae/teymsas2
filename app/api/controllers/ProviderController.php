@@ -56,11 +56,11 @@ function addProvider()
             (new Provider())->create($provider['name_provider']);
 
 
-            // Responder con el usuario registrado
+            // Responder con el proveedor registrado
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
-                'message' => 'proovedor agregado exitosamente.',
+                'message' => 'proveedor agregado exitosamente.',
             ]);
         }
     } catch (Exception $e) {
@@ -86,11 +86,11 @@ function getAllProviders()
         $users = (new Provider())->getAll();
 
 
-        // Responder con los usuarios obtenidos
+        // Responder con los proveedores obtenidos
         $response->setStatusCode(200);
         $response->setBody([
             'success' => true,
-            'message' => 'proovedores obtenidos exitosamente.',
+            'message' => 'proveedores obtenidos exitosamente.',
             'users' => $users
         ]);
     } catch (Exception $e) {
@@ -110,10 +110,84 @@ function getAllProviders()
 function updateProvider()
 {
 
+    try {
+
+        $response = new Response;
+
+
+        $provider = [
+            "name_provider" => $_POST['name_provider'],
+            "id_provider" => $_POST['id_provider']
+        ];
+
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (!empty($_POST['name_provider']) && !empty($_POST['id_provider'])) {
+
+
+            (new Provider())->update($provider['name_provider'], $provider['id_provider']);
+
+
+            // Responder con mensaje de exito
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'proveedor actualizado exitosamente.',
+            ]);
+        }
+    } catch (Exception $e) {
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+
+    $response->send();
+
 
 }
 
 function deleteProvider()
 {
+    try {
+
+        $response = new Response;
+
+
+        $provider = [
+            "id_provider" => $_POST['id_provider']
+        ];
+
+
+        if (!empty($_POST['id_provider'])) {
+
+
+            (new Provider())->delete($provider['id_provider']);
+
+
+            // Responder con mensaje de exito
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'proveedor eliminado exitosamente.',
+            ]);
+        }
+    } catch (Exception $e) {
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+
+    $response->send();
+
+
 
 }
