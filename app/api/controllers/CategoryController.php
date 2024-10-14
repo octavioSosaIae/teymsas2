@@ -195,8 +195,7 @@ function deleteCategory()
         if (!empty($_POST['id_category'])) {
 
 
-            $category = (new Category)->delete($id_category);
-
+       (new Category)->delete($id_category);
 
             // Responder con los usuarios obtenidos
             $response->setStatusCode(200);
