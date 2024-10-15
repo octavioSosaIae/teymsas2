@@ -1,4 +1,5 @@
 <?php
+
 require_once "../../core/Response.php";
 require_once "../models/Product.php";
 
@@ -186,7 +187,9 @@ function updateProduct()
         if (!empty($_POST['description_product']) && !empty($_POST['details_product']) && !empty($_POST['price_product']) && !empty($_POST['thumbnail_product']) && !empty($_POST['stock_product']) && !empty($_POST['measures_product']) && !empty($_POST['id_category']) && !empty($_POST['id_product'])) {
 
 
-            (new Product())->update($product['description_product'], $product['details_product'], $product['price_product'], $product['thumbnail_product'], $product['stock_product'], $product['measures_product'], $product['id_category'], $product['id_product']);
+            $update = (new Product())->update($product['description_product'], $product['details_product'], $product['price_product'], $product['thumbnail_product'], $product['stock_product'], $product['measures_product'], $product['id_category'], $product['id_product']);
+
+
 
 
             $response->setStatusCode(200);
