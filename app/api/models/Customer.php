@@ -53,32 +53,32 @@ class Customer
         }
     }
 
-    public static function getById($idUser)
+    public static function getById($id_user)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("SELECT * FROM customers WHERE id_user_customer = ?");
-            $stmt->bind_param("i", $idUser);
+            $stmt->bind_param("i", $id_user);
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $idUser = $result->fetch_assoc();
+                $id_user = $result->fetch_assoc();
             } else {
                 throw new Exception("Cliente no encontrado" . $stmt->error);
             }
-            return $idUser;
+            return $id_user;
         } catch (Exception $e) {
             throw new Exception("Error al obtener el cliente:" . $e->getMessage());
         }
     }
 
-    public function update()
+    public function update($document_customer, $address_customer, $businessName_customer, $rut_customer, $id_city_customer, $id_user)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("UPDATE customers SET document_customer = ?, address_customer = ?, business_name_customer = ?, rut_customer = ?, id_city = ? WHERE id_user_customer = ?");
-            $stmt->bind_param("ssssii", $document, $address, $businessName, $rut, $idCity, $idUser);
+            $stmt->bind_param("ssssii", $document_customer, $address_customer, $businessName_customer, $rut_customer, $id_city_customer, $id_user);
             if (!$stmt->execute()) {
                 throw new Exception("Error al actualizar el cliente: " . $stmt->error);
             }
@@ -87,13 +87,13 @@ class Customer
         }
     }
 
-    public static function delete($idUser)
+    public static function delete($id_user)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("DELETE FROM customers WHERE id_user_customer = ?");
-            $stmt->bind_param("i", $idUser);
+            $stmt->bind_param("i", $id_user);
             if (!$stmt->execute()) {
                 throw new Exception("Error al eliminar el cliente: " . $stmt->error);
             }

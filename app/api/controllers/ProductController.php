@@ -3,6 +3,8 @@ require_once "../../core/Response.php";
 require_once "../models/Product.php";
 
 
+$function = $_GET['function'];
+
 switch ($function) {
 
     case "create":
@@ -55,23 +57,25 @@ function createProduct()
             "thumbnail_product" => $_POST['thumbnail_product'],
             "stock_product" => $_POST['stock_product'],
             "measures_product" => $_POST['measures_product'],
-            "id_category" => $_POST['id_category'],
-            "updated_by_product" => $_POST['updated_by_product']
+            "id_category" => $_POST['id_category']
+
         ];
 
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['description_product']) && !empty($_POST['details_product']) && !empty($_POST['price_product']) && !empty($_POST['thumbnail_product']) && !empty($_POST['stock_product']) && !empty($_POST['measures_product']) && !empty($_POST['id_category']) && !empty($_POST['updated_by_product'])) {
+        if (!empty($_POST['description_product']) && !empty($_POST['details_product']) && !empty($_POST['price_product']) && !empty($_POST['thumbnail_product']) && !empty($_POST['stock_product']) && !empty($_POST['measures_product']) && !empty($_POST['id_category'])) {
 
 
-            (new Product())->create($product['description_product'], $product['details_product'], $product['price_product'], $product['thumbnail_product'], $product['stock_product'], $product['measures_product'], $product['id_category'], $product['updated_by_product']);
+            $productCreated = (new Product())->create($product['description_product'], $product['details_product'], $product['price_product'], $product['thumbnail_product'], $product['stock_product'], $product['measures_product'], $product['id_category']);
 
 
             // Responder con success true si todo sale bien
             $response->setStatusCode(200);
             $response->setBody([
-                'success' => true
+                'success' => true,
+                'producto creado:' => $productCreated
+
             ]);
         }
     } catch (Exception $e) {
@@ -133,7 +137,7 @@ function getByIdProduct()
 
         if (!empty($_POST['id_product'])) {
 
-            (new Product())->getById($product['id_product']);
+            $productById = (new Product())->getById($product['id_product']);
 
 
             // Responder con OK
@@ -141,6 +145,7 @@ function getByIdProduct()
             $response->setBody([
                 'success' => true,
                 'message' => 'producto encontrado',
+                'producto:' => $productById
             ]);
         }
     } catch (Exception $e) {
@@ -176,16 +181,18 @@ function updateProduct()
 
         // para evitar enviar datos vacios a la base de datos
 
+
+
         if (!empty($_POST['description_product']) && !empty($_POST['details_product']) && !empty($_POST['price_product']) && !empty($_POST['thumbnail_product']) && !empty($_POST['stock_product']) && !empty($_POST['measures_product']) && !empty($_POST['id_category']) && !empty($_POST['id_product'])) {
 
 
             (new Product())->update($product['description_product'], $product['details_product'], $product['price_product'], $product['thumbnail_product'], $product['stock_product'], $product['measures_product'], $product['id_category'], $product['id_product']);
 
 
-            // Responder con success true si todo sale bien
             $response->setStatusCode(200);
             $response->setBody([
-                'success' => true
+                'success' => true,
+                'message' => 'producto actualizado exitosamente'
             ]);
         }
     } catch (Exception $e) {
