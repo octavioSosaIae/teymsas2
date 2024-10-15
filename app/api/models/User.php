@@ -7,14 +7,14 @@ class User
 
     //  Función para registro de usuarios
 
-    function create($complete_name, $email, $password, $phone, $role)
+    function create($complete_name_user, $email_user, $password_user, $phone_user, $role_user)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("INSERT INTO users (complete_name_user, email_user , password_user, phone_user, role_user) VALUES( ? , ? , ? , ? ,?);");
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-            $stmt->bind_param("sssis", $complete_name, $email, $hashedPassword, $phone, $role);
+            $hashedPassword = password_hash($password_user, PASSWORD_BCRYPT);
+            $stmt->bind_param("sssis", $complete_name_user, $email_user, $hashedPassword, $phone_user, $role_user);
 
             if ($stmt->execute()) {
 
@@ -30,7 +30,7 @@ class User
 
     //  Función para login de usuarios
 
-    function login($email, $password)
+    function login($email_user, $password_user)
     {
 
         $user = [];
@@ -40,7 +40,7 @@ class User
 
 
             $stmt = $conn->prepare("SELECT * FROM users WHERE email_user= ? ;");
-            $stmt->bind_param("s", $email);
+            $stmt->bind_param("s", $email_user);
 
 
 
@@ -57,7 +57,7 @@ class User
                     throw new Exception("Usuario o contraseña incorrecto");
                 }
 
-                if (!password_verify($password, $user['password_user'])) {
+                if (!password_verify($password_user, $user['password_user'])) {
                     throw new Exception("Error al loguear el usuario: email o contraseña incorrecto");
                 }
 
@@ -103,14 +103,14 @@ class User
 
     //  Función para que devuelva la informacion de todos los usuarios por ID
 
-    function getById($user_id)
+    function getById($id_user)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
 
             $stmt = $conn->prepare("SELECT * FROM users WHERE id_user = ?;");
-            $stmt->bind_param("i", $user_id);
+            $stmt->bind_param("i", $id_user);
 
             if ($stmt->execute()) {
 
@@ -131,7 +131,7 @@ class User
 
     //  Función para actualizar los usuarios sin la contraseña
 
-    function updateWithoutPassword($complete_name, $email, $phone)
+    function updateWithoutPassword($complete_name_user, $email_user, $phone_user)
     {
         try {
             $connection = new conn;
@@ -141,7 +141,7 @@ class User
             $id_user = $_SESSION['id_user'];
 
             $stmt = $conn->prepare("UPDATE users SET complete_name_user = ?, email_user = ?,  phone_user = ? WHERE id_user = ? ;");
-            $stmt->bind_param("ssii", $complete_name, $email, $phone, $id_user);
+            $stmt->bind_param("ssii", $complete_name_user, $email_user, $phone_user, $id_user);
 
             if ($stmt->execute()) {
 
