@@ -107,10 +107,10 @@ class Product
             $stmt = $conn->prepare("UPDATE products SET description_product =? , details_product =?, price_product =?, thumbnail_product =?, stock_product =?, measures_product =?, id_category =? , updated_by_product =? WHERE id_product =? ;");
             $stmt->bind_param("ssisisiii", $description_product, $details_product, $price_product, $thumbnail_product, $stock_product, $measures_product, $id_category, $updated_by_product, $id_product);
 
-            if (!$stmt->execute()) {
+            if ($stmt->execute()) {
 
-                throw new Exception("Error al actualizar el prodicto: " . $stmt->error);
-            } 
+                return true;
+            }
         } catch (Exception $e) {
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -128,14 +128,14 @@ class Product
             $stmt = $conn->prepare("DELETE FROM products WHERE id_product = ?;");
             $stmt->bind_param("i", $id_product);
 
-            if (!$stmt->execute()) {
+            if ($stmt->execute()) {
 
-                throw new Exception("Error al eliminar el producto: " . $stmt->error);
+                return true;
+
             } else {
                 throw new Exception("Error al eliminar producto: " . $stmt->error);
             }
 
-            //return $users;
         } catch (Exception $e) {
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
