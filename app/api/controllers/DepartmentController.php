@@ -129,7 +129,7 @@ function getByIdDepartment()
 
         if (!empty($_POST['id_department'])) {
 
-            $departmentById = (new Product())->getById($Department['id_department']);
+            $departmentById = (new Department())->getById($Department['id_department']);
 
 
             // Responder con OK
@@ -139,6 +139,15 @@ function getByIdDepartment()
                 'message' => 'departamento encontrado',
                 'Departamento:' => $departmentById
             ]);
+
+            if ($departmentById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Departamento no encontrado"
+                ]);
+            }
         }
     } catch (Exception $e) {
 

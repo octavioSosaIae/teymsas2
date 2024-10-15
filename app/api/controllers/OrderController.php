@@ -138,6 +138,16 @@ function getByIdOrder()
                 'message' => 'orden encontrada',
                 'Orden:' => $orderById
             ]);
+
+            
+            if ($orderById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Orden no encontrada"
+                ]);
+            }
         }
     } catch (Exception $e) {
 

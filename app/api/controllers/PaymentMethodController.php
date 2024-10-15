@@ -127,7 +127,7 @@ function getByIdPaymentMethod()
 
         if (!empty($_POST['id_payment_method'])) {
 
-            $paymentMethodById = (new OrderStatus())->getById($PaymentMethod['id_payment_method']);
+            $paymentMethodById = (new PaymentMethod())->getById($PaymentMethod['id_payment_method']);
 
 
             // Responder con OK
@@ -137,6 +137,16 @@ function getByIdPaymentMethod()
                 'message' => 'metodo de pago encontrado',
                 'Metodo de pago:' => $paymentMethodById
             ]);
+
+            
+            if ($paymentMethodById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Metodo de pago no encontrado"
+                ]);
+            }
         }
     } catch (Exception $e) {
 

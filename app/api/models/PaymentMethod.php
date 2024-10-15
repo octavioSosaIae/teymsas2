@@ -27,7 +27,7 @@ class PaymentMethod
             $stmt = $conn->prepare("SELECT * FROM payment_methods");
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $payment_methods = $result->fetch_assoc(MYSQLI_ASSOC);
+                $payment_methods = $result->fetch_all(MYSQLI_ASSOC);
             } else {
                 throw new Exception("Error al obtener los métodos de pago: " . $stmt->error);
             }
@@ -64,7 +64,7 @@ class PaymentMethod
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("UPDATE payment_methods SET name_payment_method = ? WHERE id_payment_method = ?");
-            $stmt->bind_param("si", $name_paymentMethod, $id_payment_method);
+            $stmt->bind_param("si", $name_payment_method, $id_payment_method);
             if (!$stmt->execute()) {
                 throw new Exception("Error al actualizar el método de pago: " . $stmt->error);
             }

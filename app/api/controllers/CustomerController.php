@@ -138,7 +138,7 @@ function getByIdCustomer()
         if (!empty($_POST['id_customer'])) {
 
 
-            $customer = (new Customer)->getById($id_customer);
+            $customerById = (new Customer)->getById($id_customer);
 
 
             // Responder con los datos obtenidos
@@ -146,8 +146,18 @@ function getByIdCustomer()
             $response->setBody([
                 'success' => true,
                 'message' => 'Cliente encontrado exitosamente.',
-                'cliente' => $customer
+                'cliente' => $customerById
             ]);
+
+            
+            if ($customerById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Cliente no encontrado"
+                ]);
+            }
         }
     } catch (Exception $e) {
 

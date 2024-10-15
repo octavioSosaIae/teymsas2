@@ -84,7 +84,7 @@ function getByIdCategory()
         if (!empty($_POST['id_category'])) {
 
 
-            $category = (new Category)->getById($id_category);
+            $categoryById = (new Category)->getById($id_category);
 
 
             // Responder con los usuarios obtenidos
@@ -92,8 +92,17 @@ function getByIdCategory()
             $response->setBody([
                 'success' => true,
                 'message' => 'Categoria encontrada exitosamente.',
-                'categoria' => $category
+                'categoria' => $categoryById
             ]);
+
+            if ($categoryById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Categoria no encontrada"
+                ]);
+            }
         }
     } catch (Exception $e) {
 

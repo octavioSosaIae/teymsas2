@@ -36,7 +36,7 @@ class OrderStatus
             $stmt = $conn->prepare("SELECT * FROM order_status");
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $order_status = $result->fetch_assoc(MYSQLI_ASSOC);
+                $order_status = $result->fetch_all(MYSQLI_ASSOC);
             } else {
                 throw new Exception("Error al obtener los estados del pedido: " . $stmt->error);
             }

@@ -88,7 +88,7 @@ function getByIdCity()
         if (!empty($_POST['id_city'])) {
 
 
-            $city = (new City)->getById($id_city);
+            $cityById = (new City)->getById($id_city);
 
 
             // Responder con los datos obtenidos
@@ -96,8 +96,17 @@ function getByIdCity()
             $response->setBody([
                 'success' => true,
                 'message' => 'Ciudad encontrada exitosamente.',
-                'ciudad' => $city
+                'ciudad' => $cityById
             ]);
+
+            if ($cityById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Ciudad no encontrada"
+                ]);
+            }
         }
     } catch (Exception $e) {
 
