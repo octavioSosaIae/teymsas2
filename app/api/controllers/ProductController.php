@@ -148,6 +148,16 @@ function getByIdProduct()
                 'message' => 'producto encontrado',
                 'producto:' => $productById
             ]);
+
+
+            if ($productById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Producto no encontrado"
+                ]);
+            }
         }
     } catch (Exception $e) {
 
