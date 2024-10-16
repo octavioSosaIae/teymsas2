@@ -9,7 +9,7 @@ body {
 
 /* Estilo del contenedor principal */
 main {
-    max-width: 800px;
+    max-width: 1400px;
     margin: 0 auto;
     background: white;
     padding: 20px;
@@ -20,13 +20,13 @@ main {
 /* Estilo del título principal */
 h1 {
     text-align: center;
-    color: #333;
+    color: #000000;
     margin-bottom: 20px;
 }
 
 /* Estilo de los subtítulos */
 h2 {
-    color: #0056b3;
+    color: #b40000;
     margin-top: 20px;
     margin-bottom: 10px;
     border-bottom: 2px solid #e7e7e7;
@@ -38,22 +38,12 @@ p {
     color: #555;
     margin: 10px 0 20px 0;
     padding-left: 10px;
-    border-left: 3px solid #0056b3;
+    border-left: 3px solid black;
 }
 
 /* Estilo para hacer que las preguntas sean más destacadas al pasar el ratón */
 h2:hover {
-    color: #003d80;
+    color: #540101;
     cursor: pointer;
     transition: color 0.3s;
-}
-
-/* Estilo de los enlaces (si los hay) */
-a {
-    color: #0056b3;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }
