@@ -1,0 +1,59 @@
+/* Estilo general del cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Estilo del contenedor principal */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo del título principal */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilo de los subtítulos */
+h2 {
+    color: #0056b3;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e7e7e7;
+    padding-bottom: 5px;
+}
+
+/* Estilo de los párrafos */
+p {
+    color: #555;
+    margin: 10px 0 20px 0;
+    padding-left: 10px;
+    border-left: 3px solid #0056b3;
+}
+
+/* Estilo para hacer que las preguntas sean más destacadas al pasar el ratón */
+h2:hover {
+    color: #003d80;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Estilo de los enlaces (si los hay) */
+a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

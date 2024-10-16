@@ -18,13 +18,13 @@ switch ($function) {
 
     case "register":
 
-        register();
+        registerUser();
 
         break;
 
     case "getAll":
 
-        getAll();
+        getAllUsers();
 
         break;
 
@@ -36,13 +36,13 @@ switch ($function) {
 
     case "updateWithoutPassword":
 
-        updateWithoutPass();
+        updateWithoutPasswordUser();
 
         break;
 
     case "updatePassword":
 
-        updatePassword();
+        updatePasswordUser();
 
         break;
 
@@ -97,7 +97,7 @@ function login()
 
 
 
-function register()
+function registerUser()
 {
     try {
 
@@ -143,7 +143,7 @@ function register()
 }
 
 
-function getAll()
+function getAllUsers()
 {
 
     try {
@@ -197,6 +197,16 @@ function getUserById()
                 'message' => 'Usuario obtenido exitosamente.',
                 'users' => $users
             ]);
+
+            if ($users == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Usuario no encontrado"
+                ]);
+            }
+            
         }
     } catch (Exception $e) {
 
@@ -210,7 +220,7 @@ function getUserById()
     $response->send();
 }
 
-function updateWithoutPass()
+function updateWithoutPasswordUser()
 {
 
     try {
@@ -253,7 +263,7 @@ function updateWithoutPass()
     $response->send();
 }
 
-function updatePassword()
+function updatePasswordUser()
 {
 
     try {

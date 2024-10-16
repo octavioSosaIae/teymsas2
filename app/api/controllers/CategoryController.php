@@ -6,137 +6,221 @@ $function = $_GET['function'];
 
 switch ($function) {
     case "create":
-        create();
+        createCategory();
         break;
 
     case "getById":
-        getById();
+        getByIdCategory();
         break;
 
     case "getAll":
-        getAll();
+        getAllCategories();
         break;
 
     case "update":
-        update();
+        updateCategory();
         break;
 
     case "delete":
-        delete();
+        deleteCategory();
         break;
 }
 
-function create() {
+function createCategory()
+{
+
     try {
-        $response = new Response();
-        $description = $_POST['description'];
 
-        if (empty($description)) {
-            throw new Exception("Descripción es requerida");
+        $response = new Response;
+
+
+        $category = [
+            "description_category" => $_POST['description_category'],
+
+        ];
+
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (!empty($_POST['description_category'])) {
+
+
+            (new Category())->create($category['description_category']);
+
+
+            // Responder con success true si todo sale bien
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'Categoria agregada con exito'
+            ]);
         }
-
-        $category = Categorycreate($description);
-
-        $response->setStatusCode(201);
-        $response->setBody(['id' => $category->getIdCategory(), 'message' => 'Categoría creada exitosamente']);
     } catch (Exception $e) {
-        $response->setStatusCode(400);
-        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
+
+        // Responder con un error
+
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
     }
 
     $response->send();
 }
 
-function getById() {
+function getByIdCategory()
+{
+
     try {
-        $response = new Response();
-        $id = $_GET['id'] ?? null; // Assuming the ID comes from the query parameters
 
-        if (!is_numeric($id)) {
-            throw new Exception("ID de categoría inválido");
+        $response = new Response;
+
+        $id_category = $_POST['id_category'];
+
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (!empty($_POST['id_category'])) {
+
+
+            $categoryById = (new Category)->getById($id_category);
+
+
+            // Responder con los usuarios obtenidos
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'Categoria encontrada exitosamente.',
+                'categoria' => $categoryById
+            ]);
+
+            if ($categoryById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Categoria no encontrada"
+                ]);
+            }
         }
+    } catch (Exception $e) {
 
-        $category = Category::getById(intval($id));
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+    $response->send();
+}
 
+function getAllCategories()
+{
+
+    try {
+
+        $response = new Response;
+
+
+
+
+        $categories = (new Category)->getAll();
+
+
+        // Responder con los usuarios obtenidos
         $response->setStatusCode(200);
         $response->setBody([
             'success' => true,
-            'idCategory' => $category->getIdCategory(),
-            'description' => $category->getDescription()
+            'message' => 'Categorias encontradas exitosamente.',
+            'categorias' => $categories
         ]);
     } catch (Exception $e) {
-        $response->setStatusCode(404);
-        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
-    }
 
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
     $response->send();
 }
 
-function getAll() {
+function updateCategory()
+{
+
     try {
-        $response = new Response();
-        $categories = Category::getAll();
 
-        $response->setStatusCode(200);
-        $response->setBody(['success' => true, 'categories' => $categories]);
+        $response = new Response;
+
+
+        $category = [
+            "description_category" => $_POST['description_category'],
+            "id_category" => $_POST['id_category']
+        ];
+
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (!empty($_POST['description_category']) && !empty($_POST['id_category'])) {
+
+            (new Category())->update($category['description_category'], $category['id_category']);
+
+
+            // Responder con el usuario actualizado
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'Categoria actualizada exitosamente.'
+            ]);
+        }
     } catch (Exception $e) {
-        $response->setStatusCode(500);
-        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
     }
 
     $response->send();
 }
 
-function update() {
+function deleteCategory()
+{
+
     try {
-        $response = new Response();
-        $data = json_decode(file_get_contents('php://input'), true);
-        $id = $_GET['id'] ?? null; // Assuming the ID comes from the query parameters
 
-        if (!is_numeric($id)) {
-            throw new Exception("ID de categoría inválido");
+        $response = new Response;
+
+        $id_category = $_POST['id_category'];
+
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (!empty($_POST['id_category'])) {
+
+
+       (new Category)->delete($id_category);
+
+            // Responder con los usuarios obtenidos
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'Categoria eliminada exitosamente.'
+            ]);
         }
-
-        $category = Category::getById(intval($id));
-        $description = $data['description'] ?? $category->getDescription();
-
-        if (empty($description)) {
-            throw new Exception("Descripción es requerida");
-        }
-
-        $category->setDescription($description);
-        $category->update();
-
-        $response->setStatusCode(200);
-        $response->setBody(['success' => true, 'message' => 'Categoría actualizada exitosamente']);
     } catch (Exception $e) {
-        $response->setStatusCode(400);
-        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
-    }
 
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
     $response->send();
 }
-
-function delete() {
-    try {
-        $response = new Response();
-        $id = $_GET['id'] ?? null; // Assuming the ID comes from the query parameters
-
-        if (!is_numeric($id)) {
-            throw new Exception("ID de categoría inválido");
-        }
-
-        Category::getById(intval($id));
-        Category::delete(intval($id));
-
-        $response->setStatusCode(200);
-        $response->setBody(['success' => true, 'message' => 'Categoría eliminada exitosamente']);
-    } catch (Exception $e) {
-        $response->setStatusCode(400);
-        $response->setBody(['success' => false, 'error' => $e->getMessage()]);
-    }
-
-    $response->send();
-}
-
-   

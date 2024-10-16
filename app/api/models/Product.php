@@ -1,24 +1,34 @@
 <?php
 
 require_once dirname(__DIR__) . '../../core/Database.php';
+require_once "User.php";
+
 
 class Product
 {
 
 
-    function create($name_provider)
+
+    // Funcion para agregar un producto 
+
+    function create($description_product, $details_product, $price_product, $thumbnail_product, $stock_product, $measures_product, $id_category)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
-            $stmt = $conn->prepare("INSERT INTO providers (name_provider) VALUES(?);");
-            $stmt->bind_param("s", $name_provider);
+
+            $updated_by_product = $_SESSION['id_user'];
+
+
+            $stmt = $conn->prepare("INSERT INTO products (description_product, details_product, price_product, thumbnail_product, stock_product, measures_product, id_category, updated_by_product) VALUES(?,?,?,?,?,?,?,?);");
+            $stmt->bind_param("ssisisii", $description_product, $details_product, $price_product, $thumbnail_product, $stock_product, $measures_product, $id_category, $updated_by_product);
+
 
             if ($stmt->execute()) {
 
                 return $stmt->insert_id;
             } else {
-                throw new Exception("Error al agregar el proovedor: " . $stmt->error);
+                throw new Exception("Error al agregar el prducto: " . $stmt->error);
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -26,77 +36,108 @@ class Product
     }
 
 
-    // function getAll()
-    // {
-
-    //     try {
-    //         $connection = new conn;
-    //         $conn = $connection->connect();
-
-
-    //         $stmt = $conn->prepare("SELECT * FROM providers;");
-
-    //         if ($stmt->execute()) {
+    //  Función para que devuelva todos los productos
+    function getAll()
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
 
 
-    //             $result = $stmt->get_result();
-    //             $users = $result->fetch_all(MYSQLI_ASSOC);
-    //         } else {
-    //             throw new Exception("Error al obtener los proovedores: " . $stmt->error);
-    //         }
+            $stmt = $conn->prepare("SELECT * FROM products;");
 
-    //         return $users;
-    //     } catch (Exception $e) {
-
-    //         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
-    //     }
-    // }
-
-    // function update($name_provider, $id_provider)
-    // {
-
-    //     try {
-    //         $connection = new conn;
-    //         $conn = $connection->connect();
-
-    //         $stmt = $conn->prepare("UPDATE providers SET name_provider = ? WHERE id_provider = ? ;");
-    //         $stmt->bind_param("ssii", $name_provider, $id_provider);
-
-    //         if ($stmt->execute()) {
-
-    //             return true;
-    //         } else {
-    //             throw new Exception("Error al actualizar proovedor: " . $stmt->error);
-    //         }
-    //     } catch (Exception $e) {
-
-    //         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
-    //     }
-    // }
+            if ($stmt->execute()) {
 
 
-    // function delete($id_provider)
-    // {
+                $result = $stmt->get_result();
+                $users = $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                throw new Exception("Error al obtener los productos: " . $stmt->error);
+            }
 
-    //     try {
-    //         $connection = new conn;
-    //         $conn = $connection->connect();
+            return $users;
+        } catch (Exception $e) {
 
-    //         $stmt = $conn->prepare("DELETE FROM providers WHERE id_provider = ?;");
-    //         $stmt->bind_param("i", $id_provider);
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    }
 
-    //         if ($stmt->execute()) {
 
-    //             return true;
-    //         } else {
-    //             throw new Exception("Error al eliminar proovedor: " . $stmt->error);
-    //         }
 
-    //         //return $users;
-    //     } catch (Exception $e) {
+    //  Función para que devuelva producto por ID
 
-    //         throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
-    //     }
-    // }
-   
-}   
+    function getById($id_product)
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+            $stmt = $conn->prepare("SELECT * FROM products WHERE id_product = ?;");
+            $stmt->bind_param("i", $id_product);
+
+            if ($stmt->execute()) {
+
+
+                $result = $stmt->get_result();
+                $users = $result->fetch_assoc();
+            } else {
+                throw new Exception("Error al obtener el producto: " . $stmt->error);
+            }
+
+            return $users;
+        } catch (Exception $e) {
+
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    }
+
+
+
+    //  Función para actualizar los producto
+
+    function update($description_product, $details_product, $price_product, $thumbnail_product, $stock_product, $measures_product, $id_category, $id_product)
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+            $updated_by_product = $_SESSION['id_user'];
+
+
+            $stmt = $conn->prepare("UPDATE products SET description_product = ?, details_product = ?, price_product = ?, thumbnail_product = ?, stock_product = ?, measures_product = ?, id_category = ? , updated_by_product = ? WHERE id_product = ? ;");
+            $stmt->bind_param("ssisisiii", $description_product, $details_product, $price_product, $thumbnail_product, $stock_product, $measures_product, $id_category, $updated_by_product, $id_product);
+
+            
+            if ($stmt->execute()) {
+
+                return true;
+            }
+        } catch (Exception $e) {
+
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    }
+
+    // funcion para eliminar un producto
+
+    function delete($id_product)
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+            $stmt = $conn->prepare("DELETE FROM products WHERE id_product = ?;");
+            $stmt->bind_param("i", $id_product);
+
+            if ($stmt->execute()) {
+
+                return true;
+            } else {
+                throw new Exception("Error al eliminar producto: " . $stmt->error);
+            }
+        } catch (Exception $e) {
+
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    }
+}
