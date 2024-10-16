@@ -159,5 +159,6 @@ CREATE TABLE product_reviews (
     comment_review TEXT,
     created_at_review DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_id_customer_review FOREIGN KEY (id_customer) REFERENCES customers(id_user_customer),
-    CONSTRAINT fk_id_order_product_review FOREIGN KEY (id_customer_order, id_product) REFERENCES order_products_customers(id_customer_order, id_product)
+    CONSTRAINT fk_id_order_product_review FOREIGN KEY (id_customer_order) REFERENCES order_products_customers(id_customer_order),
+    CONSTRAINT fk_id_product_product_review FOREIGN KEY (id_product) REFERENCES products(id_product)
 );
