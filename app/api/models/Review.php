@@ -55,14 +55,14 @@ class Review{
             }
 
 
-    function update()
+    function update($id_review,$rating_review,$comment_review)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
             
-            $stmt = $conn->prepare("UPDATE purchase SET  = ? WHERE = ? ;");
-            $stmt->bind_param("ssii", , );
+            $stmt = $conn->prepare("UPDATE purchase SET id_review,rating_review,comment_review = ?, ?, ? WHERE = ?, ?, ? ;");
+            $stmt->bind_param("ssii",$id_review,$rating_review,$comment_review);
             if ($stmt->execute()) {
                 return true;
             } else {

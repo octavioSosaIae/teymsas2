@@ -58,14 +58,14 @@ class Purchase{
 
     }
 
-    function update()
+    function update($id_purchase_order,$date_purchase_order,$total_purchase_order)
     {
     try {
         $connection = new conn;
         $conn = $connection->connect();
     
-        $stmt = $conn->prepare("UPDATE purchase SET  = ? WHERE = ? ;");
-        $stmt->bind_param("ssii", , );
+        $stmt = $conn->prepare("UPDATE purchase SET id_purchase_order, date_purchase_order, total_purchase_order = ?, ?, ? WHERE = ?, ?, ? ;");
+        $stmt->bind_param("ssii",$id_purchase_order,$date_purchase_order,$total_purchase_order);
     
         if ($stmt->execute()) {
             return true;
