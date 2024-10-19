@@ -9,10 +9,7 @@ class Delivery{
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("INSERT INTO deliveries ('id_customer_order','address_delivery','date_delivery') VALUES (?,?,?)");
-            $stmt->bind_param("i", $id_customer_order);
-            $stmt->bind_param("s", $address_delivery;
-            $stmt->bind_param("s", $date_delivery);
-
+            $stmt->bind_param("iss", $id_customer_order,$address_delivery,$date_delivery);
             if ($stmt->execute()) {
                 return true;
             } else {
@@ -22,8 +19,6 @@ class Delivery{
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
     }
-
-
         public static function getAll()
         {
             try {
@@ -51,6 +46,8 @@ class Delivery{
                 $stmt->bind_param("i", $id_delivery);
                 if ($stmt->execute()) {
                     $result = $stmt->get_result();
+                    $id_delivery = $result->fetch_assoc();
+
                 } else {
                     throw new Exception("Error al obtener la entrega: " . $stmt->error);
                 }
