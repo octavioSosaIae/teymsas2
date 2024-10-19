@@ -199,13 +199,14 @@ function deleteCity()
 
         $response = new Response;
 
-        $id_city = $_POST['id_city'];
+       
 
 
         // para evitar enviar datos vacios a la base de datos
 
         if (!empty($_POST['id_city'])) {
-
+        
+        $id_city = $_POST['id_city'];
 
             (new City)->delete($id_city);
 
