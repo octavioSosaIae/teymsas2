@@ -5,58 +5,51 @@ require_once "../models/Delivery.php";
 $function = $_GET['function'];
 
 switch ($function) {
-
     case "create":
         createDelivery();
         break;
-
     case "getById":
         getByIdDelivery();
         break;
-
     case "getAll":
         getAllDeliveries();
         break;
-
     case "update":
         updateDelivery();
         break;
-
     case "delete":
         deleteDelivery();
         break;
 }
 
-
-
 function createDelivery()
 {
-    try {
-        $response = new Response;
+    $response = new Response;
 
+    try {
         $Delivery = [
-            "delivery_person" => $_POST['delivery_person'],
-            "delivery_address" => $_POST['delivery_address'],
-            "status" => $_POST['status'],
-            "order_id" => $_POST['order_id']
+            "id_customer_order" => $_POST['id_customer_order'],
+            "address_delivery" => $_POST['address_delivery'],
+            "date_delivery" => $_POST['date_delivery']
         ];
 
-        // Validar que los campos no estén vacíos
-        if (!empty($_POST['delivery_person']) && !empty($_POST['delivery_address']) && !empty($_POST['order_id'])) {
+      
+        if (!empty($Delivery['id_customer_order']) && !empty($Delivery['address_delivery']) && !empty($Delivery['date_delivery'])) {
 
-            $DeliveryCreated = (new Delivery())->create($Delivery['delivery_person'], $Delivery['delivery_address'], $Delivery['status'], $Delivery['order_id']);
+            // Crear una nueva entrega en la base de datos
+            $DeliveryCreated = (new Delivery())->create($Delivery);
 
-            // Responder con success true si todo sale bien
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
                 'message' => 'Entrega agregada con éxito',
                 'data' => $DeliveryCreated
             ]);
+        } else {
+            throw new Exception("Faltan campos obligatorios.");
         }
     } catch (Exception $e) {
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
             'error' => $e->getMessage()
@@ -68,51 +61,54 @@ function createDelivery()
 
 function getByIdDelivery()
 {
+  
+
     try {
         $response = new Response;
-
-        $id_delivery = $_POST['id_delivery'];
+        $id_delivery = $_GET['id_delivery'];
 
         // Validar que no esté vacío
-        if (!empty($_POST['id_delivery'])) {
+        if (!empty($id_delivery)) {
 
             $deliveryById = (new Delivery)->getById($id_delivery);
 
             // Responder con los datos obtenidos
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'Entrega encontrada exitosamente.',
-                'entrega' => $deliveryById
-            ]);
-
-            if ($deliveryById == null) {
-                $response->setStatusCode(404); // Código de estado para no encontrado
+            if ($deliveryById) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Entrega encontrada exitosamente.',
+                    'entrega' => $deliveryById
+                ]);
+            } else {
+                $response->setStatusCode(404);
                 $response->setBody([
                     'success' => false,
                     'error' => "Entrega no encontrada"
                 ]);
             }
-        }
+        } 
     } catch (Exception $e) {
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
             'error' => $e->getMessage()
         ]);
     }
+
     $response->send();
 }
 
 function getAllDeliveries()
 {
-    try {
+   
+
+    try { 
+    
         $response = new Response;
 
         $deliveries = (new Delivery())->getAll();
 
-        // Responder con los datos obtenidos
         $response->setStatusCode(200);
         $response->setBody([
             'success' => true,
@@ -120,43 +116,42 @@ function getAllDeliveries()
             'entregas' => $deliveries
         ]);
     } catch (Exception $e) {
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
             'error' => $e->getMessage()
         ]);
     }
+
     $response->send();
 }
 
 function updateDelivery()
 {
-    try {
-        $response = new Response;
+    $response = new Response;
 
+    try {
         $Delivery = [
-            "delivery_person" => $_POST['delivery_person'],
-            "delivery_address" => $_POST['delivery_address'],
-            "status" => $_POST['status'],
-            "id_delivery" => $_POST['id_delivery']
+            "id_delivery" => $_POST['id_delivery'],
+            "address_delivery" => $_POST['address_delivery'],
+            "date_delivery" => $_POST['date_delivery']
         ];
 
         // Validar que los campos no estén vacíos
-        if (!empty($_POST['delivery_person']) && !empty($_POST['delivery_address']) && !empty($_POST['id_delivery'])) {
+        if (!empty($Delivery['id_delivery']) && !empty($Delivery['address_delivery']) && !empty($Delivery['date_delivery'])) {
 
-            (new Delivery())->update($Delivery['delivery_person'], $Delivery['delivery_address'], $Delivery['status'], $Delivery['id_delivery']);
+            (new Delivery())->update($Delivery);
 
-            // Responder con la entrega actualizada
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
                 'message' => 'Entrega actualizada exitosamente.'
             ]);
+        } else {
+            throw new Exception("ID de entrega no proporcionado.");
         }
     } catch (Exception $e) {
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
             'error' => $e->getMessage()
@@ -168,14 +163,15 @@ function updateDelivery()
 
 function deleteDelivery()
 {
+    
+
     try {
+        
         $response = new Response;
 
-        $id_delivery = $_POST['id_delivery'];
-
-        // Validar que no esté vacío
         if (!empty($_POST['id_delivery'])) {
 
+      $id_delivery = $_POST['id_delivery'];
             (new Delivery)->delete($id_delivery);
 
             $response->setStatusCode(200);
@@ -183,8 +179,17 @@ function deleteDelivery()
                 'success' => true,
                 'message' => 'Entrega eliminada exitosamente.'
             ]);
+        } else {
+            throw new Exception("ID de entrega no proporcionado.");
         }
     } catch (Exception $e) {
-    
-        $response ->send();
+        $response->setStatusCode(400);
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
 
+    $response->send();
+}
+?>
