@@ -30,7 +30,7 @@ class City
             $stmt = $conn->prepare("SELECT * FROM cities");
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $cities = $result->fetch_assoc(MYSQLI_ASSOC);
+                $cities = $result->fetch_assoc();
             } else {
                 throw new Exception("Error al obtener las ciudades: " . $stmt->error);
             }
@@ -49,7 +49,7 @@ class City
             $stmt->bind_param("i", $id_city);
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $id_city = $result->fetch_assoc();
+                return $id_city = $result->fetch_assoc();
             } else {
                 throw new Exception("Error al obtener la ciudad: " . $stmt->error);
             }

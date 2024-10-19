@@ -42,7 +42,7 @@ function createPurchase ()
 
         $response = new Response;
         
-        $id_provider = $_POST['id_privider'];
+        $id_provider = $_POST['id_provider'];
         $date_purchase_order = $_POST['date_purchase_order'];
         $total_purchase_order = $_POST['total_purchase_order'];
         $id_payment_method = $_POST['id_payment_method'];
@@ -52,13 +52,13 @@ function createPurchase ()
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_privider','date_purchase_order','total_purchase_order','id_payment_method'])) {
+        if (!empty($_POST['id_provider']) && !empty($_POST['date_purchase_order']) && !empty($_POST['total_purchase_order']) && !empty( $_POST['id_payment_method'])) {
         
             // valida que sea una array y no este vacia
             if(!empty($_POST['list_products']) && is_array($_POST['list_products'])){
 
             
-            $purchase = (new Purchase())->create([$id_privider,$date_purchase_order,$total_purchase_order,$id_payment_method,$products]);
+            $purchase = (new Purchase())->create($id_provider,$date_purchase_order,$total_purchase_order,$id_payment_method,$products);
                 if($purchase){
 
                 
@@ -89,4 +89,18 @@ function createPurchase ()
 
     $response->send();
 
+}
+function getAll(){
+
+}
+
+function getById(){
+
+}
+function update(){
+
+}
+
+function delete(){
+    
 }

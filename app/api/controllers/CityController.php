@@ -36,27 +36,21 @@ function createCity()
 
         $response = new Response;
 
-
-        $City = [
-            "name_city" => $_POST['name_city'],
-            "id_department" => $_POST['id_department']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['name_city']) && $_POST['id_department']) {
-
+        if (!empty($_POST['name_city']) && !empty($_POST['id_department'])) {
+            $City = [
+                "name_city" => $_POST['name_city'],
+                "id_department" => $_POST['id_department']
+            ];
 
             $CityCreated = (new City())->create($City['name_city'], $City['id_department']);
 
-
             // Responder con success true si todo sale bien
-            $response->setStatusCode(200);
+            $response->setStatusCode(201);
             $response->setBody([
                 'success' => true,
-                'message' => 'Ciudad agregada con exito',
-                'data' => $CityCreated
+                'message' => 'Ciudad agregada con exito'   
             ]);
         }
     } catch (Exception $e) {
