@@ -1,16 +1,53 @@
-const container = document.querySelector('.container');
-const prevButton = document.querySelector('.prev');
-const nextButton = document.querySelector('.next');
+window.onload = () => {
 
-let scrollPosition = 0;
-const productWidth = 300;
+    loadContent('../user/PaginaPrincipal.html');
 
-nextButton.addEventListener('click', () => {
-    scrollPosition += productWidth;
-    container.style.transform = `translateX(-${scrollPosition}px)`;
-});
+    let searchForm = document.querySelector('.search-form');
 
-prevButton.addEventListener('click', () => {
-    scrollPosition -= productWidth;
-    container.style.transform = `translateX(-${scrollPosition}px)`;
-});
+    document.querySelector('#search-btn').onclick = () => {
+        searchForm.classList.toggle('active');
+        shoppingCart.classList.remove('active');
+        loginForm.classList.remove('active');
+        navbar.classList.remove('active');
+
+    }
+
+    let shoppingCart = document.querySelector('.shopping-cart');
+
+    document.querySelector('#cart-btn').onclick = () => {
+        shoppingCart.classList.toggle('active');
+        searchForm.classList.remove('active');
+        loginForm.classList.remove('active');
+        navbar.classList.remove('active');
+    }
+
+    let loginForm = document.querySelector('.login-form');
+
+    document.querySelector('#login-btn').onclick = () => {
+        loginForm.classList.toggle('active');
+        searchForm.classList.remove('active');
+        shoppingCart.classList.remove('active');
+        navbar.classList.remove('active');
+    }
+
+    let navbar = document.querySelector('.navbar');
+
+    document.querySelector('#menu-btn').onclick = () => {
+        navbar.classList.toggle('active');
+        searchForm.classList.remove('active');
+        shoppingCart.classList.remove('active');
+        loginForm.classList.remove('active');
+    }
+}
+
+    // Función para cargar contenido dinámico
+    function loadContent(page) {
+        fetch(page)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('main-content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error cargando contenido:', error);
+            });
+    }
