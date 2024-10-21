@@ -52,6 +52,29 @@ class Provider
         }
     }
 
+    function getById($id_provider)
+    {
+
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+            $stmt = $conn->prepare("SELECT * FROM providers WHERE id_provider = ?");
+            $stmt->bind_param("i", $id_provider);
+
+            if ($stmt->execute()) {
+                $result = $stmt->get_result();
+                $order_status = $result->fetch_assoc();
+            } else {
+                throw new Exception("Proveedor no encontrado " . $stmt->error);
+            }
+            return $order_status;
+        } catch (Exception $e) {
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+
+
+    }
+
     function update($name_provider, $id_provider)
     {
 

@@ -1,5 +1,6 @@
 <?php
 
+require_once "../../core/Response.php";
 require_once "../models/Provider.php";
 
 
@@ -18,6 +19,10 @@ switch ($function) {
 
         getAllProviders();
 
+        break;
+    case "getById":
+
+        getByIdProvider();
         break;
 
 
@@ -74,7 +79,6 @@ function addProvider()
     }
 
     $response->send();
-
 }
 
 function getAllProviders()
@@ -103,9 +107,58 @@ function getAllProviders()
         ]);
     }
     $response->send();
-
 }
 
+function getByIdProvider() 
+{
+
+    
+    try {
+        $response = new Response;
+
+        $provider = [
+            "id_provider" => $_POST['id_provider']
+        ];
+
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (!empty($_POST['id_provider'])) {
+
+            $providerById = (new Provider())->getById($provider['id_provider']);
+
+
+            // Responder con OK
+            $response->setStatusCode(200);
+            $response->setBody([
+                'success' => true,
+                'message' => 'Proveedor encontrado',
+                'Proveedor:' => $providerById
+            ]);
+
+
+            if ($providerById == null) {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Proveedor no encontrado"
+                ]);
+            }
+        }
+    } catch (Exception $e) {
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+
+    $response->send();
+
+}
 
 function updateProvider()
 {
@@ -147,8 +200,6 @@ function updateProvider()
     }
 
     $response->send();
-
-
 }
 
 function deleteProvider()
@@ -187,7 +238,4 @@ function deleteProvider()
     }
 
     $response->send();
-
-
-
 }
