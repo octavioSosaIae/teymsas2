@@ -38,7 +38,8 @@ function createCity()
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['name_city']) && !empty($_POST['id_department'])) {
+        if (isset($_POST['name_city']) && isset($_POST['id_department']) && !empty($_POST['name_city']) && !empty($_POST['id_department'])) {
+
             $City = [
                 "name_city" => $_POST['name_city'],
                 "id_department" => $_POST['id_department']
@@ -50,7 +51,15 @@ function createCity()
             $response->setStatusCode(201);
             $response->setBody([
                 'success' => true,
-                'message' => 'Ciudad agregada con exito'   
+                'message' => 'Ciudad agregada con exito'
+            ]);
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -74,12 +83,13 @@ function getByIdCity()
 
         $response = new Response;
 
-        $id_city = $_POST['id_city'];
 
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_city'])) {
+        if (isset($_POST['id_city']) && !empty($_POST['id_city'])) {
+
+            $id_city = $_POST['id_city'];
 
 
             $cityById = (new City)->getById($id_city);
@@ -101,6 +111,14 @@ function getByIdCity()
                     'error' => "Ciudad no encontrada"
                 ]);
             }
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
+            ]);
         }
     } catch (Exception $e) {
 
@@ -152,16 +170,18 @@ function updateCity()
         $response = new Response;
 
 
-        $City = [
-            "name_city" => $_POST['name_city'],
-            "id_department" => $_POST['id_department'],
-            "id_city" => $_POST['id_city']
-        ];
+
 
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['name_city']) && $_POST['id_department'] && $_POST['id_city']) {
+        if (isset($_POST['name_city']) && isset($_POST['id_department']) && isset($_POST['id_city']) && !empty($_POST['name_city']) && !empty($_POST['id_department']) && !empty($_POST['id_city'])) {
+
+            $City = [
+                "name_city" => $_POST['name_city'],
+                "id_department" => $_POST['id_department'],
+                "id_city" => $_POST['id_city']
+            ];
 
             (new City())->update($City['name_city'], $City['id_department'], $City['id_city']);
 
@@ -171,6 +191,14 @@ function updateCity()
             $response->setBody([
                 'success' => true,
                 'message' => 'Ciudad actualizada exitosamente.'
+            ]);
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -193,22 +221,39 @@ function deleteCity()
 
         $response = new Response;
 
-       
+
 
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_city'])) {
-        
-        $id_city = $_POST['id_city'];
+        if (isset($_POST['id_city']) && !empty($_POST['id_city'])) {
 
-            (new City)->delete($id_city);
+            $id_city = $_POST['id_city'];
 
+            $CityDeleted = (new City)->delete($id_city);
 
-            $response->setStatusCode(200);
+            if ($CityDeleted == true) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Ciudad eliminada exitosamente.'
+                ]);
+            }else{
+
+                $response->setStatusCode(404);
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Ciudad no encontrada"
+                ]);
+            }
+            
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'Ciudad eliminada exitosamente.'
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {

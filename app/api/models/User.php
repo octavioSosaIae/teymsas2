@@ -19,6 +19,7 @@ class User
             if ($stmt->execute()) {
 
                 return $stmt->insert_id;
+                
             } else {
                 throw new Exception("Error al crear el usuario: " . $stmt->error);
             }
@@ -58,7 +59,7 @@ class User
                 }
 
                 if (!password_verify($password_user, $user['password_user'])) {
-                    throw new Exception("Error al loguear el usuario: email o contraseña incorrecto");
+                    throw new Exception("Email o contraseña incorrecto");
                 }
 
                 $_SESSION['id_user'] = $user['id_user'];
@@ -182,6 +183,7 @@ class User
                 $result = $stmt->get_result();
                 $result = $result->fetch_assoc();
 
+            
                 if ($result == NULL) {
                     throw new Exception("No se encontro la contraseña del usuario");
                 } else {
@@ -202,6 +204,8 @@ class User
             if ($conn->affected_rows > 0) {
 
                 return true;
+            }else{
+                return false;
             }
         } catch (Exception $e) {
             throw new Exception("Error al actualizar la contraseña: " . $e->getMessage());

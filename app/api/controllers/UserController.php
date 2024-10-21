@@ -28,13 +28,13 @@ switch ($function) {
 
         break;
 
-    case "getById": //
+    case "getById":
 
         getUserById();
 
         break;
 
-    case "updateWithoutPassword": //
+    case "updateWithoutPassword":
 
         updateWithoutPasswordUser();
 
@@ -61,17 +61,15 @@ function login()
 
         $response = new Response;
 
-
-        $user = [
-            "email_user" => $_POST['email_user'],
-            "password_user" => $_POST['password_user']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['email_user']) && !empty($_POST['password_user'])) {
+        if (isset($_POST['email_user']) && isset($_POST['password_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user'])) {
 
+
+            $user = [
+                "email_user" => $_POST['email_user'],
+                "password_user" => $_POST['password_user']
+            ];
 
             $user = (new User())->login($user['email_user'], $user['password_user']);
 
@@ -80,6 +78,13 @@ function login()
             $response->setBody([
                 'success' => true,
                 'message' => 'Usuario logueado exitosamente.'
+            ]);
+        } else {
+
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -103,21 +108,19 @@ function registerUser()
 
         $response = new Response;
 
-
-        $user = [
-            "complete_name_user" => $_POST['complete_name_user'],
-            "email_user" => $_POST['email_user'],
-            "password_user" => $_POST['password_user'],
-            "phone_user" => $_POST['phone_user'],
-            "role_user" => $_POST['role_user']
-
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user'])  && !empty($_POST['phone_user'])) {
+        if (isset($_POST['complete_name_user']) && isset($_POST['email_user']) && isset($_POST['password_user'])  && isset($_POST['phone_user']) && isset($_POST['complete_name_user']) && isset($_POST['role_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user'])  && !empty($_POST['phone_user']) && !empty($_POST['role_user'])) {
 
+
+            $user = [
+                "complete_name_user" => $_POST['complete_name_user'],
+                "email_user" => $_POST['email_user'],
+                "password_user" => $_POST['password_user'],
+                "phone_user" => $_POST['phone_user'],
+                "role_user" => $_POST['role_user']
+
+            ];
 
             (new User())->create($user['complete_name_user'], $user['email_user'], $user['password_user'], $user['phone_user'], $user['role_user']);
 
@@ -127,6 +130,13 @@ function registerUser()
             $response->setBody([
                 'success' => true,
                 'message' => 'Usuario registrado exitosamente.',
+            ]);
+        } else {
+
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -179,15 +189,14 @@ function getUserById()
 
         $response = new Response;
 
-        $id_user = $_POST['id_user'];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_user'])) {
+        if (isset($_POST['id_user']) && !empty($_POST['id_user'])) {
+
+            $id_user = $_POST['id_user'];
 
 
-            $users = (new User())->getById($id_user);
+            $user = (new User())->getById($id_user);
 
 
             // Responder con los usuarios obtenidos
@@ -195,10 +204,10 @@ function getUserById()
             $response->setBody([
                 'success' => true,
                 'message' => 'Usuario obtenido exitosamente.',
-                'users' => $users
+                'user' => $user
             ]);
 
-            if ($users == null) {
+            if ($user == null) {
 
                 $response->setStatusCode(404); // Código de estado para solicitud incorrecta
                 $response->setBody([
@@ -206,6 +215,13 @@ function getUserById()
                     'error' => "Usuario no encontrado"
                 ]);
             }
+        } else {
+
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Debe ingresar el id del usuario.'
+            ]);
         }
     } catch (Exception $e) {
 
@@ -226,18 +242,16 @@ function updateWithoutPasswordUser()
 
         $response = new Response;
 
-
-        $user = [
-            "complete_name_user" => $_POST['complete_name_user'],
-            "email_user" => $_POST['email_user'],
-            "phone_user" => $_POST['phone_user']
-
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['phone_user'])) {
+        if (isset($_POST['complete_name_user']) && isset($_POST['email_user']) && isset($_POST['phone_user']) && !empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['phone_user'])) {
+
+            $user = [
+                "complete_name_user" => $_POST['complete_name_user'],
+                "email_user" => $_POST['email_user'],
+                "phone_user" => $_POST['phone_user']
+
+            ];
 
             $userUpdated = (new User())->updateWithoutPassword($user['complete_name_user'], $user['email_user'], $user['phone_user']);
 
@@ -258,6 +272,13 @@ function updateWithoutPasswordUser()
                     'message' => 'no se pudo actualizar'
                 ]);
             }
+        } else {
+
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Los campos no pueden estar vacios.'
+            ]);
         }
     } catch (Exception $e) {
 
@@ -280,24 +301,43 @@ function updatePasswordUser()
         $response = new Response;
 
 
-        $password = [
-            "current_password" => $_POST['current_password'],
-            "new_password" => $_POST['new_password']
-
-        ];
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['current_password']) && !empty($_POST['new_password'])) {
-
-            (new User())->updatePassword($password['current_password'], $password['new_password']);
+        if (isset($_POST['current_password']) && isset($_POST['new_password']) && !empty($_POST['current_password']) && !empty($_POST['new_password'])) {
 
 
-            // Responder con el usuario actualizado
-            $response->setStatusCode(200);
+            $password = [
+                "current_password" => $_POST['current_password'],
+                "new_password" => $_POST['new_password']
+
+            ];
+
+
+            $passwordUpdated = (new User())->updatePassword($password['current_password'], $password['new_password']);
+
+
+
+            if ($passwordUpdated == true) {
+
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Contraseña actualizada exitosamente.'
+                ]);
+            } else {
+
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'message' => 'no se pudo actualizar la contraseña'
+                ]);
+            }
+        } else {
+
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'Contraseña actualizada exitosamente.'
+                'success' => false,
+                'error' => 'Los campos no pueden estar vacios.'
             ]);
         }
     } catch (Exception $e) {
