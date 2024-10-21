@@ -28,13 +28,13 @@ switch ($function) {
 
         break;
 
-    case "getById":
+    case "getById": //
 
         getUserById();
 
         break;
 
-    case "updateWithoutPassword":
+    case "updateWithoutPassword"://
 
         updateWithoutPasswordUser();
 
@@ -46,7 +46,7 @@ switch ($function) {
 
         break;
 
-    case "logout":
+    case "logout"://
 
         logout();
         break;

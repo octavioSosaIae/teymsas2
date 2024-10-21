@@ -8,7 +8,7 @@ $function = $_GET['function'];
 
 switch ($function) {
 
-    case "add":
+    case "create":
 
         addProvider();
 
