@@ -9,31 +9,31 @@ switch ($function) {
 
         break;
 
+    }
+//     case "getAll":
 
-    case "getAll":
+//         getAllPurchase();
 
-        getAllPurchase();
+//         break;
 
-        break;
+//     case "getById":
 
-    case "getById":
+//         getByIdPurchase();
 
-        getByIdPurchase();
+//         break;
 
-        break;
+//     case "update":
 
-    case "update":
+//         updatePurchase();
 
-        updatePurchase();
+//         break;
 
-        break;
+//     case "delete":
 
-    case "delete":
+//         deletePurchase();
 
-        deletePurchase();
-
-        break;
-}
+//         break;
+// }
 
 function createPurchase ()
 {
@@ -88,19 +88,18 @@ function createPurchase ()
     }
 
     $response->send();
+ }
+// function getAll(){
 
-}
-function getAll(){
+// }
 
-}
+// function getById(){
 
-function getById(){
+// }
+// function update(){
 
-}
-function update(){
+// }
 
-}
-
-function delete(){
+// function delete(){
     
-}
+// }
