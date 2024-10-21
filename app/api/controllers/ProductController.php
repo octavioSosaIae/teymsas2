@@ -201,12 +201,21 @@ function updateProduct()
 
 
 
+            if ($update == true) {
 
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'producto actualizado exitosamente'
-            ]);
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'producto actualizado exitosamente'
+                ]);
+            } else {
+
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'message' => 'no se pudo actualizar'
+                ]);
+            }
         }
     } catch (Exception $e) {
 

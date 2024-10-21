@@ -63,7 +63,14 @@ class Department
             $stmt = $conn->prepare("UPDATE departments SET name_department = ? WHERE id_department = ?");
             $stmt->bind_param("si", $name_department, $id_department);
             if ($stmt->execute()) {
-                return true;
+
+                if ($stmt->affected_rows > 0) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -76,9 +83,16 @@ class Department
             $conn = $connection->connect();
             $stmt = $conn->prepare("DELETE FROM departments WHERE id_department = ?");
             $stmt->bind_param("i", $id_department);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al eliminar el departamento: " . $stmt->error);
-            }
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
+                        }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }

@@ -107,10 +107,16 @@ class Product
             $stmt = $conn->prepare("UPDATE products SET description_product = ?, details_product = ?, price_product = ?, thumbnail_product = ?, stock_product = ?, measures_product = ?, id_category = ? , updated_by_product = ? WHERE id_product = ? ;");
             $stmt->bind_param("ssisisiii", $description_product, $details_product, $price_product, $thumbnail_product, $stock_product, $measures_product, $id_category, $updated_by_product, $id_product);
 
-            
+
             if ($stmt->execute()) {
 
-                return true;
+                if ($stmt->affected_rows > 0) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
             }
         } catch (Exception $e) {
 

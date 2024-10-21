@@ -19,9 +19,14 @@ class Order
 
             if ($stmt->execute()) {
 
-                return true;
+                if ($stmt->affected_rows > 0) {
 
-            } else { 
+                    return true;
+                } else {
+
+                    return false;
+                }
+            } else {
                 throw new Exception("Error al crear la orden: " . $stmt->error);
             }
             return true;

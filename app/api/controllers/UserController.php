@@ -34,7 +34,7 @@ switch ($function) {
 
         break;
 
-    case "updateWithoutPassword"://
+    case "updateWithoutPassword": //
 
         updateWithoutPasswordUser();
 
@@ -46,7 +46,7 @@ switch ($function) {
 
         break;
 
-    case "logout"://
+    case "logout": //
 
         logout();
         break;
@@ -73,13 +73,13 @@ function login()
         if (!empty($_POST['email_user']) && !empty($_POST['password_user'])) {
 
 
-           $user = (new User())->login($user['email_user'], $user['password_user']);
+            $user = (new User())->login($user['email_user'], $user['password_user']);
 
             // Responder con el usuario logueado
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
-                'message' => 'Usuario logueado exitosamente.'     
+                'message' => 'Usuario logueado exitosamente.'
             ]);
         }
     } catch (Exception $e) {
@@ -206,7 +206,6 @@ function getUserById()
                     'error' => "Usuario no encontrado"
                 ]);
             }
-            
         }
     } catch (Exception $e) {
 
@@ -240,15 +239,25 @@ function updateWithoutPasswordUser()
 
         if (!empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['phone_user'])) {
 
-            (new User())->updateWithoutPassword($user['complete_name_user'], $user['email_user'], $user['phone_user']);
+            $userUpdated = (new User())->updateWithoutPassword($user['complete_name_user'], $user['email_user'], $user['phone_user']);
 
 
-            // Responder con el usuario actualizado
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'Usuario actualizado exitosamente.'
-            ]);
+            if ($userUpdated == true) {
+
+                // Responder con el usuario actualizado
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Usuario actualizado exitosamente.'
+                ]);
+            } else {
+
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'message' => 'no se pudo actualizar'
+                ]);
+            }
         }
     } catch (Exception $e) {
 
