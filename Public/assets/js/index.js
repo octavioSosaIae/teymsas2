@@ -24,10 +24,14 @@ window.onload = () => {
     let loginForm = document.querySelector('.login-form');
 
     document.querySelector('#login-btn').onclick = () => {
-        loginForm.classList.toggle('active');
-        searchForm.classList.remove('active');
-        shoppingCart.classList.remove('active');
-        navbar.classList.remove('active');
+        if (localStorage.getItem('session')) {
+            loadContent('../user/usuario.html');
+        } else {
+            loginForm.classList.toggle('active');
+            searchForm.classList.remove('active');
+            shoppingCart.classList.remove('active');
+            navbar.classList.remove('active');
+        }
     }
 
     let navbar = document.querySelector('.navbar');
@@ -40,14 +44,14 @@ window.onload = () => {
     }
 }
 
-    // Función para cargar contenido dinámico
-    function loadContent(page) {
-        fetch(page)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('main-content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error cargando contenido:', error);
-            });
-    }
+// Función para cargar contenido dinámico
+function loadContent(page) {
+    fetch(page)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('main-content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error cargando contenido:', error);
+        });
+}

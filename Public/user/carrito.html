@@ -1,18 +1,48 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito vacío</title>
-    <link rel="stylesheet" href="../assets/css/carrito.css">
-    <script src="../assets/js/carrito.js"></script>
-</head>
-<body>
-    <div class="mensaje">
-        <h1>¡Hay un carrito que llenar!</h1>
-        <p><strong>Actualmente no tenés productos en tu carrito.</strong></p>
-        <a href="../user/PaginaPrincipal.html" class="boton">Ver productos</a>
+<link rel="stylesheet" href="../assets/css/carrito.css">
+<script src="../assets/js/carrito.js"></script>
 
+<div class="general">
+    <div class="carrito-container">
+        <div class="mensaje">
+            <h1>¡Hay un carrito que llenar!</h1>
+            <p><strong>Actualmente no tenés productos en tu carrito.</strong></p>
+            <a href="../user/PaginaPrincipal.html" class="boton">Ver productos</a>
+        </div>
+
+        <br>
+    
+        <div class="cart-container">
+            <h1>Carrito de Compras</h1>
+    
+            <!-- Producto del carrito -->
+            <div class="cart-item">
+                <img src="../storage/imgproductos/Pro2.png" alt="Producto" class="product-image">
+                <div class="product-info">
+                    <h2 class="product-title">Nombre del Producto</h2>
+                    <div class="quantity-controls">
+                        <p>Cantidad:</p>
+                        <button class="btn-decrease">-</button>
+                        <span class="quantity">1</span>
+                        <button class="btn-increase">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <img src="../storage/imgproductos/Pro2.png" alt="Producto" class="product-image">
+                <div class="product-info">
+                    <h2 class="product-title">Nombre del Producto</h2>
+                    <div class="quantity-controls">
+                        <p>Cantidad:</p>
+                        <button class="btn-decrease">-</button>
+                        <span class="quantity">1</span>
+                        <button class="btn-increase">+</button>
+                    </div>
+                </div>
+            </div>
+        
+            <button class="btn-checkout">Checkout</button>
+        </div>
     </div>
-</body>
-</html>
+
+</div>

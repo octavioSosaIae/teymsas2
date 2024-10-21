@@ -1,4 +1,4 @@
-.content{
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +10,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.content h1{
+.content h1 {
     font-size: 3rem;
 }
 
@@ -55,25 +55,6 @@
     margin-bottom: 10px;
 }
 
-
-.contact {
-    display: flex;
-    align-items: center;
-}
-
-.imgContactos{
-    width: 20px;
-    height: 20px;
-    padding: 15px;
-    
-}
-.carrusel{
-    position: relative;
-    width: 80%;
-    max-width: 1000px;
-    overflow: hidden;
-}
-
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -83,57 +64,50 @@
     background-color: rgb(139, 47, 47);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    
+
 }
 
-
-section{
+section {
     display: flex;
-    width: 2030px;
+    width: 100%;
     height: 430px;
 }
-section img{
+
+section img {
     width: 0px;
     flex-grow: 1;
     object-fit: cover;
     opacity: .8;
     transition: .5s ease;
 }
-section img:hover{
+
+section img:hover {
     width: 300px;
     opacity: 1;
     filter: contrast(120%);
 }
 
-
-/* contenedor de aplicacion */
-.aplicaciones {
-    text-align: center; /* Centra el texto del título */
-    margin: 20px 0; /* Margen vertical */
-    }
-    
-.aplicaciones .apdiv {
-    display: flex; /* Usar flexbox */
-    justify-content: center; /* Centra los elementos en la línea */
-    flex-wrap: wrap; /* Permite que los elementos se muevan a la siguiente línea si es necesario */
-}
-
 /* estilo para servicios-contenido */
 .servicios {
-    text-align: center; /* Centra el texto del título */
-    margin: 20px 0; /* Margen vertical */
-    }
-    
-.servicios-contenido {    
-    display: flex; /* Usar flexbox */
-    justify-content: center; /* Centra los elementos en la línea */
+    text-align: center;
+    /* Centra el texto del título */
+    margin: 20px 0;
+    /* Margen vertical */
+}
+
+.servicios-contenido {
+    display: flex;
+    /* Usar flexbox */
+    justify-content: center;
+    /* Centra los elementos en la línea */
     align-items: center;
-    flex-wrap: wrap; /* Permite que los elementos se muevan a la siguiente línea si es necesario */
+    flex-wrap: wrap;
+    /* Permite que los elementos se muevan a la siguiente línea si es necesario */
 }
 
 .servicios-contenido p {
-    margin: 0 20px; /* Espaciado horizontal entre párrafos */
-    max-width: 200px; /* Opcional: control de ancho para los párrafos */
- }
-    
-    
+    margin: 0 20px;
+    /* Espaciado horizontal entre párrafos */
+    max-width: 200px;
+    /* Opcional: control de ancho para los párrafos */
+}
