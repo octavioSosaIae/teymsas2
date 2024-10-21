@@ -73,6 +73,7 @@ CREATE TABLE deliveries (
     id_customer_order INT NOT NULL,
     address_delivery VARCHAR(255) NOT NULL,
     date_delivery DATE NOT NULL,
+    status_delivery TINYINT DEFAULT 0 NOT NULL,
     CONSTRAINT fk_id_customer_order_delivery FOREIGN KEY (id_customer_order) REFERENCES customer_orders(id_customer_order)
 );
 
