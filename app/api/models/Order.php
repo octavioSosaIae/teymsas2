@@ -36,6 +36,33 @@ class Order
     }
 
 
+    public function getAll(){
+
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+
+            $stmt = $conn->prepare("SELECT * FROM customer_orders;");
+
+            if ($stmt->execute()) {
+
+                $result = $stmt->get_result();
+                $users = $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                throw new Exception("Error al obtener las ordenes: " . $stmt->error);
+            }
+
+            return $users;
+        } catch (Exception $e) {
+
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+
+    }
+
+    public function getProductsOrder(){}
+
     public function getById($id_customer_order)
     {
         try {

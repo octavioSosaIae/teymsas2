@@ -15,7 +15,12 @@ class Category
             $stmt = $conn->prepare("INSERT INTO categories (description_category) VALUES (?)");
             $stmt->bind_param("s", $description_category);
             if ($stmt->execute()) {
-                return $description_category;
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 throw new Exception("Error al crear la categoría: " . $stmt->error);
             }
@@ -71,8 +76,13 @@ class Category
             $conn = $connection->connect();
             $stmt = $conn->prepare("UPDATE categories SET description_category = ? WHERE id_category = ?");
             $stmt->bind_param("si", $description_category, $id_category);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al actualizar la categoría: " . $stmt->error);
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos:" . $e->getMessage());
@@ -86,8 +96,13 @@ class Category
             $conn = $connection->connect();
             $stmt = $conn->prepare("DELETE FROM categories WHERE id_category = ?");
             $stmt->bind_param("i", $id_category);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al eliminar la categoria: " . $stmt->error);
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos:" . $e->getMessage());
