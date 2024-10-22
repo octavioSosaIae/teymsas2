@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . '../../core/Database.php';
 class Order
 {
 
-    public function create($date_order, $total_order, $id_payment_method, $id_order_status, $updated_by_order)
+    public function create($date_order, $total_order, $id_payment_method, $id_order_status, $updated_by_order, $orders)
     {
 
         $id_customer = $_SESSION['id_user'];
@@ -14,22 +14,32 @@ class Order
         try {
             $connection = new conn;
             $conn = $connection->connect();
-            $stmt = $conn->prepare("INSERT INTO customer_orders (id_customer, date_order, total_order, id_payment_method, id_order_status, updated_by_order) VALUES (?,?,?,?,?,?)");
-            $stmt->bind_param("isdiii", $id_customer, $date_order, $total_order, $id_payment_method, $id_order_status, $updated_by_order);
-
+            $stmt = $conn->prepare("INSERT INTO customer_orders (id_customer, date_order, total_order, id_payment_method, id_order_status, updated_by_order) VALUES (?,?,?,?,?,?);");
+            $stmt->bind_param("isiiii", $id_customer, $date_order, $total_order, $id_payment_method, $id_order_status, $updated_by_order);
             if ($stmt->execute()) {
 
-                if ($stmt->affected_rows > 0) {
+                $id_purchase_order = $stmt->insert_id;
+                foreach ($orders as $order) {
+                    $stmt = $conn->prepare("INSERT INTO order_products_customer(id_customer_order, id_product, quantity_order_product_customer, unit_price_order_product_customer, total_order_product_customer) VALUES(? , ? , ? , ? , ?);");
 
-                    return true;
-                } else {
+                    
+                    $id_product = $order['product_id'];
+                    $quantity = $order['quantity'];
+                    $unit_price = $order['unit_price'];
+                    $total_order = $quantity * $unit_price;
 
-                    return false;
+                    $stmt->bind_param("iiidd", $id_customer_order, $id_product, $quantity_order_product_customer, $unit_price_order_product_customer, $total_order_product_customer);
+                   
+                    if ($stmt->execute()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
+
             } else {
-                throw new Exception("Error al crear la orden: " . $stmt->error);
+                throw new Exception("Error al agregar la orden: " . $stmt->error);
             }
-            return true;
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
@@ -43,7 +53,7 @@ class Order
             $conn = $connection->connect();
 
 
-            $stmt = $conn->prepare("SELECT * FROM customer_orders;");
+            $stmt = $conn->prepare("SELECT co.id_customer_order, co.id_customer, co.date_order, co.total_order, co.id_payment_method, co.id_order_status, co.updated_at_order, co.updated_by_order, u.complete_name_user FROM customer_orders AS co INNER JOIN users AS u ON co.id_customer = u.id_user;");
 
             if ($stmt->execute()) {
 

@@ -14,7 +14,7 @@ class Purchase
             if ($stmt->execute()) {
                 $id_purchase_order = $stmt->insert_id;
                 foreach ($products as $product) {
-                    $stmt = $conn->prepare("INSERT INTO order_products_purchases (id_purchase_order,id_product,quantity_order_product_purchase,unit_price_order_product_purchase,total_order_product_purchase) VALUES(? , ? , ? ,?);");
+                    $stmt = $conn->prepare("INSERT INTO order_products_purchases (id_purchase_order, id_product, quantity_order_product_purchase, unit_price_order_product_purchase, total_order_product_purchase) VALUES(? , ? , ? , ? , ?);");
 
                     $id_product = $product['product_id'];
                     $quantity = $product['quantity'];
