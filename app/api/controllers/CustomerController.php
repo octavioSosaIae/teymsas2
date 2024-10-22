@@ -51,8 +51,15 @@ function registerCustomer()
 
 
 
-        if (isset($_POST['complete_name_user']) && isset($_POST['email_user']) && isset($_POST['password_user']) && isset($_POST['phone_user']) && isset($_POST['document_customer']) && isset($_POST['address_customer']) && isset($_POST['business_name_customer']) && isset($_POST['rut_customer']) && isset($_POST['id_city']) && !empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user']) && !empty($_POST['phone_user']) && !empty($_POST['document_customer']) && !empty($_POST['address_customer']) && !empty($_POST['business_name_customer']) && !empty($_POST['rut_customer']) && !empty($_POST['id_city'])) {
+        if (isset($_POST['complete_name_user']) && isset($_POST['email_user']) && isset($_POST['password_user']) && isset($_POST['phone_user']) && isset($_POST['document_customer']) && isset($_POST['address_customer']) && isset($_POST['id_city']) && !empty($_POST['complete_name_user']) && !empty($_POST['email_user']) && !empty($_POST['password_user']) && !empty($_POST['phone_user']) && !empty($_POST['document_customer']) && !empty($_POST['address_customer']) && !empty($_POST['id_city'])) {
 
+            if(!isset($_POST['business_name_customer'])){
+                $bussines_name = "";
+                $rut = "";
+            } else {
+                $bussines_name = $_POST["business_name_customer"];
+                $rut = $_POST["rut_customer"];
+            }
 
             $customer = [
 
@@ -62,8 +69,8 @@ function registerCustomer()
                 'phone_user' => $_POST['phone_user'],
                 'document_customer' => $_POST['document_customer'],
                 'address_customer' => $_POST['address_customer'],
-                'business_name_customer' => $_POST['business_name_customer'],
-                'rut_customer' => $_POST['rut_customer'],
+                'business_name_customer' => $bussines_name,
+                'rut_customer' => $rut,
                 'id_city' => $_POST['id_city']
             ];
 
