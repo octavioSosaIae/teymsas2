@@ -46,8 +46,8 @@ class Delivery{
                 $stmt->bind_param("i", $id_delivery);
                 if ($stmt->execute()) {
                     $result = $stmt->get_result();
-                    $id_delivery = $result->fetch_assoc();
-
+                    $delivery = $result->fetch_assoc();
+                    return $delivery;
                 } else {
                     throw new Exception("Error al obtener la entrega: " . $stmt->error);
                 }
@@ -56,13 +56,13 @@ class Delivery{
             }
         }
     
-        public function update($delivery_person, $address, $status, $id_delivery)
+        public function update($id_customer_order, $address, $status, $id_delivery, $date_delivery)
         {
             try {
                 $connection = new conn;
                 $conn = $connection->connect();
-                $stmt = $conn->prepare("UPDATE deliveries SET delivery_person = ?, address = ?, status = ? WHERE id_delivery = ?");
-                $stmt->bind_param("sssi", $delivery_person, $address, $status, $id_delivery);
+                $stmt = $conn->prepare("UPDATE deliveries SET id_customer_order = ?, address_delivery = ?, status_delivery = ?, date_delivery = ? WHERE id_delivery = ?");
+                $stmt->bind_param("isisi", $id_customer_order, $address, $status, $date_delivery, $id_delivery);
                 if (!$stmt->execute()) {
                     throw new Exception("Error al actualizar la entrega: " . $stmt->error);
                 }
