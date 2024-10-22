@@ -107,7 +107,7 @@ function getAllDepartments()
         $response->setBody([
             'success' => true,
             'message' => 'departamentos obtenidos exitosamente.',
-            'Departamentos:' => $Departments
+            'Departamentos' => $Departments
         ]);
     } catch (Exception $e) {
 

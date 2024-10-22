@@ -37,7 +37,7 @@ function createDelivery()
         if (!empty($Delivery['id_customer_order']) && !empty($Delivery['address_delivery']) && !empty($Delivery['date_delivery'])) {
 
             // Crear una nueva entrega en la base de datos
-            $DeliveryCreated = (new Delivery())->create($Delivery);
+            $DeliveryCreated = (new Delivery())->create($Delivery['id_customer_order'],$Delivery['address_delivery'],$Delivery['date_delivery']);
 
             $response->setStatusCode(200);
             $response->setBody([
@@ -134,13 +134,14 @@ function updateDelivery()
         $Delivery = [
             "id_delivery" => $_POST['id_delivery'],
             "address_delivery" => $_POST['address_delivery'],
-            "date_delivery" => $_POST['date_delivery']
+            "date_delivery" => $_POST['date_delivery'],
+            "status" => $_POST['status']
         ];
 
         // Validar que los campos no estén vacíos
         if (!empty($Delivery['id_delivery']) && !empty($Delivery['address_delivery']) && !empty($Delivery['date_delivery'])) {
 
-            (new Delivery())->update($Delivery);
+            (new Delivery())->update($Delivery['id_customer_order'], $Delivery['address'], $Delivery['status'], $Delivery['date_delivery'],$Delivery['id_delivery']);
 
             $response->setStatusCode(200);
             $response->setBody([

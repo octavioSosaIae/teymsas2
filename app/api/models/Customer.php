@@ -1,5 +1,4 @@
 <?php
-
 require_once "../../core/Database.php";
 require_once "User.php";
 
@@ -43,7 +42,7 @@ class Customer
             $stmt = $conn->prepare("SELECT * FROM customers");
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $customers = $result->fetch_assoc(MYSQLI_ASSOC);
+                $customers = $result->fetch_all();
             } else {
                 throw new Exception("Error al obtener los clientes: " . $stmt->error);
             }
@@ -79,23 +78,39 @@ class Customer
             $conn = $connection->connect();
             $stmt = $conn->prepare("UPDATE customers SET document_customer = ?, address_customer = ?, business_name_customer = ?, rut_customer = ?, id_city = ? WHERE id_user_customer = ?");
             $stmt->bind_param("ssssii", $document_customer, $address_customer, $businessName_customer, $rut_customer, $id_city_customer, $id_user);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al actualizar el cliente: " . $stmt->error);
+
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
     }
 
-    public static function delete($id_user)
+    public static function delete($id_user_customer)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
+
             $stmt = $conn->prepare("DELETE FROM customers WHERE id_user_customer = ?");
-            $stmt->bind_param("i", $id_user);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al eliminar el cliente: " . $stmt->error);
+            $stmt->bind_param("i", $id_user_customer);
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+
+                    return true;
+                } else {
+
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());

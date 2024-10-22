@@ -73,8 +73,13 @@ class OrderStatus
             $conn = $connection->connect();
             $stmt = $conn->prepare("UPDATE order_status SET description_status = ? WHERE id_order_status = ?");
             $stmt->bind_param("si", $description_status, $id_order_status);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al actualizar el estado del pedido: " . $stmt->error);
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -88,8 +93,13 @@ class OrderStatus
             $conn = $connection->connect();
             $stmt = $conn->prepare("DELETE FROM order_status WHERE id_order_status = ?");
             $stmt->bind_param("i", $id_order_status);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al eliminar el estado del pedido: " . $stmt->error);
+            if ($stmt->execute()) {
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());

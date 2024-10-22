@@ -17,11 +17,12 @@ switch ($function) {
         getAllCategories();
         break;
 
-    case "update": //
+
+    case "update":
         updateCategory();
         break;
 
-    case "delete": //
+    case "delete":
         deleteCategory();
         break;
 }
@@ -233,23 +234,23 @@ function deleteCategory()
 
             $id_category = $_POST['id_category'];
 
-           $categoryDeleted = (new Category)->delete($id_category);
+            $categoryDeleted = (new Category)->delete($id_category);
 
-           if($categoryDeleted == true){
-            // Responder con los usuarios obtenidos
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'Categoria eliminada exitosamente.'
-            ]);
-        }else{
-            $response->setStatusCode(404);
-            $response->setBody([
-                'success' => false,
-                'error' => "No se encontró la categoría"
-            ]);
-        }
-        }else{
+            if ($categoryDeleted == true) {
+                // Responder con los usuarios obtenidos
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Categoria eliminada exitosamente.'
+                ]);
+            } else {
+                $response->setStatusCode(404);
+                $response->setBody([
+                    'success' => false,
+                    'error' => "No se encontró la categoría"
+                ]);
+            }
+        } else {
 
             // Responder con un error
             $response->setStatusCode(400);
