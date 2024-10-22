@@ -17,11 +17,11 @@ switch ($function) {
         getAllCategories();
         break;
 
-    case "update"://
+    case "update":
         updateCategory();
         break;
 
-    case "delete"://
+    case "delete":
         deleteCategory();
         break;
 }

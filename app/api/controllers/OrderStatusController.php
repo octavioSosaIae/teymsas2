@@ -48,25 +48,32 @@ function createOrder()
         $response = new Response;
 
 
-        $order = [
-            "description_status" => $_POST['description_status']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['description_status'])) {
+        if (isset($_POST['description_status']) && !empty($_POST['description_status'])) {
+
+
+            $order = [
+                "description_status" => $_POST['description_status']
+            ];
 
 
             $OrderCreated = (new OrderStatus())->create($order['description_status']);
 
 
-            // Responder con success true si todo sale bien
-            $response->setStatusCode(200);
+            if ($OrderCreated == true) {
+                // Responder con success true si todo sale bien
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true
+                ]);
+            }
+        } else {
+            // Responder con un error
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'Orden creada:' => $OrderCreated
-
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -119,14 +126,13 @@ function getByIdOrder()
     try {
         $response = new Response;
 
-        $order = [
-            "id_order_status" => $_POST['id_order_status']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_order_status'])) {
+        if (isset($_POST['id_order_status']) && !empty($_POST['id_order_status'])) {
+
+            $order = [
+                "id_order_status" => $_POST['id_order_status']
+            ];
 
             $orderById = (new OrderStatus())->getById($order['id_order_status']);
 
@@ -139,7 +145,7 @@ function getByIdOrder()
                 'Orden:' => $orderById
             ]);
 
-            
+
             if ($orderById == null) {
 
                 $response->setStatusCode(404); // Código de estado para solicitud incorrecta
@@ -148,6 +154,14 @@ function getByIdOrder()
                     'error' => "Orden no encontrada"
                 ]);
             }
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
+            ]);
         }
     } catch (Exception $e) {
 
@@ -168,26 +182,41 @@ function updateOrder()
         $response = new Response;
 
 
-        $order = [
-            "description_status" => $_POST['description_status'],
-            "id_order_status" => $_POST['id_order_status']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
 
-
-        if (!empty($_POST['description_status']) && !empty($_POST['id_order_status'])) {
-
-
-            (new OrderStatus())->update($order['description_status'], $order['id_order_status']);
+        if (isset($_POST['description_status']) && isset($_POST['id_order_status']) && !empty($_POST['description_status']) && !empty($_POST['id_order_status'])) {
 
 
-            $response->setStatusCode(200);
+
+            $order = [
+                "description_status" => $_POST['description_status'],
+                "id_order_status" => $_POST['id_order_status']
+            ];
+
+            $orderStatusUpdated = (new OrderStatus())->update($order['description_status'], $order['id_order_status']);
+
+
+            if ($orderStatusUpdated == true) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'orden actualizada exitosamente'
+                ]);
+            } else {
+                $response->setStatusCode(404);
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Orden no encontrada"
+                ]);
+            }
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'orden actualizada exitosamente'
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -200,6 +229,7 @@ function updateOrder()
             'error' => $e->getMessage()
         ]);
     }
+    $response->send();
 }
 
 function deleteOrder()
@@ -209,24 +239,38 @@ function deleteOrder()
         $response = new Response;
 
 
-        $order = [
-            "id_order_status" => $_POST['id_order_status']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_order_status'])) {
+        if (isset($_POST['id_order_status']) && !empty($_POST['id_order_status'])) {
 
 
-            (new OrderStatus())->delete($order['id_order_status']);
+            $order = [
+                "id_order_status" => $_POST['id_order_status']
+            ];
+
+            $orderStatusDeleted = (new OrderStatus())->delete($order['id_order_status']);
 
 
-            // Responder con success true si todo sale bien
-            $response->setStatusCode(200);
+            if ($orderStatusDeleted == true) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Orden eliminada exitosamente.'
+                ]);
+            } else {
+
+                $response->setStatusCode(404);
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Orden no encontrada"
+                ]);
+            }
+        } else {
+            // Responder con un error
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'Orden eliminada exitosamente.'
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -239,4 +283,5 @@ function deleteOrder()
             'error' => $e->getMessage()
         ]);
     }
+    $response->send();
 }
