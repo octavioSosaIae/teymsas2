@@ -116,15 +116,11 @@ function getByIdProvider()
     try {
         $response = new Response;
 
-        $provider = [
-            "id_provider" => $_POST['id_provider']
-        ];
-
-
-        // para evitar enviar datos vacios a la base de datos
-
-        if (!empty($_POST['id_provider'])) {
-
+        if (isset($_GET['providerId']) && !empty($_GET['providerId'])) {
+            $provider = [
+                "id_provider" => $_GET['providerId']
+            ];
+            
             $providerById = (new Provider())->getById($provider['id_provider']);
 
 
