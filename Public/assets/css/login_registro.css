@@ -35,6 +35,9 @@
     border: 5px solid rgb(224, 21, 21);
     padding: 10px 40px;
     max-width: 600px;
+    width: 200px;
+    height: 900px; 
+
   }
   
   h1 {

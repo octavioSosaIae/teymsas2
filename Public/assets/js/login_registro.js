@@ -2,7 +2,7 @@ window.onload = () => {
     changeForms();
     
 }
-
+            // funcion para cambiar el formulario
 function changeForms() {
     let btnLogin = document.querySelector("#botonlogin");
     let botonregistro = document.querySelector("#botonregistrarse");
@@ -15,9 +15,9 @@ function changeForms() {
         panelvista.style.left = "-400px";
     }
 }
-
+            //funcion de registro
 function indexFunctions() {
-    let formRegister = document.querySelector("#formRegistro");
+    let formRegister = document.querySelector("#formLoginRegistro");
 
     formRegister.onsubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ function indexFunctions() {
         if (password.value === passwordConfirm.value) {
             let RegisterFormData = new FormData(formRegister);
 
-            let url = 'http://localhost/eBanking/app/controllers/UserController.php?function=register';
+            let url = 'http://localhost/teymsas2/app/api/controllers/UserController.php?function=register';
 
             let config = {
                 method: 'POST',
@@ -45,8 +45,8 @@ function indexFunctions() {
         }
 
     };
-
-    let formLogin = document.querySelector("#formularioLogin");
+            //funcion de login 
+    let formLogin = document.querySelector("#formLogin");
 
     formLogin.onsubmit = async (e) => {
         e.preventDefault();
@@ -58,7 +58,7 @@ function indexFunctions() {
         LoginFormData.append("email", emailLogin.value);
         LoginFormData.append("password", passwordLogin.value)
 
-        let url = 'http://localhost/eBanking/app/controllers/UserController.php?function=login';
+        let url = 'http://localhost/teymsas2/app/api/controllers/UserController.php?function=login';
 
         let config = {
             method: 'POST',
@@ -69,7 +69,7 @@ function indexFunctions() {
         let datos = await respuesta.json();
 
         if(datos.success){
-            location.href ="http://localhost/eBanking/public/dashboard.php";
+            location.href ="http://http://localhost/teymsas2/public/user/";
         } else{
             alert(datos.error)
         }
