@@ -71,7 +71,9 @@ class Order
 
     }
 
-    public function getProductsOrder(){}
+    public function getProductsOrder(){
+        
+    }
 
     public function getById($id_customer_order)
     {
