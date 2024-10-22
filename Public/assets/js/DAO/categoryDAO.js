@@ -39,5 +39,11 @@ export default class categoryDAO{
         return data;
     }
 
+    async update(){
+        
+    }
+
+
+
 
 }
