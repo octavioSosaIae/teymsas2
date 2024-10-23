@@ -1,3 +1,16 @@
+// Función para cargar contenido dinámico
+window.loadContent = function(page) {
+    fetch(page)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('main-content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error cargando contenido:', error);
+        });
+};
+
+
 import userDAO from "./DAO/userDAO.js";
 
 window.onload = () => {
@@ -59,14 +72,3 @@ window.onload = () => {
     }
 }
 
-// Función para cargar contenido dinámico
-function loadContent(page) {
-    fetch(page)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('main-content').innerHTML = data;
-        })
-        .catch(error => {
-            console.error('Error cargando contenido:', error);
-        });
-}
