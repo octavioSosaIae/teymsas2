@@ -5,18 +5,27 @@ window.loadContent = function (page) {
         .then(data => {
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = data;
-            
+
             // Buscar y ejecutar todos los scripts dentro del contenido dinámico
-            const scripts = mainContent.querySelectorAll('script');
+            const scripts = mainContent.querySelectorAll('script[type="module"]');
             scripts.forEach(script => {
-                const newScript = document.createElement('script');
                 if (script.src) {
-                    newScript.src = script.src;
-                    newScript.type = "module";
-                } else {
-                    newScript.textContent = script.textContent;
+                    const newScript = document.createElement('script');
+                    newScript.type = 'module';
+                    newScript.src = `${script.src}?t=${new Date().getTime()}`; // Forzar recarga
+
+                    // Agregar el nuevo script al DOM
+                    document.body.appendChild(newScript);
+
+                    // Escuchar cuando se carga el módulo
+                    newScript.onload = () => {
+                        console.log('Módulo cargado correctamente:', newScript.src);
+                    };
+
+                    newScript.onerror = (error) => {
+                        console.error('Error al cargar el módulo:', error);
+                    };
                 }
-                document.body.appendChild(newScript);
             });
         })
         .catch(error => {
@@ -24,7 +33,7 @@ window.loadContent = function (page) {
         });
 };
 
-
+import userDAO from "./DAO/userDAO.js";
 
 window.onload = () => {
 
