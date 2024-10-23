@@ -160,7 +160,7 @@ function getByIdProduct()
                 $response->setBody([
                     'success' => true,
                     'message' => 'producto encontrado',
-                    'producto:' => $productById
+                    'producto' => $productById
                 ]);
             } else {
 
