@@ -73,18 +73,27 @@ function login()
 
             $user = (new User())->login($user['email_user'], $user['password_user']);
 
-            // Responder con el usuario logueado
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'Usuario logueado exitosamente.'
-            ]);
+            if (!empty($user)) {
+                // Responder con el usuario logueado
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Usuario logueado exitosamente.',
+                    'data' => $user
+                ]);
+            } else {
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'message' => 'No se pudo loguear al usuario.'
+                ]);
+            }
         } else {
 
             $response->setStatusCode(400);
             $response->setBody([
                 'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
+                'message' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -93,7 +102,7 @@ function login()
         $response->setStatusCode(400); // Código de estado para solicitud incorrecta
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
 

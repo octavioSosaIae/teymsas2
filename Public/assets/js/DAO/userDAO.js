@@ -13,12 +13,12 @@ export default class userDAO {
         let response = await fetch(url, config);
         let json = await response.json();
 
+        console.log(json)
+
         if(json.success){
             window.localStorage.setItem("session", true);
-            alert("logueado")
-        }else{
-            alert("no logueado")
         }
+        
         return json;
     }
 

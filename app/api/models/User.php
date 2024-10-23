@@ -19,7 +19,6 @@ class User
             if ($stmt->execute()) {
 
                 return $stmt->insert_id;
-                
             } else {
                 throw new Exception("Error al crear el usuario: " . $stmt->error);
             }
@@ -39,20 +38,13 @@ class User
             $connection = new conn;
             $conn = $connection->connect();
 
-
             $stmt = $conn->prepare("SELECT * FROM users WHERE email_user= ? ;");
             $stmt->bind_param("s", $email_user);
 
-
-
             if ($stmt->execute()) {
-
-
 
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc();
-
-
 
                 if ($user == NULL) {
                     throw new Exception("Usuario o contraseña incorrecto");
@@ -63,11 +55,19 @@ class User
                 }
 
                 $_SESSION['id_user'] = $user['id_user'];
+
             } else {
                 throw new Exception("Error al obtener los usuarios: " . $stmt->error);
             }
 
-            return true;
+            $user = [
+                'user_name' => $user['complete_name_user'],
+                'user_email' => $user['email_user'],
+                'user_phone' => $user['phone_user']
+            ];
+
+            return $user;
+
         } catch (Exception $e) {
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -183,7 +183,7 @@ class User
                 $result = $stmt->get_result();
                 $result = $result->fetch_assoc();
 
-            
+
                 if ($result == NULL) {
                     throw new Exception("No se encontro la contraseña del usuario");
                 } else {
@@ -204,7 +204,7 @@ class User
             if ($conn->affected_rows > 0) {
 
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } catch (Exception $e) {
