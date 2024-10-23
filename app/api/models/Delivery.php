@@ -11,7 +11,13 @@ class Delivery{
             $stmt = $conn->prepare("INSERT INTO deliveries ('id_customer_order','address_delivery','date_delivery') VALUES (?,?,?)");
             $stmt->bind_param("iss", $id_customer_order,$address_delivery,$date_delivery);
             if ($stmt->execute()) {
-                return true;
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+
             } else {
                 throw new Exception("Error al crear un envio: " . $stmt->error);
             }
@@ -63,8 +69,13 @@ class Delivery{
                 $conn = $connection->connect();
                 $stmt = $conn->prepare("UPDATE deliveries SET id_customer_order = ?, address_delivery = ?, status_delivery = ?, date_delivery = ? WHERE id_delivery = ?");
                 $stmt->bind_param("isisi", $id_customer_order, $address, $status, $date_delivery, $id_delivery);
-                if (!$stmt->execute()) {
-                    throw new Exception("Error al actualizar la entrega: " . $stmt->error);
+                if ($stmt->execute()) {
+                
+                    if ($stmt->affected_rows > 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             } catch (Exception $e) {
                 throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -78,8 +89,13 @@ class Delivery{
                 $conn = $connection->connect();
                 $stmt = $conn->prepare("DELETE FROM deliveries WHERE id_delivery = ?");
                 $stmt->bind_param("i", $id_delivery);
-                if (!$stmt->execute()) {
-                    throw new Exception("Error al eliminar la entrega: " . $stmt->error);
+                if ($stmt->execute()) {
+
+                    if ($stmt->affected_rows > 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             } catch (Exception $e) {
                 throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());

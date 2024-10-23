@@ -48,24 +48,36 @@ function addProvider()
         $response = new Response;
 
 
-        $provider = [
-            "name_provider" => $_POST['name_provider']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['name_provider'])) {
+        if (isset($_POST['name_provider']) && !empty($_POST['name_provider'])) {
+
+            $provider = [
+                "name_provider" => $_POST['name_provider']
+            ];
+
+            $providerAdded = (new Provider())->create($provider['name_provider']);
 
 
-            (new Provider())->create($provider['name_provider']);
-
-
-            // Responder con el proveedor registrado
-            $response->setStatusCode(200);
+            if ($providerAdded == true) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'proveedor agregado exitosamente.',
+                ]);
+            } else {
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'error' => 'No se pudo agregar el proveedor.'
+                ]);
+            }
+        } else {
+            // Responder con un error
+            $response->setStatusCode(400); // Código de estado para solicitud incorrecta
             $response->setBody([
-                'success' => true,
-                'message' => 'proveedor agregado exitosamente.',
+                'success' => false,
+                'error' => 'El nombre de el proveedor es obligatorio.'
             ]);
         }
     } catch (Exception $e) {
@@ -109,38 +121,44 @@ function getAllProviders()
     $response->send();
 }
 
-function getByIdProvider() 
+function getByIdProvider()
 {
 
-    
+
     try {
         $response = new Response;
 
         if (isset($_GET['providerId']) && !empty($_GET['providerId'])) {
+
             $provider = [
                 "id_provider" => $_GET['providerId']
             ];
-            
+
             $providerById = (new Provider())->getById($provider['id_provider']);
 
 
-            // Responder con OK
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'Proveedor encontrado',
-                'Proveedor:' => $providerById
-            ]);
+            if ($providerById) {
 
-
-            if ($providerById == null) {
-
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Proveedor encontrado',
+                    'Proveedor:' => $providerById
+                ]);
+            } else {
                 $response->setStatusCode(404); // Código de estado para solicitud incorrecta
                 $response->setBody([
                     'success' => false,
                     'error' => "Proveedor no encontrado"
                 ]);
             }
+        } else {
+            // Responder con un error
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'El ID del proveedor es obligatorio.'
+            ]);
         }
     } catch (Exception $e) {
 
@@ -153,7 +171,6 @@ function getByIdProvider()
     }
 
     $response->send();
-
 }
 
 function updateProvider()
@@ -164,25 +181,41 @@ function updateProvider()
         $response = new Response;
 
 
-        $provider = [
-            "name_provider" => $_POST['name_provider'],
-            "id_provider" => $_POST['id_provider']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['name_provider']) && !empty($_POST['id_provider'])) {
+        if (isset($_POST['name_provider']) && isset($_POST['id_provider']) && !empty($_POST['name_provider']) && !empty($_POST['id_provider'])) {
 
 
-            (new Provider())->update($provider['name_provider'], $provider['id_provider']);
+
+            $provider = [
+                "name_provider" => $_POST['name_provider'],
+                "id_provider" => $_POST['id_provider']
+            ];
 
 
-            // Responder con mensaje de exito
-            $response->setStatusCode(200);
+            $providerUpdated = (new Provider())->update($provider['name_provider'], $provider['id_provider']);
+
+
+            if ($providerUpdated == true) {
+
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'proveedor actualizado exitosamente.',
+                ]);
+            } else {
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'error' => 'Proveedor no encontrado.'
+                ]);
+            }
+        } else {
+            // Responder con un error
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'proveedor actualizado exitosamente.',
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -204,23 +237,35 @@ function deleteProvider()
 
         $response = new Response;
 
-
-        $provider = [
-            "id_provider" => $_POST['id_provider']
-        ];
+        if (isset($_POST['id_provider']) && !empty($_POST['id_provider'])) {
 
 
-        if (!empty($_POST['id_provider'])) {
+            $provider = [
+                "id_provider" => $_POST['id_provider']
+            ];
+
+            $providerDeleted = (new Provider())->delete($provider['id_provider']);
 
 
-            (new Provider())->delete($provider['id_provider']);
-
-
-            // Responder con mensaje de exito
-            $response->setStatusCode(200);
+            if ($providerDeleted == true) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'proveedor eliminado exitosamente.',
+                ]);
+            } else {
+                $response->setStatusCode(404);
+                $response->setBody([
+                    'success' => false,
+                    'error' => 'Proveedor no encontrado.'
+                ]);
+            }
+        } else {
+            // Responder con un error
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'proveedor eliminado exitosamente.',
+                'success' => false,
+                'error' => 'El ID del proveedor es obligatorio.'
             ]);
         }
     } catch (Exception $e) {

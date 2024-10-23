@@ -47,25 +47,39 @@ function createPaymentMethod()
 
         $response = new Response;
 
-
-        $PaymentMethod = [
-            "name_payment_method" => $_POST['name_payment_method']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['name_payment_method'])) {
+        if (isset($_POST['name_payment_method']) && !empty($_POST['name_payment_method'])) {
 
 
-            (new PaymentMethod())->create($PaymentMethod['name_payment_method']);
+            $PaymentMethod = [
+                "name_payment_method" => $_POST['name_payment_method']
+            ];
+
+            $paymentMethodCreated = (new PaymentMethod())->create($PaymentMethod['name_payment_method']);
 
 
-            // Responder con success true si todo sale bien
-            $response->setStatusCode(200);
+            if ($paymentMethodCreated == true) {
+                // Responder con success true si todo sale bien
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => "Metodo de pago agregado exitosamente"
+                ]);
+            } else {
+
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'error' => "No se pudo agregar el metodo de pago."
+                ]);
+            }
+        } else {
+            // Responder con error si el nombre del producto está vacío
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => "Metodo de pago agregado exitosamente"
+                'success' => false,
+                'error' => "Todos los campos son obligatorios."
             ]);
         }
     } catch (Exception $e) {
@@ -118,28 +132,26 @@ function getByIdPaymentMethod()
     try {
         $response = new Response;
 
-        $PaymentMethod = [
-            "id_payment_method" => $_POST['id_payment_method']
-        ];
-
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (!empty($_POST['id_payment_method'])) {
-
-            $paymentMethodById = (new PaymentMethod())->getById($PaymentMethod['id_payment_method']);
+        if (isset($_GET['paymentMethodId']) && !empty($_GET['paymentMethodId'])) {
 
 
-            // Responder con OK
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'message' => 'metodo de pago encontrado',
-                'Metodo de pago:' => $paymentMethodById
-            ]);
+            $PaymentMethod = [
+                "paymentMethodId" => $_GET['paymentMethodId']
+            ];
+            $paymentMethodById = (new PaymentMethod())->getById($PaymentMethod['paymentMethodId']);
 
-            
-            if ($paymentMethodById == null) {
+
+            if ($paymentMethodById) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'metodo de pago encontrado',
+                    'Metodo de pago:' => $paymentMethodById
+                ]);
+            } else {
 
                 $response->setStatusCode(404); // Código de estado para solicitud incorrecta
                 $response->setBody([
@@ -166,27 +178,40 @@ function updatePaymentMethod()
     try {
         $response = new Response;
 
-
-        $PaymentMethod = [
-            "name_payment_method" => $_POST['name_payment_method'],
-            "id_payment_method" => $_POST['id_payment_method']
-        ];
-
-
         // para evitar enviar datos vacios a la base de datos
 
 
 
-        if (!empty($_POST['name_payment_method']) && !empty($_POST['id_payment_method'])) {
+        if (isset($_POST['name_payment_method']) && isset($_POST['id_payment_method']) && !empty($_POST['name_payment_method']) && !empty($_POST['id_payment_method'])) {
+
+            $PaymentMethod = [
+                "name_payment_method" => $_POST['name_payment_method'],
+                "id_payment_method" => $_POST['id_payment_method']
+            ];
 
 
-            (new PaymentMethod())->update($PaymentMethod['name_payment_method'], $PaymentMethod['id_payment_method']);
+            $paymentMethodUpdated = (new PaymentMethod())->update($PaymentMethod['name_payment_method'], $PaymentMethod['id_payment_method']);
 
+            if ($paymentMethodUpdated == true) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Metodo de pago actualizado exitosamente'
+                ]);
+            } else {
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'error' => 'No se pudo actualizar'
+                ]);
+            }
+        } else {
 
-            $response->setStatusCode(200);
+            // Responder con error si el nombre del producto está vacío
+            $response->setStatusCode(400);
             $response->setBody([
-                'success' => true,
-                'message' => 'Metodo de pago actualizado exitosamente'
+                'success' => false,
+                'error' => "Todos los campos son obligatorios."
             ]);
         }
     } catch (Exception $e) {
@@ -207,26 +232,33 @@ function deletePaymentMethod()
     try {
         $response = new Response;
 
+        // para evitar enviar datos vacios a la base de datos
+
+        if (isset($_POST['id_payment_method']) && !empty($_POST['id_payment_method'])) {
+
+            
 
         $PaymentMethod = [
             "id_payment_method" => $_POST['id_payment_method']
         ];
 
-
-        // para evitar enviar datos vacios a la base de datos
-
-        if (!empty($_POST['id_payment_method'])) {
+        $paymentMethodDeleted = (new PaymentMethod())->delete($PaymentMethod['id_payment_method']);
 
 
-            (new PaymentMethod())->delete($PaymentMethod['id_payment_method']);
-
-
+        if ($paymentMethodDeleted == true) {
             // Responder con success true si todo sale bien
             $response->setStatusCode(200);
             $response->setBody([
                 'success' => true,
                 'message' => 'Metodo de pago eliminado exitosamente.'
             ]);
+        }else{
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'El Metodo de pago no existe.'
+            ]);
+        }
         }
     } catch (Exception $e) {
 

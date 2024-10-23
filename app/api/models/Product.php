@@ -27,6 +27,12 @@ class Product
             if ($stmt->execute()) {
 
                 return $stmt->insert_id;
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 throw new Exception("Error al agregar el prducto: " . $stmt->error);
             }
@@ -79,12 +85,11 @@ class Product
 
 
                 $result = $stmt->get_result();
-                $users = $result->fetch_assoc();
+                $products = $result->fetch_assoc();
+                return $products;
             } else {
                 throw new Exception("Error al obtener el producto: " . $stmt->error);
             }
-
-            return $users;
         } catch (Exception $e) {
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -137,7 +142,11 @@ class Product
 
             if ($stmt->execute()) {
 
-                return true;
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 throw new Exception("Error al eliminar producto: " . $stmt->error);
             }

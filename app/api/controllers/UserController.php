@@ -191,9 +191,9 @@ function getUserById()
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (isset($_POST['id_user']) && !empty($_POST['id_user'])) {
+        if (isset($_GET['userId']) && !empty($_GET['userId'])) {
 
-            $id_user = $_POST['id_user'];
+            $id_user = $_GET['userId'];
 
 
             $user = (new User())->getById($id_user);

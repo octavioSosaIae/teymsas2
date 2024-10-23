@@ -17,6 +17,12 @@ class Provider
             if ($stmt->execute()) {
 
                 return $stmt->insert_id;
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 throw new Exception("Error al agregar el proovedor: " . $stmt->error);
             }
@@ -63,16 +69,14 @@ class Provider
 
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
-                $order_status = $result->fetch_assoc();
+                $providers = $result->fetch_assoc();
+                return $providers;
             } else {
                 throw new Exception("Proveedor no encontrado " . $stmt->error);
             }
-            return $order_status;
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
-
-
     }
 
     function update($name_provider, $id_provider)
@@ -87,7 +91,11 @@ class Provider
 
             if ($stmt->execute()) {
 
-                return true;
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 throw new Exception("Error al actualizar proovedor: " . $stmt->error);
             }
@@ -110,7 +118,11 @@ class Provider
 
             if ($stmt->execute()) {
 
-                return true;
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 throw new Exception("Error al eliminar proovedor: " . $stmt->error);
             }

@@ -10,7 +10,7 @@ class Purchase
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("INSERT INTO purchase (id_provider,date_purchase_order,total_purchase_order,id_payment_method) VALUES(? , ? , ? ,?);");
-            $stmt->bind_param("isdi", $id_provider, $date_purchase_order, $total_purchase_order, $id_payment_method, );
+            $stmt->bind_param("isdi", $id_provider, $date_purchase_order, $total_purchase_order, $id_payment_method,);
             if ($stmt->execute()) {
                 $id_purchase_order = $stmt->insert_id;
                 foreach ($products as $product) {
@@ -23,12 +23,14 @@ class Purchase
 
                     $stmt->bind_param("iiidd", $id_purchase_order, $id_product, $quantity, $unit_price, $total_order);
                     if ($stmt->execute()) {
-                        return true;
-                    } else {
-                        return false;
+
+                        if ($stmt->affected_rows > 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
-
             } else {
                 throw new Exception("Error al agregar la compra: " . $stmt->error);
             }
@@ -53,7 +55,6 @@ class Purchase
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
-
     }
 
     function getById($id_purchase_order)
@@ -75,22 +76,21 @@ class Purchase
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
-
     }
 
-    function update($id_purchase_order,$id_provider, $date_purchase_order, $total_purchase_order,$id_payment_method)
+    function update($id_purchase_order, $id_provider, $date_purchase_order, $total_purchase_order, $id_payment_method)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
 
             $stmt = $conn->prepare("UPDATE purchase SET id_provaider='?',date_purchase_order='?', total_purchase_order='?', payment_method='?' WHERE id_purchase_order=?;");
-            $stmt->bind_param("isdii", $id_provider,$date_purchase_order, $total_purchase_order, $id_payment_method,$id_purchase_order);
+            $stmt->bind_param("isdii", $id_provider, $date_purchase_order, $total_purchase_order, $id_payment_method, $id_purchase_order);
 
             if ($stmt->execute()) {
-                if($stmt->affected_rows > 0){
+                if ($stmt->affected_rows > 0) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             } else {
@@ -120,8 +120,4 @@ class Purchase
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
     }
-
-
-
-
 }
