@@ -23,7 +23,7 @@ window.onload = () => {
         navbar.classList.remove('active');
     }
 
-    let loginForm = document.querySelector('#login-form');
+    let loginForm = document.querySelector('.login-form');
 
     document.querySelector('#login-btn').onclick = () => {
         if (localStorage.getItem('session')) {
@@ -36,12 +36,12 @@ window.onload = () => {
         }
     }
 
-    loginForm.onclick = (e) => {
+    loginForm.onsubmit = async (e) => {
         e.preventDefault();
-        const email = form.elements['email'].value;
-        const password = form.elements['password'].value;    
-
-        userDAO().login(email, password);
+        const email = loginForm.elements['email'].value;
+        const password = loginForm.elements['password'].value;
+        const respuesta = await new userDAO().login(email, password);
+        alert(respuesta)
     }
 
     let navbar = document.querySelector('.navbar');
