@@ -7,13 +7,13 @@ class Category
     // Funcion para crear una categoria
     public function create($description_category)
     {
-
         try {
-
             $connection = new conn;
             $conn = $connection->connect();
+
             $stmt = $conn->prepare("INSERT INTO categories (description_category) VALUES (?)");
             $stmt->bind_param("s", $description_category);
+            
             if ($stmt->execute()) {
 
                 if ($stmt->affected_rows > 0) {
@@ -21,11 +21,9 @@ class Category
                 } else {
                     return false;
                 }
-            } else {
-                throw new Exception("Error al crear la categoría: " . $stmt->error);
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -41,12 +39,10 @@ class Category
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
                 $category = $result->fetch_assoc();
-            } else {
-                throw new Exception("Categoría no encontrada" . $stmt->error);
             }
             return $category;
         } catch (Exception $e) {
-            throw new Exception("Error al obtener la categoría: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -60,12 +56,10 @@ class Category
 
                 $result = $stmt->get_result();
                 $categories = $result->fetch_all(MYSQLI_ASSOC);
-            } else {
-                throw new Exception("Error al obtener las categorías: " . $stmt->error);
             }
             return $categories;
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
     public function update($description_category, $id_category)
@@ -85,7 +79,7 @@ class Category
                 }
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos:" . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -105,7 +99,7 @@ class Category
                 }
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos:" . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 }

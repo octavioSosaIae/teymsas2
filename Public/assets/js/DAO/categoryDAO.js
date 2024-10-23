@@ -2,7 +2,7 @@ import server from './server.js';
 
 export default class categoryDAO{
 
-    async createCategory(description_category){
+    async create(description_category){
         let url = server + '/CategoriesController.php?function=create'
         let formData = new FormData();
         
@@ -18,13 +18,7 @@ export default class categoryDAO{
     }
 
     async getById(id_category){
-        let url =   server + '/CategoriesController.php?function=getById';
-        formData.append('id_category', id_category);
-
-        let config = {
-            method: 'POST',
-            body: formData
-        };
+        let url =   server + '/CategoriesController.php?function=getById&categoryId=' + id_category;
 
         let response = await fetch(url);
         let data = await response.json();
@@ -39,8 +33,34 @@ export default class categoryDAO{
         return data;
     }
 
-    async update(){
-        
+    async update(description_category, id_category){
+        let url =   server + '/CategoriesController.php?function=update';
+        formData.append('description_category', description_category);
+        formData.append('id_category', id_category);
+
+
+        let config = {
+            method: 'POST',
+            body: formData
+        };
+
+        let response = await fetch(url, config);
+        let data = await response.json();
+        return data;
+    }
+
+    async delete(){
+        let url =   server + '/CategoriesController.php?function=delete';
+        formData.append('id_category', id_category);
+
+        let config = {
+            method: 'POST',
+            body: formData
+        };
+
+        let response = await fetch(url, config);
+        let data = await response.json();
+        return data;
     }
 
 

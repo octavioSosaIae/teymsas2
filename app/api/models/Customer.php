@@ -4,12 +4,6 @@ require_once "User.php";
 
 class Customer
 {
-
-
-
-
-    //  Función para registro de clientes
-
     function register($complete_name_user, $email_user, $password_user, $phone_user, $document_customer, $address_customer, $business_name_customer,    $rut_customer, $id_city)
     {
         try {

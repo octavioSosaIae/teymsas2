@@ -18,7 +18,7 @@ class City
                 throw new Exception("Error al crear la ciudad: " . $stmt->error);
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ class City
             }
             return $cities;
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -54,7 +54,7 @@ class City
                 throw new Exception("Error al obtener la ciudad: " . $stmt->error);
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -65,11 +65,15 @@ class City
             $conn = $connection->connect();
             $stmt = $conn->prepare("UPDATE cities SET name_city = ?, id_department = ? WHERE id_city = ?");
             $stmt->bind_param("sii", $name_city, $id_department, $id_city);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al actualizar la ciudad: " . $stmt->error);
+            if ($stmt->execute()) {
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 
@@ -91,7 +95,7 @@ class City
                 }
             }
         } catch (Exception $e) {
-            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+            throw new Exception("Hubo un error en la solicitud: " . $e->getMessage());
         }
     }
 }

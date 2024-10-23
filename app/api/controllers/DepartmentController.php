@@ -6,116 +6,88 @@ require_once "../models/Department.php";
 $function = $_GET['function'];
 
 switch ($function) {
-
     case "create":
-
         createDepartment();
-
         break;
 
-
     case "getAll":
-
         getAllDepartments();
-
         break;
 
     case "getById":
-
         getByIdDepartment();
-
         break;
 
     case "update":
-
         updateDepartment();
-
         break;
 
     case "delete":
-
         deleteDepartment();
-
         break;
 }
 
-
-
 function createDepartment()
 {
-
     try {
-
         $response = new Response;
 
-
-
-        // para evitar enviar datos vacios a la base de datos
-
         if (isset($_POST['name_department']) && !empty($_POST['name_department'])) {
-
 
             $Department = [
                 "name_department" => $_POST['name_department']
             ];
 
-            $DepartmentCreated = (new Department())->create($Department['name_department']);
+            $departmentCreated = (new Department())->create($Department['name_department']);
 
-
-            // Responder con success true si todo sale bien
-            $response->setStatusCode(200);
-            $response->setBody([
-                'success' => true,
-                'Departamento creado:' => $DepartmentCreated
-
-            ]);
+            if ($departmentCreated) {
+                $response->setStatusCode(201);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'Departamento creado exitosamente.'
+                ]);
+            } else {
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'message' => 'No se pudo crear el departamento.'
+                ]);
+            }
         } else {
-
-            // Responder con un error
             $response->setStatusCode(400);
             $response->setBody([
                 'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
+                'message' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
-
-        // Responder con un error
-
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
-
     $response->send();
 }
 
 function getAllDepartments()
 {
-
     try {
-
         $response = new Response;
 
         $Departments = (new Department())->getAll();
 
-
-        // Responder con los productos obtenidos
         $response->setStatusCode(200);
         $response->setBody([
             'success' => true,
             'message' => 'departamentos obtenidos exitosamente.',
-            'Departamentos' => $Departments
+            'data' => $Departments
         ]);
     } catch (Exception $e) {
-
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
     $response->send();
@@ -123,62 +95,45 @@ function getAllDepartments()
 
 function getByIdDepartment()
 {
-
-
     try {
         $response = new Response;
 
-
-
-        // para evitar enviar datos vacios a la base de datos
-
-        if (isset($_POST['id_department']) && !empty($_POST['id_department'])) {
-
-
+        if (isset($_GET['departmentId']) && !empty($_GET['departmentId'])) {
 
             $Department = [
-                "id_department" => $_POST['id_department']
+                "id_department" => $_GET['departmentId']
             ];
 
             $departmentById = (new Department())->getById($Department['id_department']);
 
-
-            if ($departmentById == null || empty($departmentById)) {
-
-                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
-                $response->setBody([
-                    'success' => false,
-                    'error' => "Departamento no encontrado"
-                ]);
-            } else {
-
-                // Responder con un error
+            if (!empty($departmentById)) {
                 $response->setStatusCode(200);
                 $response->setBody([
                     'success' => true,
-                    'error' => 'encontrado existosamente.',
-                    'Departamento:' => $departmentById
+                    'message' => 'encontrado existosamente.',
+                    'data:' => $departmentById
+                ]);
+            } else {
+                $response->setStatusCode(400);
+                $response->setBody([
+                    'success' => false,
+                    'message' => "Departamento no encontrado"
                 ]);
             }
         } else {
-
-            // Responder con un error
             $response->setStatusCode(400);
             $response->setBody([
                 'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
+                'message' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
-
-        // Responder con un error
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
-
     $response->send();
 }
 
@@ -187,10 +142,7 @@ function updateDepartment()
     try {
         $response = new Response;
 
-        // para evitar enviar datos vacios a la base de datos
-
         if (isset($_POST['name_department']) && isset($_POST['id_department']) && !empty($_POST['name_department']) && !empty($_POST['id_department'])) {
-
 
             $department = [
                 "name_department" => $_POST['name_department'],
@@ -200,7 +152,7 @@ function updateDepartment()
             $departmentUpdated = (new Department())->update($department['name_department'], $department['id_department']);
 
 
-            if ($departmentUpdated == true) {
+            if ($departmentUpdated) {
 
                 $response->setStatusCode(200);
                 $response->setBody([
@@ -208,7 +160,6 @@ function updateDepartment()
                     'message' => 'departamento actualizado exitosamente'
                 ]);
             } else {
-
                 $response->setStatusCode(400);
                 $response->setBody([
                     'success' => false,
@@ -216,22 +167,17 @@ function updateDepartment()
                 ]);
             }
         } else {
-
-            // Responder con un error
             $response->setStatusCode(400);
             $response->setBody([
                 'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
+                'message' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
-
-        // Responder con un error
-
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
     $response->send();
@@ -239,36 +185,24 @@ function updateDepartment()
 
 function deleteDepartment()
 {
-
     try {
         $response = new Response;
 
-
-
-
-
-        // para evitar enviar datos vacios a la base de datos
-
         if (isset($_POST['id_department']) && !empty($_POST['id_department'])) {
-
 
             $department = [
                 "id_department" => $_POST['id_department']
             ];
 
-
             $departmentDeleted = (new Department())->delete($department['id_department']);
 
-
-            if ($departmentDeleted == true) {
-
+            if ($departmentDeleted) {
                 $response->setStatusCode(200);
                 $response->setBody([
                     'success' => true,
                     'message' => 'departamento eliminado exitosamente'
                 ]);
             } else {
-
                 $response->setStatusCode(400);
                 $response->setBody([
                     'success' => false,
@@ -276,22 +210,17 @@ function deleteDepartment()
                 ]);
             }
         } else {
-
-            // Responder con un error
             $response->setStatusCode(400);
             $response->setBody([
                 'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
+                'message' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
-
-        // Responder con un error
-
-        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setStatusCode(400);
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
     $response->send();
