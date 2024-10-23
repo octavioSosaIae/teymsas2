@@ -1,3 +1,5 @@
+import userDAO from "./DAO/userDAO.js";
+
 window.onload = () => {
 
     loadContent('../user/PaginaPrincipal.html');
@@ -21,7 +23,7 @@ window.onload = () => {
         navbar.classList.remove('active');
     }
 
-    let loginForm = document.querySelector('.login-form');
+    let loginForm = document.querySelector('#login-form');
 
     document.querySelector('#login-btn').onclick = () => {
         if (localStorage.getItem('session')) {
@@ -32,6 +34,14 @@ window.onload = () => {
             shoppingCart.classList.remove('active');
             navbar.classList.remove('active');
         }
+    }
+
+    loginForm.onclick = (e) => {
+        e.preventDefault();
+        const email = form.elements['email'].value;
+        const password = form.elements['password'].value;    
+
+        userDAO().login(email, password);
     }
 
     let navbar = document.querySelector('.navbar');

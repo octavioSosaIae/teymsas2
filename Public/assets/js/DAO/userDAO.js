@@ -1,7 +1,7 @@
 import server from "./server.js";
 
 export default class userDAO {
-    async login(email_user, ){
+    async login(email_user, password_user){
         let url  = server+"/controllers/userController.php?function=login";
         let formData = new FormData();
         formData.append("email_user", email_user);
