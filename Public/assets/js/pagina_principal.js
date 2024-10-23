@@ -4,7 +4,7 @@ const productos = await new productDAO().getAll();
 
 const containerProducts = document.querySelector('#container-products');
 
-productos.products.forEach(product => {
+productos.data.forEach(product => {
     containerProducts.innerHTML += `
             <div class="producto">
             <img class="imgProducto" src="../storage/imgproductos/Pro1.png" alt="">

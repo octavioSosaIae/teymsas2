@@ -6,7 +6,7 @@ const arrayProducts = result.data;
 
 const containerProducts = document.querySelector('#container-products');
 
-arrayProducts.array.forEach(product => {
+arrayProducts.forEach(product => {
     containerProducts.innerHTML += `
                     <div class="producto">
             <img class="imgProducto" src="../storage/imgproductos/Pro1.png" alt="">
