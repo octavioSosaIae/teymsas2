@@ -53,7 +53,7 @@ function createProduct()
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (isset($_POST['description_product']) && isset($_POST['details_product']) && isset($_POST['price_product']) && isset($_POST['thumbnail_product']) && isset($_POST['stock_product']) && isset($_POST['measures_product']) && isset($_POST['id_category']) && isset($_POST['description_product']) && !empty($_POST['details_product']) && !empty($_POST['price_product']) && !empty($_POST['thumbnail_product']) && !empty($_POST['stock_product']) && !empty($_POST['measures_product']) && !empty($_POST['id_category'])) {
+        if (isset($_POST['description_product']) && isset($_POST['details_product']) && isset($_POST['price_product']) && isset($_POST['thumbnail_product']) && isset($_POST['stock_product']) && isset($_POST['measures_product']) && isset($_POST['id_category']) && !empty($_POST['details_product']) && !empty($_POST['price_product']) && !empty($_POST['thumbnail_product']) && !empty($_POST['stock_product']) && !empty($_POST['measures_product']) && !empty($_POST['id_category']) && !empty($_POST['description_product'])) {
 
 
             $product = [
@@ -71,7 +71,7 @@ function createProduct()
 
 
             if ($productCreated == true) {
-                $response->setStatusCode(200);
+                $response->setStatusCode(201);
                 $response->setBody([
                     'success' => true,
                     'producto creado:' => $productCreated

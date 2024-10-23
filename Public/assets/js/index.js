@@ -1,9 +1,23 @@
 // Función para cargar contenido dinámico
-window.loadContent = function(page) {
+window.loadContent = function (page) {
     fetch(page)
         .then(response => response.text())
         .then(data => {
-            document.getElementById('main-content').innerHTML = data;
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = data;
+            
+            // Buscar y ejecutar todos los scripts dentro del contenido dinámico
+            const scripts = mainContent.querySelectorAll('script');
+            scripts.forEach(script => {
+                const newScript = document.createElement('script');
+                if (script.src) {
+                    newScript.src = script.src;
+                    newScript.type = "module";
+                } else {
+                    newScript.textContent = script.textContent;
+                }
+                document.body.appendChild(newScript);
+            });
         })
         .catch(error => {
             console.error('Error cargando contenido:', error);
@@ -11,7 +25,6 @@ window.loadContent = function(page) {
 };
 
 
-import userDAO from "./DAO/userDAO.js";
 
 window.onload = () => {
 

@@ -1,6 +1,6 @@
 import server from './server.js';
 
-export default class ProductDAO {
+export default class productDAO {
 
     async createProduct(description_product,details_product,price_product,thumbnail_product,stock_product,measures_product,id_category) {
         let url = server + '/ProductController.php?function=create';
@@ -30,9 +30,9 @@ export default class ProductDAO {
     }
 
     async getById(productId) {
-        let url = server + '/ProductController.php?function=getByid&productId' + productId;
+        let url = server + '/ProductController.php?function=getById&productId=' + productId;
         let response = await fetch(url);
-        let data = await response.json();
+        let data = await response.text();
         return data;
     }
 
