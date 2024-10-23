@@ -22,7 +22,7 @@ switch ($function) {
 
     case "getById":
 
-        getByIdOrder();
+        getByIdOrderStatus();
 
         break;
 
@@ -119,7 +119,7 @@ function getAllOrders()
     $response->send();
 }
 
-function getByIdOrder()
+function getByIdOrderStatus()
 {
 
 
@@ -128,10 +128,10 @@ function getByIdOrder()
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (isset($_POST['id_order_status']) && !empty($_POST['id_order_status'])) {
+        if (isset($_GET['orderStatusId']) && !empty($_GET['orderStatusId'])) {
 
             $order = [
-                "id_order_status" => $_POST['id_order_status']
+                "id_order_status" => $_GET['orderStatusId']
             ];
 
             $orderById = (new OrderStatus())->getById($order['id_order_status']);
