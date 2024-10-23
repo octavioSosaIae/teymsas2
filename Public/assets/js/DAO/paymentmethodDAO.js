@@ -1,11 +1,11 @@
 import server from './server.js';
 
-export default class OrderStatusDAO{
+export default class PaymentMethodDAO{
 
-    async createOrderStatus(description_status){
-        let url= server + '/OrderStatusController.php?function=create';
+    async createPaymentMethod(name_payment_method){
+        let url= server + '/PaymentMethodController.php?function=create';
         let formdata = new FormData();
-        formdata.append('description_status', description_status);
+        formdata.append('name_payment_method', name_payment_method);
         let config = {
             method: 'POST',
             body: formData
@@ -17,14 +17,14 @@ export default class OrderStatusDAO{
         }
 
         async getAll(){
-            let url =   server + '/OrderStatusController.php?function=getAll';
+            let url =   server + '/PaymentMethodController.php?function=getAll';
             let response = await fetch(url);
             let data = await response.json();
             return data;
         }
 
-        async getById(id_order_status){
-            let url =   server + '/OrderStatusController.php?function=getByid&order_statusId'+ id_order_status;
+        async getById(paymentMethodId){
+            let url =   server + '/PaymentMethodController.php?function=getByid&paymentMethodId'+ paymentMethodId;
            
             let response = await fetch(url);
             let data = await response.json();
@@ -32,11 +32,11 @@ export default class OrderStatusDAO{
     
         } 
 
-        async UpdateOrderStatus(description_status,id_order_status){
-            let url= server + '/OrderStatusController.php?function=update';
+        async UpdatePaymentMethod(name_payment_method,id_payment_method){
+            let url= server + '/PaymentMethodController.php?function=update';
             let formdata = new FormData();
-            formdata.append('description_status', description_status);
-            formdata.append('id_order_status', id_order_status);
+            formdata.append('name_payment_method', name_payment_method);
+            formdata.append('id_payment_method', id_payment_method);
             let config = {
                 method: 'POST',
                 body: formData
@@ -47,10 +47,10 @@ export default class OrderStatusDAO{
             return data;
         }
 
-        async deleteOrderStatus(id_order_status){
-            let url= server + '/OrderStatusController.php?function=delete';
+        async deletePaymentMethod(id_payment_method){
+            let url= server + '/PaymentMethodController.php?function=delete';
             let formdata = new FormData();
-            formdata.append('id_order_status', id_order_status);
+            formdata.append('id_payment_method', id_payment_method);
             let config = {
                 method: 'POST',
                 body: formData

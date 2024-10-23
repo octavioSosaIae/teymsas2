@@ -1,11 +1,11 @@
 import server from './server.js';
 
-export default class OrderStatusDAO{
+export default class ProviderDAO{
 
-    async createOrderStatus(description_status){
-        let url= server + '/OrderStatusController.php?function=create';
+    async createProvider(name_provider){
+        let url= server + '/ProviderController.php?function=create';
         let formdata = new FormData();
-        formdata.append('description_status', description_status);
+        formdata.append('name_provider', name_provider);
         let config = {
             method: 'POST',
             body: formData
@@ -17,14 +17,14 @@ export default class OrderStatusDAO{
         }
 
         async getAll(){
-            let url =   server + '/OrderStatusController.php?function=getAll';
+            let url =   server + '/ProviderController.php?function=getAll';
             let response = await fetch(url);
             let data = await response.json();
             return data;
         }
 
-        async getById(id_order_status){
-            let url =   server + '/OrderStatusController.php?function=getByid&order_statusId'+ id_order_status;
+        async getById(id_provider){
+            let url =   server + '/ProviderController.php?function=getByid&providerId'+ id_provider;
            
             let response = await fetch(url);
             let data = await response.json();
@@ -32,11 +32,11 @@ export default class OrderStatusDAO{
     
         } 
 
-        async UpdateOrderStatus(description_status,id_order_status){
-            let url= server + '/OrderStatusController.php?function=update';
+        async UpdateProvider(name_provider,id_provider){
+            let url= server + '/CustomersController.php?function=update';
             let formdata = new FormData();
-            formdata.append('description_status', description_status);
-            formdata.append('id_order_status', id_order_status);
+            formdata.append('name_provider', name_provider);
+            formdata.append('id_provider', id_provider);
             let config = {
                 method: 'POST',
                 body: formData
@@ -47,10 +47,10 @@ export default class OrderStatusDAO{
             return data;
         }
 
-        async deleteOrderStatus(id_order_status){
-            let url= server + '/OrderStatusController.php?function=delete';
+        async deleteProvider(id_provider){
+            let url= server + '/ProviderController.php?function=delete';
             let formdata = new FormData();
-            formdata.append('id_order_status', id_order_status);
+            formdata.append('id_provider', id_provider);
             let config = {
                 method: 'POST',
                 body: formData
