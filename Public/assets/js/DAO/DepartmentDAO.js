@@ -1,11 +1,11 @@
 import server from './server.js';
 
-export default class DepartmentDAO{
+export default class departmentDAO{
 
     async createCity(name_department){
         let url= server + '/CustomersController.php?function=create';
-        let formdata = new FormData();
-        formdata.append('name_department', name_department);
+        let formData = new FormData();
+        formData.append('name_department', name_department);
         
         let config = {
             method: 'POST',
@@ -26,18 +26,16 @@ export default class DepartmentDAO{
 
         async getById(id_department){
             let url =   server + '/DepartmentController.php?function=getByid&departmentId'+ id_department;
-           
             let response = await fetch(url);
             let data = await response.json();
             return data;
-    
         } 
 
-        async UpdateCity(name_department,id_department){
+        async updateDepartment(name_department,id_department){
             let url= server + '/DepartmentController.php?function=update';
-            let formdata = new FormData();
-            formdata.append('name_department', name_department);
-            formdata.append('id_department', id_department);
+            let formData = new FormData();
+            formData.append('name_department', name_department);
+            formData.append('id_department', id_department);
             let config = {
                 method: 'POST',
                 body: formData
@@ -48,10 +46,10 @@ export default class DepartmentDAO{
             return data;
         }
 
-        async deleteCity(id_department){
+        async deleteDepartment(id_department){
             let url= server + '/DepartmentController.php?function=delete';
-            let formdata = new FormData();
-            formdata.append('id_department', id_department);
+            let formData = new FormData();
+            formData.append('id_department', id_department);
             let config = {
                 method: 'POST',
                 body: formData
@@ -61,11 +59,4 @@ export default class DepartmentDAO{
             let data = await response.json();
             return data;
         } 
-
-
-
-
-
-
-
 }

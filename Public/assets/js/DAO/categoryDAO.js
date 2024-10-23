@@ -63,7 +63,4 @@ export default class categoryDAO{
         return data;
     }
 
-
-
-
 }
