@@ -1,10 +1,10 @@
 import productDAO from "./DAO/productDAO.js";
 
-const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get('productId');
+// const urlParams = new URLSearchParams(window.location.search);
+// const productId = urlParams.get('productId');
 
 
-const response = await new productDAO().getById(productId);
+const response = await new productDAO().getById(idProd);
 const product = response.producto;
 
 const containerProduct = document.querySelector('#container-product');

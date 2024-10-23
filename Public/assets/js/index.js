@@ -1,5 +1,6 @@
 // Función para cargar contenido dinámico
-window.loadContent = function (page) {
+window.loadContent = function (page, idProd = "") {
+    idProd = idProd;
     fetch(page)
         .then(response => response.text())
         .then(data => {
