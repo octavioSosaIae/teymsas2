@@ -273,7 +273,7 @@ function updateOrder(){
 }
 
 function deleteOrder(){
-
+    
     try {
         $response = new Response;
 
@@ -323,4 +323,5 @@ function deleteOrder(){
         ]);
     }
     $response->send();
+
 }
