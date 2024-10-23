@@ -41,7 +41,6 @@ window.onload = () => {
         const email = loginForm.elements['email'].value;
         const password = loginForm.elements['password'].value;
         const respuesta = await new userDAO().login(email, password);
-        alert(respuesta)
     }
 
     let navbar = document.querySelector('.navbar');
