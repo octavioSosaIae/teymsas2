@@ -1,6 +1,6 @@
 import productDAO from  './DAO/productDAO.js';
 
-const result = await new productDAO.getAll();
+const result = await new productDAO().getAll();
 
 const arrayProducts = result.data;
 
