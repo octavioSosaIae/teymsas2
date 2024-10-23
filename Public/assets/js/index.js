@@ -17,14 +17,14 @@ window.loadContent = function (page) {
                     // Agregar el nuevo script al DOM
                     document.body.appendChild(newScript);
 
-                    // Escuchar cuando se carga el módulo
-                    newScript.onload = () => {
-                        console.log('Módulo cargado correctamente:', newScript.src);
-                    };
+                    // // Escuchar cuando se carga el módulo
+                    // newScript.onload = () => {
+                    //     console.log('Módulo cargado correctamente:', newScript.src);
+                    // };
 
-                    newScript.onerror = (error) => {
-                        console.error('Error al cargar el módulo:', error);
-                    };
+                    // newScript.onerror = (error) => {
+                    //     console.error('Error al cargar el módulo:', error);
+                    // };
                 }
             });
         })
@@ -93,4 +93,3 @@ window.onload = () => {
         loginForm.classList.remove('active');
     }
 }
-

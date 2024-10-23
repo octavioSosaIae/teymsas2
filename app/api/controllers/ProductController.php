@@ -121,7 +121,7 @@ function getAllProducts()
         $response->setBody([
             'success' => true,
             'message' => 'productos obtenidos exitosamente.',
-            'products' => $products
+            'data' => $products
         ]);
     } catch (Exception $e) {
 
