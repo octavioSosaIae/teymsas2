@@ -47,17 +47,19 @@ class User
                 $user = $result->fetch_assoc();
 
                 if ($user == NULL) {
-                    throw new Exception("Usuario o contraseña incorrecto");
+
+                    return false;
                 }
 
                 if (!password_verify($password_user, $user['password_user'])) {
-                    throw new Exception("Email o contraseña incorrecto");
+                    return false;
                 }
 
                 $_SESSION['id_user'] = $user['id_user'];
 
             } else {
-                throw new Exception("Error al obtener los usuarios: " . $stmt->error);
+
+                return false;
             }
 
             $user = [
