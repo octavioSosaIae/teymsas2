@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . '../../core/Database.php';
 class Order
 {
 
-    public function create($date_order, $total_order, $id_payment_method, $id_order_status, $updated_by_order, $orders)
+    public function create($date_order, $total_order, $id_payment_method, $id_order_status, $products)
     {
 
         $id_customer = $_SESSION['id_user'];
@@ -18,25 +18,24 @@ class Order
             $stmt->bind_param("isiiii", $id_customer, $date_order, $total_order, $id_payment_method, $id_order_status, $updated_by_order);
             if ($stmt->execute()) {
 
-                $id_purchase_order = $stmt->insert_id;
-                foreach ($orders as $order) {
+                $id_customer_order = $stmt->insert_id;
+                foreach ($products as $product) {
                     $stmt = $conn->prepare("INSERT INTO order_products_customer(id_customer_order, id_product, quantity_order_product_customer, unit_price_order_product_customer, total_order_product_customer) VALUES(? , ? , ? , ? , ?);");
 
-                    
-                    $id_product = $order['product_id'];
-                    $quantity = $order['quantity'];
-                    $unit_price = $order['unit_price'];
+
+                    $id_product = $product['product_id'];
+                    $quantity = $product['quantity'];
+                    $unit_price = $product['unit_price'];
                     $total_order = $quantity * $unit_price;
 
                     $stmt->bind_param("iiidd", $id_customer_order, $id_product, $quantity_order_product_customer, $unit_price_order_product_customer, $total_order_product_customer);
-                   
+
                     if ($stmt->execute()) {
                         return true;
                     } else {
                         return false;
                     }
                 }
-
             } else {
                 throw new Exception("Error al agregar la orden: " . $stmt->error);
             }
@@ -46,7 +45,8 @@ class Order
     }
 
 
-    public function getAll(){
+    public function getAll()
+    {
 
         try {
             $connection = new conn;
@@ -68,11 +68,34 @@ class Order
 
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
-
     }
 
-    public function getProductsOrder(){
-        
+    public function getProductsOrder()
+    {
+
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+
+
+            $stmt = $conn->prepare("SELECT opc.id_order_product_customer, opc.id_customer_order, opc.id_product, opc.quantity_order_product_customer, opc.unit_price_order_product_customer, opc.total_order_product_customer, p.description_product, p.id_product 
+            FROM order_products_customers AS opc 
+            INNER JOIN products AS p ON opc.id_product = p.id_product 
+            WHERE opc.id_customer_order = ?;");
+
+            if ($stmt->execute()) {
+
+                $result = $stmt->get_result();
+                $users = $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                throw new Exception("Error al obtener el detalle de la orden: " . $stmt->error);
+            }
+
+            return $users;
+        } catch (Exception $e) {
+
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
     }
 
     public function getById($id_customer_order)
@@ -80,22 +103,23 @@ class Order
         try {
             $connection = new conn;
             $conn = $connection->connect();
-            $stmt = $conn->prepare("SELECT * FROM order_products_customers WHERE id_order_product_customer = ?");
+            $stmt = $conn->prepare("SELECT * FROM customer_orders WHERE id_customer_orders = ?");
             $stmt->bind_param("i", $id_customer_order);
             if ($stmt->execute()) {
+
                 $result = $stmt->get_result();
                 $order_status = $result->fetch_assoc();
+                return $order_status;
             } else {
-                throw new Exception("Pedido no encontrado " . $stmt->error);
+                throw new Exception("Orden no encontrada " . $stmt->error);
             }
-            return $order_status;
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
     }
 
 
-    public function update($id_product, $quantity_order_product_customer, $unit_price_order_product_customer, $total_order_product_customer)
+    public function update($date_order, $total_order, $id_payment_method, $id_order_status, $id_customer_order)
     {
         try {
             $connection = new conn;
@@ -103,26 +127,38 @@ class Order
 
             $id_customer = $_SESSION['id_user'];
 
-            $stmt = $conn->prepare("UPDATE order_products_customers SET id_order_product_customer = ?, id_customer_order = ?,	id_product = ?,	quantity_order_product_customer = ?, unit_price_order_product_customer = ?,	total_order_product_customer = ? WHERE id_order_product_customer = ?");
-            $stmt->bind_param("iiiidd", $id_customer, $id_product, $quantity_order_product_customer, $unit_price_order_product_customer, $total_order_product_customer);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al actualizar el pedido: " . $stmt->error);
+            $stmt = $conn->prepare("UPDATE customer_orders SET  id_customer = ?, date_order = ?, total_order = ?, id_payment_method = ?, id_order_status = ?  WHERE id_customer_order = ?");
+            $stmt->bind_param("isiiii", $id_customer, $date_order, $total_order, $id_payment_method, $id_order_status, $id_customer_order);
+            if ($stmt->execute()) {
+
+
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
         }
     }
 
-    public static function delete($id_order_product_customer)
+    public static function delete($id_customer_order)
     {
         try {
             $connection = new conn;
             $conn = $connection->connect();
 
-            $stmt = $conn->prepare("DELETE FROM order_products_customers WHERE id_order_product_customer = ?");
-            $stmt->bind_param("i", $id_order_product_customer);
-            if (!$stmt->execute()) {
-                throw new Exception("Error al eliminar el producto del pedido: " . $stmt->error);
+            $stmt = $conn->prepare("DELETE FROM customer_orders WHERE id_customer_order = ?");
+            $stmt->bind_param("i", $id_customer_order);
+            if ($stmt->execute()) {
+
+                
+                if ($stmt->affected_rows > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (Exception $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
