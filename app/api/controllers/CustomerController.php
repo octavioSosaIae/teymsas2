@@ -156,7 +156,7 @@ function updateCustomer()
     try {
         $response = new Response;
 
-        if (isset($_POST['document_customer']) && isset($_POST['address_customer']) && isset($_POST['business_name_customer']) && isset($_POST['rut_customer']) && isset($_POST['id_city']) && isset($_POST['id_user']) && isset($_POST['document_customer']) && !empty($_POST['address_customer']) && !empty($_POST['business_name_customer']) && !empty($_POST['rut_customer']) && !empty($_POST['id_city']) && !empty($_POST['id_user'])) {
+        if (isset($_POST['document_customer']) && isset($_POST['address_customer']) &&  isset($_POST['id_city']) && isset($_POST['id_user']) && isset($_POST['document_customer']) && !empty($_POST['address_customer']) && !empty($_POST['id_city']) && !empty($_POST['id_user'])) {
 
             $customer = [
                 "document_customer" => $_POST['document_customer'],
