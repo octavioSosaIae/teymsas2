@@ -1,5 +1,10 @@
 // Función para cargar contenido dinámico
 window.loadContent = function (page) {
+    if(contains(page, "productId=")){
+        var regex = /(\d+)/g;
+        const productId = page.match(regex)
+        console.log(productId)
+    }
     fetch(page)
         .then(response => response.text())
         .then(data => {
