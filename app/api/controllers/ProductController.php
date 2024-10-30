@@ -55,14 +55,26 @@ function createProduct()
 
         if (isset($_POST['description_product'])  && isset($_POST['price_product']) && isset($_POST['id_category']) && !empty($_POST['price_product']) && !empty($_POST['id_category']) && !empty($_POST['description_product'])) {
 
+            if (!isset($_POST['details_product']) && !isset($_POST['thumbnail_product']) && !isset($_POST['stock_product']) && !isset($_POST['measures_product'])) {
+
+                $details_product = "";
+                $thumbnail_product = "";
+                $measures_product = "";
+            } else {
+
+                $details_product = $_POST["details_product"];
+                $thumbnail_product = $_POST["thumbnail_product"];
+                $stock_product = $_POST["stock_product"];
+                $measures_product = $_POST["measures_product"];
+            }
 
             $product = [
                 "description_product" => $_POST['description_product'],
-                "details_product" => $_POST['details_product'],
+                "details_product" => $details_product,
                 "price_product" => $_POST['price_product'],
-                "thumbnail_product" => $_POST['thumbnail_product'],
-                "stock_product" => $_POST['stock_product'],
-                "measures_product" => $_POST['measures_product'],
+                "thumbnail_product" => $thumbnail_product,
+                "stock_product" => $stock_product,
+                "measures_product" => $measures_product,
                 "id_category" => $_POST['id_category']
 
             ];
@@ -203,13 +215,28 @@ function updateProduct()
 
         if (isset($_POST['description_product']) && isset($_POST['price_product'])  && isset($_POST['id_category']) && isset($_POST['id_product']) && !empty($_POST['description_product']) && !empty($_POST['price_product'])  && !empty($_POST['id_category']) && !empty($_POST['id_product'])) {
 
+
+            if (!isset($_POST['details_product']) && !isset($_POST['thumbnail_product']) && !isset($_POST['stock_product']) && !isset($_POST['measures_product'])) {
+
+                $details_product = "";
+                $thumbnail_product = "";
+                $measures_product = "";
+            } else {
+
+                $details_product = $_POST["details_product"];
+                $thumbnail_product = $_POST["thumbnail_product"];
+                $stock_product = $_POST["stock_product"];
+                $measures_product = $_POST["measures_product"];
+            }
+
+
             $product = [
                 "description_product" => $_POST['description_product'],
-                "details_product" => $_POST['details_product'],
+                "details_product" => $details_product,
                 "price_product" => $_POST['price_product'],
-                "thumbnail_product" => $_POST['thumbnail_product'],
-                "stock_product" => $_POST['stock_product'],
-                "measures_product" => $_POST['measures_product'],
+                "thumbnail_product" => $thumbnail_product,
+                "stock_product" => $stock_product,
+                "measures_product" => $measures_product,
                 "id_category" => $_POST['id_category'],
                 "id_product" => $_POST['id_product']
             ];

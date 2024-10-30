@@ -158,11 +158,20 @@ function updateCustomer()
 
         if (isset($_POST['document_customer']) && isset($_POST['address_customer']) &&  isset($_POST['id_city']) && isset($_POST['id_user']) && isset($_POST['document_customer']) && !empty($_POST['address_customer']) && !empty($_POST['id_city']) && !empty($_POST['id_user'])) {
 
+
+            if (!isset($_POST['business_name_customer'])) {
+                $bussines_name = "";
+                $rut = "";
+            } else {
+                $bussines_name = $_POST["business_name_customer"];
+                $rut = $_POST["rut_customer"];
+            }
+
             $customer = [
                 "document_customer" => $_POST['document_customer'],
                 "address_customer" => $_POST['address_customer'],
-                "business_name_customer" => $_POST['business_name_customer'],
-                "rut_customer" => $_POST['rut_customer'],
+                "business_name_customer" =>$bussines_name,
+                "rut_customer" => $rut,
                 "id_city" => $_POST['id_city'],
                 "id_user" => $_POST['id_user']
 
