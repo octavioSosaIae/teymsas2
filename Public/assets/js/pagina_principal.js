@@ -11,7 +11,7 @@ productos.data.forEach(product => {
             <div class="info">
                 <h2 class="title">${product.description_product}</h2>
                 <p class="price">U$S ${product.price_product}</p>
-                <a href="#" onclick='loadContent("../user/product.html?productId=${product.id_product}")';>Ver Producto</a>
+                <a href="#" onclick='loadContent("../user/product.html?productId=${product.id_product}", ${product.id_product})';>Ver Producto</a>
             </div>
             </div>
     `
