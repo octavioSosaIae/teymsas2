@@ -4,7 +4,10 @@ window.loadContent = function (page) {
         var regex = /(\d+)/g;
         const productId = page.match(regex)
         history.pushState(null, "", `product.html?productId=${productId}`);
+    }else{
+        history.pushState(null, "", `index`);
     }
+
     fetch(page)
         .then(response => response.text())
         .then(data => {
