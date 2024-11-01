@@ -1,11 +1,11 @@
 // Función para cargar contenido dinámico
 window.loadContent = function (page) {
-    if(page.includes("productId=")){
+    if (page.includes("productId=")) {
         var regex = /(\d+)/g;
         const productId = page.match(regex)
         history.pushState(null, "", `product.html?productId=${productId}`);
-    }else{
-        history.pushState(null, "", `index`);
+    } else {
+        history.pushState(null, "", './');
     }
 
     fetch(page)
@@ -24,15 +24,6 @@ window.loadContent = function (page) {
 
                     // Agregar el nuevo script al DOM
                     document.body.appendChild(newScript);
-
-                    // // Escuchar cuando se carga el módulo
-                    // newScript.onload = () => {
-                    //     console.log('Módulo cargado correctamente:', newScript.src);
-                    // };
-
-                    // newScript.onerror = (error) => {
-                    //     console.error('Error al cargar el módulo:', error);
-                    // };
                 }
             });
         })
