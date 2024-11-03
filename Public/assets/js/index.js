@@ -60,7 +60,8 @@ window.onload = () => {
     let loginForm = document.querySelector('.login-form');
 
     document.querySelector('#login-btn').onclick = () => {
-        if (localStorage.getItem('session')) {
+        const session =  new userDAO().getSession();
+        if (session) {
             loadContent('../user/usuario.html');
         } else {
             loginForm.classList.toggle('active');

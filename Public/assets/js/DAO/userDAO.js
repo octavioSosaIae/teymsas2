@@ -23,11 +23,20 @@ export default class userDAO {
     }
 
      getSession(){
-        let session = windows.localStorage.getItem("session");
+        let session = window.localStorage.getItem("session");
         if(session){
             return true;
         }else{
-            return null;
+            return false;
         }    
     }
+
+    async logoutSession(){
+        let url  = server+"/UserController.php?function=logout";
+        let response = await fetch(url);
+        let json = await response.json();
+        window.localStorage.removeItem("session");
+        return json;
+    }
+
 }

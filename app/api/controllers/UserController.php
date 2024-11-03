@@ -376,7 +376,6 @@ function logout()
 
 
         if (!$logout) {
-
             throw new Errorexception("Ocurrio un error");
         }
 
