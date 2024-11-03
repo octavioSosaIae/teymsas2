@@ -35,6 +35,7 @@ window.loadContent = function (page) {
 import userDAO from "./DAO/userDAO.js";
 
 window.onload = () => {
+    const session =  new userDAO().getSession();
 
     loadContent('../user/PaginaPrincipal.html');
 
@@ -60,7 +61,7 @@ window.onload = () => {
     let loginForm = document.querySelector('.login-form');
 
     document.querySelector('#login-btn').onclick = () => {
-        const session =  new userDAO().getSession();
+        const session =  new userDAO().getLocalSession();
         if (session) {
             loadContent('../user/usuario.html');
         } else {
@@ -78,6 +79,7 @@ window.onload = () => {
         const respuesta = await new userDAO().login(email, password);
 
         if (respuesta.success) {
+            alert("Bienvenido.")
             location.reload()
         } else {
             alert(respuesta.message);
