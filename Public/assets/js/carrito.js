@@ -14,3 +14,8 @@ window.onload = async()=>{
     });
     
 }
+function eliminarproductocarrito(){
+
+    
+}
+
