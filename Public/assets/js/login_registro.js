@@ -69,6 +69,7 @@ function indexFunctions() {
         let datos = await respuesta.json();
 
         if(datos.success){
+            alert("Vuebvebudi")
             location.href ="http://http://localhost/teymsas2/public/user/";
         } else{
             alert(datos.error)

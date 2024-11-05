@@ -50,6 +50,10 @@ switch ($function) {
 
         logout();
         break;
+
+    case "getSession": //
+        getSession();
+        break;
 }
 
 
@@ -376,7 +380,6 @@ function logout()
 
 
         if (!$logout) {
-
             throw new Errorexception("Ocurrio un error");
         }
 
@@ -396,5 +399,25 @@ function logout()
         ]);
     }
 
+    $response->send();
+}
+
+function getSession()
+{
+    $response = new Response;
+
+    if (isset($_SESSION['id_user'])) {
+        $response->setStatusCode(200);
+        $response->setBody([
+            'success' => true,
+            'message' => 'Existe sesión de usuario.'
+        ]);
+    } else {
+        $response->setStatusCode(400);
+        $response->setBody([
+            'success' => false,
+            'message' => 'No existe sesión de usuario.'
+        ]);
+    }
     $response->send();
 }

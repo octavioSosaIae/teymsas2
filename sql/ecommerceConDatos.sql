@@ -271,8 +271,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `complete_name_user`, `email_user`, `password_user`, `phone_user`, `role_user`, `created_at_user`) VALUES
-(1, 'root', 'root@root.com', 'root', '666', 'A', '2024-11-01 13:46:38'),
-(2, 'user', 'user@user.com', 'user', '777', 'C', '2024-11-01 13:52:24');
+(1, 'root', 'root@root.com', '$2y$10$jsasUdcl99l/GaIbZtTFdOXXQ.U0mTVAqmXVOcyJ3gAwXSiNf8bG2', '666', 'A', '2024-11-01 13:46:38'),
+(2, 'user', 'user@user.com', '$2y$10$jsasUdcl99l/GaIbZtTFdOXXQ.U0mTVAqmXVOcyJ3gAwXSiNf8bG2', '777', 'C', '2024-11-01 13:52:24');
 
 --
 -- Índices para tablas volcadas
