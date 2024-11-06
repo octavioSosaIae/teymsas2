@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="../assets/css/styleForm.css">
+
+<script type="module" src="../assets/js/product_create.js"></script>
+
+<div id="container-product">
+    <form id="formAgregar">
+        <label for="description_product">Descripcion del producto:</label>
+        <input type="text" id="description_product" name="description_product" uct required>
+
+        <label for="details_product">Detalles del producto:</label>
+        <input type="text" id="details_product" name="details_product" required>
+
+        <label for="price_product">Precio del producto:</label>
+        <input type="number" id="price_product" name="price_product" required>
+
+        <label for="thumbnail_product">Imagen del producto:</label>
+        <input type="file" id="thumbnail_product" name="thumbnail_product" required>
+
+        <label for="stock_product">Stock del producto:</label>
+        <input type="number" id="stock_product" name="stock_product" required>
+
+        <label for="measures_product">Medidas del producto:</label>
+        <input type="text" id="measures_product" name="measures_product" required>
+
+
+        <button type="submit" class="btn">Agregar Producto</button>
+
+    </form>
+</div>

@@ -28,13 +28,12 @@ async function showProducts(product) {
                 <td>${product[i].stock_product}</td>    
                 <td>${product[i].measures_product}</td>    
                 <td>${product[i].id_category}</td>    
-        <td>
-            <select>
-                <option value="">...</option>
-                <option value="editar">Editar</option>
-                <option value="eliminar">Eliminar</option>
-            </select>
-        </td>    
+             <td>
+ 
+             <button>Editar</button>
+             <button>Eliminar</button>
+
+             </td>   
                         </tr>
                 `;
     }
@@ -43,31 +42,33 @@ async function showProducts(product) {
 
 }
 
-function addProduct(){
+async function addProduct(product) {
+
     let form = document.querySelector("#agregarProducto");
+    
 
-    formElement.onsubmit = async (e) => {
-        e.preventDefault();
-        let fromFormData = new FormData(formElement);
-        let url = 'http://localhost/teymsas2/app/api/controllers/ProductController.php?function=create';
+    let url = "http://localhost/teymsas2/app/api/controllers/ProductController.php?function=create";
+    let formData = new FormData();
 
-        let config = {
-            method: 'POST',
-            body: fromFormData
-        };
 
-        let response = await fetch(url, config);
-        let data = await response.json();
+    formData.append("description_product", description_product);
+    formData.append("details_product", details_product);
+    formData.append("price_product", price_product);
+    formData.append("thumbnail_product", thumbnail_product);
+    formData.append("stock_product", stock_product);
+    formData.append("measures_product", measures_product);
+    formData.append("id_category", id_category);
 
-        console.log(data);
 
-        if (data == true) {
-            alert('Producto agregado exitosamente')
-        } else (
-            alert('Error al agregar el producto')
-        )
+    let config = {
+        method: "POST",
+        body: formData
+
     }
-   
+    let response = await fetch(url, config);
+    let respuesta= await response.json();
+    return respuesta;
+
 }
 
 
