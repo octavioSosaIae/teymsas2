@@ -144,6 +144,7 @@ class Product
 
                 if ($stmt->affected_rows > 0) {
                     return true;
+            
                 } else {
                     return false;
                 }

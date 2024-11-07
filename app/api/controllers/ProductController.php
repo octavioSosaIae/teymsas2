@@ -278,6 +278,8 @@ function updateProduct()
             'error' => $e->getMessage()
         ]);
     }
+    $response->send();
+
 }
 
 function deleteProduct()
@@ -298,7 +300,6 @@ function deleteProduct()
 
 
             $productDeleted = (new Product())->delete($product['id_product']);
-
 
             if ($productDeleted == true) {
 
@@ -331,4 +332,6 @@ function deleteProduct()
             'error' => $e->getMessage()
         ]);
     }
+    $response->send();
+
 }

@@ -1,15 +1,15 @@
-window.onload = () => {
+import productDAO from "../js/DAO/productDAO.js";
 
+window.onload = () => {
     obtainProducts();
+
 }
 
-async function obtainProducts() {
 
-    let url = 'http://localhost/teymsas2/app/api/controllers/ProductController.php?function=getAll';
-    let query = await fetch(url);
-    let data = await query.json();
-    productList = data;
-    showProducts(data.data);
+
+async function obtainProducts() {
+    const result = await new productDAO().getAll();
+    showProducts(result.data);
 }
 
 async function showProducts(product) {
@@ -30,46 +30,45 @@ async function showProducts(product) {
                 <td>${product[i].id_category}</td>    
              <td>
  
-             <button>Editar</button>
-             <button>Eliminar</button>
+             <button onclick=window.location.href="product.html?productId=${product[i].id_product}">Editar</button>
+             <button onclick="eliminarProducto(${product[i].id_product})">Eliminar</button>
 
              </td>   
                         </tr>
                 `;
+
+
     }
 
 
 
 }
 
-async function addProduct(product) {
+window.eliminarProducto = async function (id_product) {
 
-    let form = document.querySelector("#agregarProducto");
-    
+    const result = await new productDAO().deleteProduct(id_product);
 
-    let url = "http://localhost/teymsas2/app/api/controllers/ProductController.php?function=create";
-    let formData = new FormData();
+    console.log(result);
 
+    if (result.success) {
+        alert(result.message);
 
-    formData.append("description_product", description_product);
-    formData.append("details_product", details_product);
-    formData.append("price_product", price_product);
-    formData.append("thumbnail_product", thumbnail_product);
-    formData.append("stock_product", stock_product);
-    formData.append("measures_product", measures_product);
-    formData.append("id_category", id_category);
+        obtainProducts();
 
-
-    let config = {
-        method: "POST",
-        body: formData
-
+    } else {
+        alert(result.message);
     }
-    let response = await fetch(url, config);
-    let respuesta= await response.json();
-    return respuesta;
+
+
+};
+
+
+
+async function editarProducto(id_product) {
+
+    const result = await new productDAO().UpdateProduct(id_product);
+
 
 }
-
 
 

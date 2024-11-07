@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
 let formAgregar = document.querySelector("#formAgregar");
 
- formAgregar.onsubmit = async (e) => {
+formAgregar.onsubmit = async (e) => {
 
     e.preventDefault();
     let description_product = document.querySelector('#description_product').value;
