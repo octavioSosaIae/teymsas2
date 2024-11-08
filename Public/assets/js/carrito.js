@@ -14,7 +14,9 @@ window.onload = async()=>{
     });
     
 }
-function eliminarproductocarrito(){
+fun
+function eliminarproductocarrito(productId){
+
 
     
 }
