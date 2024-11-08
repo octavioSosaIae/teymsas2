@@ -64,10 +64,20 @@ window.eliminarProducto = async function (id_product) {
 
 
 
-async function editarProducto(id_product) {
+async function editarProducto(description_product,details_product,price_product,thumbnail_product,stock_product,measures_product,id_category,id_product) {
 
-    const result = await new productDAO().UpdateProduct(id_product);
+    const result = await new productDAO().UpdateProduct(description_product,details_product,price_product,thumbnail_product,stock_product,measures_product,id_category,id_product);
 
+    console.log(result);
+
+    if (result.success) {
+        alert(result.message);
+
+        obtainProducts();
+
+    } else {
+        alert(result.message);
+    }
 
 }
 

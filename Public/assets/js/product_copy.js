@@ -10,7 +10,6 @@ const product = response.producto;
 const containerProduct = document.querySelector('#container-product');
 
 const form = document.createElement('form');
-form.setAttribute('action', 'update_product.php');
 form.setAttribute('method', 'POST');
 form.setAttribute('enctype', 'multipart/form-data');
 form.classList.add('profile-form');
