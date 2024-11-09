@@ -14,7 +14,8 @@ formAgregar.onsubmit = async (e) => {
     let description_product = document.querySelector('#description_product').value;
     let details_product = document.querySelector('#details_product').value;
     let price_product = document.querySelector('#price_product').value;
-    let thumbnail_product = document.querySelector('#thumbnail_product').value;
+    let thumbnail_product = "";
+    // let thumbnail_product = document.querySelector('#thumbnail_product').value;
     let stock_product = document.querySelector('#stock_product').value;
     let measures_product = document.querySelector('#measures_product').value;
     let id_category = document.querySelector('#id_category').value;

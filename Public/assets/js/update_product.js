@@ -15,9 +15,8 @@ form.setAttribute('method', 'POST');
 form.setAttribute('enctype', 'multipart/form-data');
 form.classList.add('profile-form');
 
-window.onload = () => { 
-    obtenerCategorias();
-}
+
+{/* <img src="./../storage/thumbnails/${product.thumbnail_product}" alt="Miniatura del producto" style="max-width: 150px; height: auto; display: block; margin-bottom: 10px;"> */}
 
 form.innerHTML = `
         <label for="description_product">Descripción del producto:</label>
@@ -32,7 +31,6 @@ form.innerHTML = `
         <label for="thumbnail_product">Miniatura del producto actual:</label>
         <div style="margin-bottom: 15px;">
             <!-- Muestra la imagen actual -->
-            <img src="./../storage/thumbnails/${product.thumbnail_product}" alt="Miniatura del producto" style="max-width: 150px; height: auto; display: block; margin-bottom: 10px;">
                 
             <!-- Input para cargar una nueva imagen -->
             <label for="new_thumbnail_product">Subir nueva miniatura:</label>
@@ -107,3 +105,4 @@ async function obtenerCategorias() {
 
 
 
+obtenerCategorias();

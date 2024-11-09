@@ -8,7 +8,7 @@ class conn
 
         $host = "localhost";
         $user = "root";
-        $pass = "";
+        $pass = "root";
         $db = "ecommerce";
         $port = 3306;
 
