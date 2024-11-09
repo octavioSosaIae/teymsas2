@@ -1,6 +1,10 @@
 import productDAO from "./DAO/productDAO.js";
+import categoryDAO from "./DAO/categoryDAO.js";
 
-const urlParams = new URLSearchParams(window.location.search);
+window.onload = () => {
+obtenerCategorias();
+
+}
 
 let formAgregar = document.querySelector("#formAgregar");
 
@@ -16,17 +20,26 @@ formAgregar.onsubmit = async (e) => {
     let id_category = document.querySelector('#id_category').value;
 
     const response = await new productDAO().createProduct(description_product, details_product, price_product, thumbnail_product, stock_product, measures_product, id_category);
-    const product = response.producto;
-
-    alert("PRODUCTO AGREGADO");
+    alert(response.message);
 
 
 }
 
-const containerProduct = document.querySelector('#container-product');
 
-const form = document.createElement('form');
-form.setAttribute('action', 'update_product.php');
-form.setAttribute('method', 'POST');
-form.setAttribute('enctype', 'multipart/form-data');
-form.classList.add('profile-form');
+async function obtenerCategorias(){
+
+
+    let categorias = await new categoryDAO().getAll();
+    let selectCategorias = document.querySelector('#id_category');
+
+    
+     categorias.data.forEach(categoria => {
+        let option = document.createElement('option');
+         option.value = categoria.id_category;
+         option.innerText = categoria.description_category;
+         selectCategorias.appendChild(option);
+        
+     });
+
+}
+

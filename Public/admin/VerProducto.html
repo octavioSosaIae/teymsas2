@@ -4,13 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../assets/css/dashboard_admin.css">
 </head>
 <body>
     <main>
+        <!-- Barra lateral -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="../assets/img/Logo2.png">
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="./dashboard.php">Dashboard</a></li>
+                <li><a href="../admin/VerProducto.html">Ver Productos</a></li>
+                <li><a href="../admin/crearProduct.html">Crear producto</a></li>
+        
+            </ul>
+        </nav>
+
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+
         <h1>Ver Productos</h1>  
         <div>
 
-            <button onclick="window.location.href='CrearProducto.html'">Agregar producto</button>
             <table>
                 <thead>
                     
@@ -21,7 +40,6 @@
                         <th>Nombre</th>
                         <th>Detalles</th>
                         <th>Precio</th>
-                        <th>Imagen</th>
                         <th>Stock</th>
                         <th>Medidas</th>
                         <th>Categoria</th>
@@ -34,11 +52,9 @@
         </table>
     
         </div> 
+
+        <script type="module" src="../assets/js/ver_productos_admin.js" ></script>
+
     </main>
-   
-
-    <script type="module" src="../assets/js/ver_productos_admin.js" ></script>
-    
 </body>
-
 </html>

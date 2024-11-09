@@ -50,7 +50,9 @@ class Product
             $conn = $connection->connect();
 
 
-            $stmt = $conn->prepare("SELECT * FROM products;");
+            $stmt = $conn->prepare("SELECT c.id_category, c.description_category, p.id_product, p.description_product,p.details_product,p.price_product,p.stock_product, p.measures_product FROM products AS p 
+            INNER JOIN  categories AS c 
+            ON p.id_category = c.id_category;");
 
             if ($stmt->execute()) {
 
@@ -78,7 +80,10 @@ class Product
             $connection = new conn;
             $conn = $connection->connect();
 
-            $stmt = $conn->prepare("SELECT * FROM products WHERE id_product = ?;");
+            $stmt = $conn->prepare("SELECT c.id_category, c.description_category, p.id_product, p.description_product,p.details_product,p.price_product,p.stock_product, p.measures_product FROM products AS p 
+             INNER JOIN  categories AS c 
+             ON p.id_category = c.id_category
+             WHERE p.id_product = ?;");
             $stmt->bind_param("i", $id_product);
 
             if ($stmt->execute()) {
@@ -144,7 +149,6 @@ class Product
 
                 if ($stmt->affected_rows > 0) {
                     return true;
-            
                 } else {
                     return false;
                 }

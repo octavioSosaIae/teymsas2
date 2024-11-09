@@ -24,10 +24,9 @@ async function showProducts(product) {
                 <td>${product[i].description_product}</td>    
                 <td>${product[i].details_product}</td>
                 <td>${product[i].price_product}</td>
-                <td>${product[i].thumbnail_product}</td>    
                 <td>${product[i].stock_product}</td>    
                 <td>${product[i].measures_product}</td>    
-                <td>${product[i].id_category}</td>    
+                <td>${product[i].description_category}</td>    
              <td>
  
              <button onclick=window.location.href="product.html?productId=${product[i].id_product}">Editar</button>
@@ -62,23 +61,5 @@ window.eliminarProducto = async function (id_product) {
 
 };
 
-
-
-async function editarProducto(description_product,details_product,price_product,thumbnail_product,stock_product,measures_product,id_category,id_product) {
-
-    const result = await new productDAO().UpdateProduct(description_product,details_product,price_product,thumbnail_product,stock_product,measures_product,id_category,id_product);
-
-    console.log(result);
-
-    if (result.success) {
-        alert(result.message);
-
-        obtainProducts();
-
-    } else {
-        alert(result.message);
-    }
-
-}
 
 

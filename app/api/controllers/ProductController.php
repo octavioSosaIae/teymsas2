@@ -86,14 +86,14 @@ function createProduct()
                 $response->setStatusCode(201);
                 $response->setBody([
                     'success' => true,
-                    'producto creado:' => $productCreated
+                    'message' => 'Producto creado'
 
                 ]);
             } else {
                 $response->setStatusCode(400); // Código de estado para solicitud incorrecta
                 $response->setBody([
                     'success' => false,
-                    'error' => 'No se pudo crear el producto.'
+                    'message' => 'No se pudo crear el producto.'
                 ]);
             }
         } else {
@@ -101,7 +101,7 @@ function createProduct()
             $response->setStatusCode(400); // Código de estado para solicitud incorrecta
             $response->setBody([
                 'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
+                'message' => 'Todos los campos son obligatorios.'
             ]);
         }
     } catch (Exception $e) {
@@ -111,7 +111,7 @@ function createProduct()
         $response->setStatusCode(400); // Código de estado para solicitud incorrecta
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
 
@@ -141,7 +141,7 @@ function getAllProducts()
         $response->setStatusCode(400); // Código de estado para solicitud incorrecta
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
     $response->send();
@@ -180,14 +180,14 @@ function getByIdProduct()
                 $response->setStatusCode(404); // Código de estado para solicitud incorrecta
                 $response->setBody([
                     'success' => false,
-                    'error' => "Producto no encontrado"
+                    'message' => "Producto no encontrado"
                 ]);
             }
         } else {
             $response->setStatusCode(400); // Código de estado para solicitud incorrecta
             $response->setBody([
                 'success' => false,
-                'error' => 'El ID del producto es obligatorio.'
+                'message' => 'El ID del producto es obligatorio.'
             ]);
         }
     } catch (Exception $e) {
@@ -196,7 +196,7 @@ function getByIdProduct()
         $response->setStatusCode(400); // Código de estado para solicitud incorrecta
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
 
@@ -275,7 +275,7 @@ function updateProduct()
         $response->setStatusCode(400); // Código de estado para solicitud incorrecta
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
     $response->send();
@@ -329,7 +329,7 @@ function deleteProduct()
         $response->setStatusCode(400); // Código de estado para solicitud incorrecta
         $response->setBody([
             'success' => false,
-            'error' => $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
     $response->send();
