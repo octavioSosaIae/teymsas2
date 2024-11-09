@@ -10,9 +10,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     /* background-image: url("../img/Captura de pantalla 2024-05-13 145709.png");  */
-  
+    height: 100%;
   }
   
   .formLogin {
@@ -35,8 +34,8 @@
     border: 5px solid rgb(224, 21, 21);
     padding: 10px 40px;
     max-width: 600px;
-    width: 200px;
-    height: 900px; 
+    width: 200px; 
+    height: 2000px;
 
   }
   
@@ -76,7 +75,7 @@
   }
   
   .panelvista {
-    height: 700px;
+    height: 900px;
     width: 400px;
     position: relative;
     overflow: hidden;

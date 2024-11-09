@@ -330,7 +330,7 @@ function updatePasswordUser()
 
 
 
-            if ($passwordUpdated == true) {
+            if ($passwordUpdated === true) {
 
                 $response->setStatusCode(200);
                 $response->setBody([

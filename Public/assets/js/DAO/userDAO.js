@@ -21,6 +21,21 @@ export default class userDAO {
         return json;
     }
 
+    async updatePassword(currentPassword, newPassword){
+        let url = server + "/UserController.php?function=updatePassword";
+        let formData = new FormData();
+        formData.append("current_password", currentPassword);
+        formData.append("new_password", newPassword);
+        let config = {
+            method: "POST",
+            body: formData
+        }
+        let response = await fetch(url, config);
+        let json = await response.json();
+
+        return json;
+    }
+
     getLocalSession() {
         let session = window.localStorage.getItem("session");
         if (session) {

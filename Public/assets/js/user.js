@@ -16,4 +16,25 @@ document.querySelector("#logout").addEventListener("click", async function (e) {
     } else {
         alert(result.message);
     }
-})
+});
+
+
+document.querySelector("#changePassword").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    let currentPassword = document.querySelector("#current_password").value;
+    let newPassword =document.querySelector("#new_password").value;
+    let confirmPassword =document.querySelector("#confirm_password").value;
+
+    if (newPassword === confirmPassword){
+        const result = await new userDAO().updatePassword(currentPassword, newPassword);
+        if (result.success) {
+            alert(result.message);
+            location.href = "http://localhost/teymsas2/public/user/";
+        } else {
+            alert(result.error);
+        }
+
+    } else {
+        alert("La confirmacion de contraseñas no coincide")
+    }
+});
