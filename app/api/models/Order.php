@@ -118,6 +118,26 @@ class Order
         }
     }
 
+    public function getByCustomer($id_customer)
+    {
+        try {
+            $connection = new conn;
+            $conn = $connection->connect();
+            $stmt = $conn->prepare("SELECT * FROM customer_orders WHERE id_customer = ?");
+            $stmt->bind_param("i", $id_customer);
+            if ($stmt->execute()) {
+
+                $result = $stmt->get_result();
+                $order_status = $result->fetch_assoc();
+                return $order_status;
+            } else {
+                throw new Exception("No se encontraron ordenes " . $stmt->error);
+            }
+        } catch (Exception $e) {
+            throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
+        }
+    }
+
 
     public function update($date_order, $total_order, $id_payment_method, $id_order_status, $id_customer_order)
     {

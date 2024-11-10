@@ -1,4 +1,5 @@
 // Función para cargar contenido dinámico
+import productDAO from '../js/DAO/productDAO.js';
 window.loadContent = function (page) {
     if (page.includes("productId=")) {
         var regex = /(\d+)/g;
@@ -35,7 +36,7 @@ window.loadContent = function (page) {
 import userDAO from "./DAO/userDAO.js";
 
 window.onload = () => {
-    const session =  new userDAO().getSession();
+    const session = new userDAO().getSession();
 
     loadContent('../user/PaginaPrincipal.html');
 
@@ -56,12 +57,17 @@ window.onload = () => {
         searchForm.classList.remove('active');
         loginForm.classList.remove('active');
         navbar.classList.remove('active');
+
+        getCart();
     }
+
+
+
 
     let loginForm = document.querySelector('.login-form');
 
     document.querySelector('#login-btn').onclick = () => {
-        const session =  new userDAO().getLocalSession();
+        const session = new userDAO().getLocalSession();
         if (session) {
             loadContent('../user/usuario.html');
         } else {
@@ -94,4 +100,70 @@ window.onload = () => {
         shoppingCart.classList.remove('active');
         loginForm.classList.remove('active');
     }
+
 }
+
+
+
+
+async function getCart() {
+
+    document.querySelector("#cart").innerHTML = "";
+
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    if (cart) {
+        let total = 0;
+
+        cart.forEach(async item => {
+
+            const result = await new productDAO().getById(item.id);
+
+            if (result.success) {
+
+
+                document.querySelector("#cart").innerHTML += `
+
+                <div class="box">
+                <span class="material-symbols-outlined" onclick=removeFromCart(${result.producto.id_product})>
+                delete
+                </span>
+                <img src="../storage/imgproductos/Pro1.png" alt="">
+                <div class="box-content">
+                <h3>${result.producto.description_product}</h3>
+                <span class="price">$ ${result.producto.price_product}</span>
+                <span class="quantity">cant : ${item.cant}</span>
+                </div>
+                </div>
+                 `
+            }
+
+
+            total += parseInt(result.producto.price_product) * item.cant;
+
+            document.querySelector("#total").innerText = total;
+
+        });
+
+
+    } else {
+        document.querySelector("#total").innerText = 0;
+    }
+
+
+}
+
+
+window.removeFromCart = function (productId){
+
+    let cart = JSON.parse(localStorage.getItem("cart"));
+
+    cart = cart.filter(item => item.id !== productId);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Producto eliminado del carrito");
+
+    getCart();
+ 
+}
+
+

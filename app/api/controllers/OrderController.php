@@ -17,6 +17,10 @@ switch ($function) {
         getByIdOrder();
         break;
 
+    case "getByCustomer":
+        getOrderByCustomer();
+        break;
+
     case "getProducts":
         getProductsOrder();
         break;
@@ -154,7 +158,7 @@ function getByIdOrder()
                 $response->setBody([
                     'success' => true,
                     'message' => 'orden encontrada',
-                    'Orden:' => $orderById
+                    'Orden' => $orderById
                 ]);
             } else {
 
@@ -186,7 +190,62 @@ function getByIdOrder()
     $response->send();
 }
 
-function getProductsOrder(){
+function getOrderByCustomer()
+{
+
+    try {
+        $response = new Response;
+
+        // para evitar enviar datos vacios a la base de datos
+
+        if (isset($_GET['customerId']) && !empty($_GET['customerId'])) {
+
+            $order = [
+                "customerId" => $_GET['customerId']
+            ];
+
+            $orderById = (new Order())->getByCustomer($order['customerId']);
+
+
+            if ($orderById) {
+                $response->setStatusCode(200);
+                $response->setBody([
+                    'success' => true,
+                    'message' => 'orden encontrada',
+                    'Orden' => $orderById
+                ]);
+            } else {
+
+                $response->setStatusCode(404); // Código de estado para solicitud incorrecta
+                $response->setBody([
+                    'success' => false,
+                    'error' => "Orden no encontrada"
+                ]);
+            }
+        } else {
+
+            // Responder con un error
+            $response->setStatusCode(400);
+            $response->setBody([
+                'success' => false,
+                'error' => 'Todos los campos son obligatorios.'
+            ]);
+        }
+    } catch (Exception $e) {
+
+        // Responder con un error
+        $response->setStatusCode(400); // Código de estado para solicitud incorrecta
+        $response->setBody([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+
+    $response->send();
+}
+
+function getProductsOrder()
+{
 
     try {
 
@@ -214,7 +273,8 @@ function getProductsOrder(){
     $response->send();
 }
 
-function updateOrder(){
+function updateOrder()
+{
 
     try {
         $response = new Response;
@@ -272,8 +332,9 @@ function updateOrder(){
     $response->send();
 }
 
-function deleteOrder(){
-    
+function deleteOrder()
+{
+
     try {
         $response = new Response;
 
@@ -323,5 +384,4 @@ function deleteOrder(){
         ]);
     }
     $response->send();
-
 }

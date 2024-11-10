@@ -165,6 +165,7 @@ body{
 .header .shopping-cart .box .material-symbols-outlined{
     font-size: 2rem;
     position: absolute;
+    cursor: pointer;
     top: 50%; right: 2rem;
     color: var(--light-color);
     transform: translateY(-50%);
