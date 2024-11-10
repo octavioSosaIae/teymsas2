@@ -44,8 +44,8 @@ addToCartbuton.onclick = (evento) => {
         } else {
             let cart= [];
             let productSelected={
-                id: id_product
-                cant: 
+                // id: id_product
+                // cart:
             }
         }
 
@@ -54,44 +54,3 @@ addToCartbuton.onclick = (evento) => {
         alert("agregar una cantidad al producto")
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-function addToCart(product) {
-    let producto = JSON.parse(localStorage.getItem('productoadd'));
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Verificar si el producto ya está en el carrito
-    const productIndex = cart.findIndex(item => item.id_product == product.id_product);
-
-    if (productIndex == -1) {
-        // Si no está, agregar el producto al carrito
-        cart.push({
-            id_product: product.id_product,
-            description_product: product.description_product,
-            price_product: product.price_product,
-            quantity: 1  // Agregar con cantidad inicial 1
-        });
-    } else {
-        // Si ya está, aumentar la cantidad
-        cart[productIndex].quantity += 1;
-    }
-
-    // Guardar el carrito en el almacenamiento local
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Mostrar mensaje de confirmación
-    alert(`${product.description_product} se ha añadido al carrito correctamente!`);
-
-
-}
