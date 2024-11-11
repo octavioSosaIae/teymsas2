@@ -3,6 +3,7 @@ import server from './server.js';
 export default class orderDAO{
 
     async createOrder(date_order, total_order, id_payment_method, id_order_status, productos){
+
         let url= server + '/OrderController.php?function=create';
         let formData = new FormData();
         formData.append('date_order', date_order);

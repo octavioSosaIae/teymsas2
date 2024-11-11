@@ -160,38 +160,37 @@ window.restarCantidad = (productId) => {
 }
 
 
-window.enviarOrden = async () =>{
+window.enviarOrden = async () => {
 
 
-    
-    let cart = JSON.parse(localStorage.getItem("cart"));
+
+    let cartSend = JSON.parse(localStorage.getItem("cart"));
 
     let total_order = 0;
 
-    if (cart && cart.length > 0) {
+    if (cartSend && cartSend.length > 0) {
 
-        cart.forEach(async item => {
-
+        const updatedCartSend = await Promise.all(cartSend.map(async item => {
             const result = await new productDAO().getById(item.id);
 
             if (result.success) {
-           
                 item.precioUnitario = result.producto.price_product;
-                item.subtotal = item.precioUnitario*item.cant;
-           
-                return item;
-
+                item.subtotal = item.precioUnitario * item.cant;
             }
-        });
 
-      let date_order = "";
-      let id_payment_method = "";
-      let id_order_status = "";
-        
-     const enviar = await new orderDAO().createOrder(date_order, total_order, id_payment_method, id_order_status, cart);
+            return item;
+        }));
 
-     console.log(enviar);
+        console.log(updatedCartSend);
 
 
-}
+        let date_order = "";
+        let id_payment_method = "";
+        let id_order_status = "";
+
+        const enviar = await new orderDAO().createOrder(date_order, total_order, id_payment_method, id_order_status, cartSend);
+
+        console.log(enviar);
+
+    }
 }
