@@ -178,6 +178,8 @@ window.enviarOrden = async () => {
                 item.subtotal = item.precioUnitario * item.cant;
             }
 
+            total_order += item.subtotal
+
             return item;
         }));
 
