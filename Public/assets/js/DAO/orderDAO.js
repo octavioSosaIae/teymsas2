@@ -2,17 +2,22 @@ import server from './server.js';
 
 export default class orderDAO{
 
-    async createOrder(description_status){
+    async createOrder(date_order, total_order, id_payment_method, id_order_status, productos){
         let url= server + '/OrderController.php?function=create';
         let formData = new FormData();
-        formData.append('description_status', description_status);
+        formData.append('date_order', date_order);
+        formData.append('total_order', total_order);
+        formData.append('id_payment_method', id_payment_method);
+        formData.append('id_order_status', id_order_status);
+        formData.append('products', JSON.stringify(productos));
         let config = {
             method: 'POST',
             body: formData
         };
     
+
         let response = await fetch(url, config);
-        let data = await response.json();
+        let data = await response.text();
         return data;
         }
 

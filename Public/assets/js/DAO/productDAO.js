@@ -33,7 +33,6 @@ export default class productDAO {
         let url = server + '/ProductController.php?function=getById&productId=' + productId;
         let response = await fetch(url);
         let data = await response.json();
-        console.log(data)
         return data;
     }
 

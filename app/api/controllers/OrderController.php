@@ -43,7 +43,7 @@ function createOrder()
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (isset($_POST['date_order']) && isset($_POST['total_order']) && isset($_POST['id_payment_method']) && isset($_POST['id_order_status']) && !empty($_POST['date_order']) && !empty($_POST['total_order']) && !empty($_POST['id_payment_method']) && !empty($_POST['id_order_status'])) {
+        if (isset($_POST['date_order']) && isset($_POST['total_order']) && isset($_POST['id_payment_method']) && isset($_POST['id_order_status'])) {
 
 
             $Order = [
@@ -54,12 +54,13 @@ function createOrder()
 
             ];
 
-            if (isset($_POST['list_products']) && !empty($_POST['list_products']) && is_array($_POST['list_products'])) {
+            if (isset($_POST['products'])) {
 
-                $products = $_POST['list_products'];
+                    // $products = $_POST['list_products'];
+                $products = json_decode($_POST['products'], true);
 
 
-                $orderCreated = (new Order())->create($Order['date_order'], $Order['total_order'], $Order['id_payment_method'], $Order['id_order_status'], $products['list_products']);
+                $orderCreated = (new Order())->create($Order['date_order'], $Order['total_order'], $Order['id_payment_method'], $Order['id_order_status'], $products);
 
 
                 if ($orderCreated == true) {

@@ -8,6 +8,12 @@ class Order
     public function create($date_order, $total_order, $id_payment_method, $id_order_status, $products)
     {
 
+        session_start();
+        
+        $date_order = date("Y-m-d H:i:s");
+        $id_payment_method = 1;
+        $id_order_status = 1;
+
         $id_customer = $_SESSION['id_user'];
         $updated_by_order = $_SESSION['id_user'];
 
@@ -23,9 +29,9 @@ class Order
                     $stmt = $conn->prepare("INSERT INTO order_products_customer(id_customer_order, id_product, quantity_order_product_customer, unit_price_order_product_customer, total_order_product_customer) VALUES(? , ? , ? , ? , ?);");
 
 
-                    $id_product = $product['product_id'];
-                    $quantity = $product['quantity'];
-                    $unit_price = $product['unit_price'];
+                    $id_product = $product['id'];
+                    $quantity = $product['cant'];
+                    $unit_price = $product['precioUnitario'];
                     $total_order = $quantity * $unit_price;
 
                     $stmt->bind_param("iiidd", $id_customer_order, $id_product, $quantity_order_product_customer, $unit_price_order_product_customer, $total_order_product_customer);
