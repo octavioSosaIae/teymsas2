@@ -18,7 +18,7 @@ export default class orderDAO{
     
 
         let response = await fetch(url, config);
-        let data = await response.text();
+        let data = await response.json();
         return data;
         }
 

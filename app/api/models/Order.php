@@ -35,12 +35,13 @@ class Order
 
                     $stmt->bind_param("iiidd", $id_customer_order, $id_product, $quantity, $unit_price, $total_order);
 
-                    if ($stmt->execute()) {
-                        return true;
-                    } else {
+                    if (!$stmt->execute()) {
                         return false;
                     }
                 }
+                
+                return true;
+                
             } else {
                 throw new Exception("Error al agregar la orden: " . $stmt->error);
             }

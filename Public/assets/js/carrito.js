@@ -183,7 +183,6 @@ window.enviarOrden = async () => {
             return item;
         }));
 
-        console.log(updatedCartSend);
 
 
         let date_order = "";
@@ -192,7 +191,14 @@ window.enviarOrden = async () => {
 
         const enviar = await new orderDAO().createOrder(date_order, total_order, id_payment_method, id_order_status, cartSend);
 
-        console.log(enviar);
 
+        if(enviar.success){
+
+            alert("Checkout exitoso");
+
+            localStorage.removeItem('cart');
+
+        }
+        obtenerProductos();
     }
 }
