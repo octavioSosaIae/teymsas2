@@ -46,12 +46,12 @@ switch ($function) {
 
         break;
 
-    case "logout": //
+    case "logout": 
 
         logout();
         break;
 
-    case "getSession": //
+    case "getSession": 
         getSession();
         break;
 }
