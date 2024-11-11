@@ -194,18 +194,16 @@ function getByIdOrder()
 function getOrderByCustomer()
 {
 
+
     try {
         $response = new Response;
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (isset($_GET['customerId']) && !empty($_GET['customerId'])) {
 
-            $order = [
-                "customerId" => $_GET['customerId']
-            ];
+       
 
-            $orderById = (new Order())->getByCustomer($order['customerId']);
+            $orderById = (new Order())->getByCustomer();
 
 
             if ($orderById) {
@@ -223,15 +221,9 @@ function getOrderByCustomer()
                     'error' => "Orden no encontrada"
                 ]);
             }
-        } else {
+        
 
-            // Responder con un error
-            $response->setStatusCode(400);
-            $response->setBody([
-                'success' => false,
-                'error' => 'Todos los campos son obligatorios.'
-            ]);
-        }
+
     } catch (Exception $e) {
 
         // Responder con un error

@@ -124,9 +124,11 @@ class Order
         }
     }
 
-    public function getByCustomer($id_customer)
+    public function getByCustomer()
     {
         try {
+            session_start();
+            $id_customer = $_SESSION['user_id'];
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("SELECT * FROM customer_orders WHERE id_customer = ?");
