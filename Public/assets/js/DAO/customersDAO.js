@@ -2,10 +2,13 @@ import server from './server.js';
 
 export default class customerDAO {
 
-    async createCustomer(id_user_customer, document_customer, address_customer, business_name_customer, rut_customer, id_city) {
+    async createCustomer(complete_name_user,phone_user,email_user,password_user,document_customer, address_customer, business_name_customer,rut_customer, id_city) {
         let url = server + '/CustomersController.php?function=create';
         let formData = new FormData();
-        formData.append('id_user_customer', id_user_customer);
+        formData.append('document_customer',complete_name_user);
+        formData.append('document_customer',phone_user);
+        formData.append('document_customer',email_user);
+        formData.append('document_customer',password_user);
         formData.append('document_customer', document_customer);
         formData.append('address_customer', address_customer);
         formData.append('business_name_customer', business_name_customer);

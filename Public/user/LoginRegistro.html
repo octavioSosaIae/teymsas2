@@ -17,7 +17,7 @@
           <div id="contenedorformulario">
     
             <!-- iniciar secion  -->
-            <div class="formLogin">
+            <div class="formLogin" id="formLogin">
               <img src="../assets/img/Logo2.png" class="img">
               <h1>Iniciar sesión</h1>
               <form id="formularioLogin">
@@ -32,9 +32,9 @@
               </form>
             </div>
             <!-- Registrarse -->
-            <div class="formLoginRegistro">
+            <div class="formLoginRegistro" >
               <h1>Registrarse</h1>
-              <form id="formRegistro">
+              <form id="formLoginRegistro">
                 <label for="full_name">Nombre completo:</label>
                 <input type="text" id="full_name" name="full_name" class="formInput" required>
 
@@ -63,8 +63,9 @@
                 <label for="rut">Rut:</label>
                 <input type="text" id="rut" name="rut" class="formInput">
 
-                <label for="departamento_ciudad">Departamento Ciudad</label>
+                <label for="departamento">Departamento</label>
                 <select id="departamento"></select>
+                <label for="departamento">Ciudad</label>
                 <select id="ciudad"></select>
 
                 <button type="submit">Registrarse</button>
