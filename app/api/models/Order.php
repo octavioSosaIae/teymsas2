@@ -26,22 +26,22 @@ class Order
 
                 $id_customer_order = $stmt->insert_id;
                 foreach ($products as $product) {
-                    $stmt = $conn->prepare("INSERT INTO order_products_customer(id_customer_order, id_product, quantity_order_product_customer, unit_price_order_product_customer, total_order_product_customer) VALUES(? , ? , ? , ? , ?);");
-
+                    $stmt = $conn->prepare("INSERT INTO order_products_customers(id_customer_order, id_product, quantity_order_product_customer, unit_price_order_product_customer, total_order_product_customer) VALUES(? , ? , ? , ? , ?);");
 
                     $id_product = $product['id'];
                     $quantity = $product['cant'];
                     $unit_price = $product['precioUnitario'];
                     $total_order = $quantity * $unit_price;
 
-                    $stmt->bind_param("iiidd", $id_customer_order, $id_product, $quantity_order_product_customer, $unit_price_order_product_customer, $total_order_product_customer);
+                    $stmt->bind_param("iiidd", $id_customer_order, $id_product, $quantity, $unit_price, $total_order);
 
-                    if ($stmt->execute()) {
-                        return true;
-                    } else {
+                    if (!$stmt->execute()) {
                         return false;
                     }
                 }
+                
+                return true;
+                
             } else {
                 throw new Exception("Error al agregar la orden: " . $stmt->error);
             }
@@ -124,9 +124,11 @@ class Order
         }
     }
 
-    public function getByCustomer($id_customer)
+    public function getByCustomer()
     {
         try {
+            session_start();
+            $id_customer = $_SESSION['user_id'];
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("SELECT * FROM customer_orders WHERE id_customer = ?");

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-11-2024 a las 18:21:09
+-- Tiempo de generación: 11-11-2024 a las 19:11:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,11 +37,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id_category`, `description_category`) VALUES
-(1, 'EPS techos'),
-(2, 'EPS paredes'),
-(3, 'PIR techos'),
-(4, 'PIR paredes'),
-(5, 'PIR fachadas');
+(4, 'Pared'),
+(5, 'Techo');
 
 -- --------------------------------------------------------
 
@@ -54,6 +51,17 @@ CREATE TABLE `cities` (
   `name_city` varchar(30) NOT NULL,
   `id_department` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `cities`
+--
+
+INSERT INTO `cities` (`id_city`, `name_city`, `id_department`) VALUES
+(4, 'Colonia del sacramento', 3),
+(5, 'Tarariras', 3),
+(6, 'Juan lacaze', 3),
+(7, 'Rafael peraza', 6),
+(8, 'las piedras', 4);
 
 -- --------------------------------------------------------
 
@@ -69,6 +77,15 @@ CREATE TABLE `customers` (
   `rut_customer` varchar(50) DEFAULT NULL,
   `id_city` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `customers`
+--
+
+INSERT INTO `customers` (`id_user_customer`, `document_customer`, `address_customer`, `business_name_customer`, `rut_customer`, `id_city`) VALUES
+(5, '55377465', 'manuel De lobo 674', 'Complex', '92837465', 4),
+(6, '45677654', 'magallanes de jose', '', '', 7),
+(7, '54635241', 'piedras de la batalla 321', 'sheimsas', '', 8);
 
 -- --------------------------------------------------------
 
@@ -111,6 +128,17 @@ CREATE TABLE `departments` (
   `id_department` int(11) NOT NULL,
   `name_department` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `departments`
+--
+
+INSERT INTO `departments` (`id_department`, `name_department`) VALUES
+(3, 'colonia'),
+(4, 'montevideo'),
+(5, 'maldonado'),
+(6, 'san jose'),
+(7, 'canelones');
 
 -- --------------------------------------------------------
 
@@ -166,6 +194,16 @@ CREATE TABLE `order_status` (
   `description_status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `order_status`
+--
+
+INSERT INTO `order_status` (`id_order_status`, `description_status`) VALUES
+(1, 'Pendiente'),
+(2, 'En revision'),
+(3, 'Cancelada'),
+(4, 'En reparto');
+
 -- --------------------------------------------------------
 
 --
@@ -176,6 +214,14 @@ CREATE TABLE `payment_methods` (
   `id_payment_method` int(11) NOT NULL,
   `name_payment_method` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`id_payment_method`, `name_payment_method`) VALUES
+(1, 'Efectivo'),
+(2, 'Tarjeta de credito');
 
 -- --------------------------------------------------------
 
@@ -201,13 +247,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id_product`, `description_product`, `details_product`, `price_product`, `thumbnail_product`, `stock_product`, `measures_product`, `id_category`, `updated_at_product`, `updated_by_product`) VALUES
-(1, 'techo', 'gris', 10000.00, 'imagen', 10, '10cm', 1, '2024-11-01 14:19:42', 1),
-(2, 'pared', 'terracota', 12000.00, 'imagen', 15, '15cm', 2, '2024-11-01 14:19:42', 1),
-(3, 'techo', 'blanco', 10500.00, 'imagen', 8, '20cm', 1, '2024-11-01 14:19:42', 1),
-(4, 'pared', 'gris', 12500.00, 'imagen', 20, '10cm', 2, '2024-11-01 14:19:42', 1),
-(5, 'fachada', 'gris', 15000.00, 'imagen', 10, '8cm', 5, '2024-11-01 14:19:42', 1),
-(6, 'pared', 'blanco', 12500.00, 'imagen', 10, '15cm', 4, '2024-11-01 14:19:42', 1),
-(7, 'techo', 'terracota', 10500.00, 'imagen', 20, '15cm', 3, '2024-11-01 14:19:42', 1);
+(18, 'Techo de isopanel blanco', 'Techo de isopanel con excelente aislamiento térmico y durabilidad. Fácil de instalar y mantener, ideal para proyectos residenciales, comerciales e industriales.', 10000.00, 'imagen', 15, '15cm', 5, '2024-11-11 14:27:21', 8),
+(20, 'Pared isopanel blanca', 'Pared de isopanel con gran aislamiento térmico y acústico, ideal para proyectos rápidos y duraderos en entornos residenciales, comerciales e industriales.', 20000.00, 'imagen', 20, '15cm', 4, '2024-11-11 14:58:40', 10),
+(21, 'Pared isopanel terracota', 'Pared de isopanel con gran aislamiento térmico y acústico, ideal para proyectos rápidos y duraderos en entornos residenciales, comerciales e industriales.', 20000.00, 'imagen', 15, '15cm', 4, '2024-11-11 15:02:33', 10),
+(22, 'Pared isopanel gris', 'Pared de isopanel con gran aislamiento térmico y acústico, ideal para proyectos rápidos y duraderos en entornos residenciales, comerciales e industriales.', 20000.00, 'imagen', 20, '15cm', 4, '2024-11-11 14:59:05', 10),
+(23, 'Techo de isopanel terracota', 'Techo de isopanel con excelente aislamiento térmico y durabilidad. Fácil de instalar y mantener, ideal para proyectos residenciales, comerciales e industriales.', 10000.00, 'imagen', 23, '15cm', 5, '2024-11-11 15:02:25', 10);
 
 -- --------------------------------------------------------
 
@@ -271,8 +315,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `complete_name_user`, `email_user`, `password_user`, `phone_user`, `role_user`, `created_at_user`) VALUES
-(1, 'root', 'root@root.com', '$2y$10$jsasUdcl99l/GaIbZtTFdOXXQ.U0mTVAqmXVOcyJ3gAwXSiNf8bG2', '666', 'A', '2024-11-01 13:46:38'),
-(2, 'user', 'user@user.com', '$2y$10$jsasUdcl99l/GaIbZtTFdOXXQ.U0mTVAqmXVOcyJ3gAwXSiNf8bG2', '777', 'C', '2024-11-01 13:52:24');
+(5, 'user', 'user@user.com', '$2y$10$uZWGs26wDryKwqjhb3w3H.YNyMNdBoQVQmS78g9WxT5Y0v.FOxK.m', '99827336', 'C', '2024-11-11 13:40:35'),
+(6, 'user2', 'user2@user.com', '$2y$10$jGzB0AfFgzCf96T4m6Qv7.Zyar0SnqIg/LC7nKcn1pK9Ssqy1VVGy', '99837264', 'C', '2024-11-11 13:41:29'),
+(7, 'user3', 'user3@user.com', '$2y$10$a7e4h4nc/dWnnHkiJpVzr.pajvuKQIKIHJn704zfV9Tfj/n3ZT5pi', '99037263', 'C', '2024-11-11 13:41:48'),
+(8, 'admin', 'admin@admin.com', '$2y$10$DMIVFJdN4kFvp20umkuUUuZDr1bb5/RkgDeg0W.b.pheJRy7M5eOO', '98372635', 'A', '2024-11-11 13:42:27'),
+(9, 'admin2', 'admin2@admin.com', '$2y$10$E8QVjfR0lfeBFzAGIPNvRuTlnaI8Wa//GY8.coA2CWweP8.k7TVty', '99827364', 'A', '2024-11-11 13:42:41'),
+(10, 'root', 'root@root.com', '$2y$10$QvgIujo1QVFwCxl.T9xv8uQmD6DUPpti4IFsLllVTDdRiUvwCHTvu', '99283947', 'A', '2024-11-11 13:43:11');
 
 --
 -- Índices para tablas volcadas
@@ -408,7 +456,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT de la tabla `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id_city` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_city` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `customer_orders`
@@ -426,7 +474,7 @@ ALTER TABLE `deliveries`
 -- AUTO_INCREMENT de la tabla `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id_department` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_department` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `images_product`
@@ -450,19 +498,19 @@ ALTER TABLE `order_products_purchases`
 -- AUTO_INCREMENT de la tabla `order_status`
 --
 ALTER TABLE `order_status`
-  MODIFY `id_order_status` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `payment_methods`
 --
 ALTER TABLE `payment_methods`
-  MODIFY `id_payment_method` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_payment_method` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `product_reviews`
