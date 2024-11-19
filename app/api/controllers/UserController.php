@@ -418,7 +418,7 @@ function getSession()
             'message' => 'Existe sesión de usuario.'
         ]);
     } else {
-        $response->setStatusCode(400);
+        $response->setStatusCode(200);
         $response->setBody([
             'success' => false,
             'message' => 'No existe sesión de usuario.'
