@@ -54,6 +54,17 @@ export default class userDAO {
             window.localStorage.removeItem("userData");
         }
     }
+    async getSessionAdmin() {
+        let url = server + "/UserController.php?function=getSessionAdmin";
+        let response = await fetch(url);
+        let json = await response.json();
+        if(!json.success){
+            window.localStorage.removeItem("session");
+            window.localStorage.removeItem("userData");
+            return false;
+        }
+        return true;
+    }
 
     async logoutSession() {
         let url = server + "/UserController.php?function=logout";

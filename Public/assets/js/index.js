@@ -111,10 +111,11 @@ async function getCart() {
     document.querySelector("#cart").innerHTML = "";
 
     let cart = JSON.parse(localStorage.getItem("cart"));
-    if (cart) {
-        let total = 0;
+    let total = 0;
+    if (cart != null) {
+       
 
-        cart.forEach(async item => {
+       await Promise.all(cart.map(async item => {
 
             const result = await new productDAO().getById(item.id);
 
@@ -140,9 +141,8 @@ async function getCart() {
 
             total += parseInt(result.producto.price_product) * item.cant;
 
-            document.querySelector("#total").innerText = total;
-
-        });
+        }));
+        document.querySelector("#total").innerText = total;
 
 
     } else {

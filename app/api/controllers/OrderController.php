@@ -139,19 +139,19 @@ function getAllOrders()
 
 function getByIdOrder()
 {
-
+    session_start();
     try {
         $response = new Response;
 
         // para evitar enviar datos vacios a la base de datos
 
-        if (isset($_GET['customerOrderId']) && !empty($_GET['customerOrderId'])) {
+        if (isset($_SESSION['id_user']) && !empty($_SESSION['id_user'])) {
 
             $order = [
-                "customerOrderId" => $_GET['customerOrderId']
+                "customerOrderId" => $_SESSION['id_user']
             ];
 
-            $orderById = (new Order())->getById($order['customerOrderId']);
+            $orderById = (new Order())->getByCustomer();
 
 
             if ($orderById) {

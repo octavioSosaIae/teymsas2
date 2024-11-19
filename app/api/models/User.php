@@ -56,6 +56,7 @@ class User
                 }
 
                 $_SESSION['id_user'] = $user['id_user'];
+                $_SESSION['role_user'] = $user['role_user'];
 
             } else {
 

@@ -50,7 +50,7 @@ class Product
             $conn = $connection->connect();
 
 
-            $stmt = $conn->prepare("SELECT c.id_category, c.description_category, p.id_product, p.description_product,p.details_product,p.price_product,p.stock_product, p.measures_product FROM products AS p 
+            $stmt = $conn->prepare("SELECT c.id_category, c.description_category, p.id_product, p.description_product,p.details_product,p.price_product,p.stock_product, p.measures_product, p.thumbnail_product FROM products AS p 
             INNER JOIN  categories AS c 
             ON p.id_category = c.id_category;");
 
@@ -80,7 +80,7 @@ class Product
             $connection = new conn;
             $conn = $connection->connect();
 
-            $stmt = $conn->prepare("SELECT c.id_category, c.description_category, p.id_product, p.description_product,p.details_product,p.price_product,p.stock_product, p.measures_product FROM products AS p 
+            $stmt = $conn->prepare("SELECT c.id_category, c.description_category, p.id_product, p.description_product,p.details_product,p.price_product,p.stock_product, p.measures_product, p.thumbnail_product FROM products AS p 
              INNER JOIN  categories AS c 
              ON p.id_category = c.id_category
              WHERE p.id_product = ?;");

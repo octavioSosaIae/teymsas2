@@ -11,7 +11,7 @@ document.querySelector("#logout").addEventListener("click", async function (e) {
     const result = await new userDAO().logoutSession();
     if (result.success) {
         alert(result.message);
-        location.href = "http://localhost/teymsas2/public/user/";
+        location.href = "http://192.168.10.12/teymsas2/public/user/";
 
     } else {
         alert(result.message);
@@ -29,7 +29,7 @@ document.querySelector("#changePassword").addEventListener("submit", async funct
         const result = await new userDAO().updatePassword(currentPassword, newPassword);
         if (result.success) {
             alert(result.message);
-            location.href = "http://localhost/teymsas2/public/user/";
+            location.href = "http://192.168.10.12/teymsas2/public/user/";
         } else {
             alert(result.error);
         }

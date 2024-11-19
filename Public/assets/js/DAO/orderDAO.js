@@ -34,7 +34,7 @@ export default class orderDAO {
 
         let url = server + '/OrderController.php?function=getByCustomer';
         let response = await fetch(url);
-        let data = await response.text();
+        let data = await response.json();
         return data;
     }
 

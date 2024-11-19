@@ -128,7 +128,7 @@ class Order
     {
         try {
             session_start();
-            $id_customer = $_SESSION['user_id'];
+            $id_customer = $_SESSION['id_user'];
             $connection = new conn;
             $conn = $connection->connect();
             $stmt = $conn->prepare("SELECT * FROM customer_orders WHERE id_customer = ?");
@@ -136,7 +136,7 @@ class Order
             if ($stmt->execute()) {
 
                 $result = $stmt->get_result();
-                $order_status = $result->fetch_assoc();
+                $order_status = $result->fetch_all(MYSQLI_ASSOC);
                 return $order_status;
             } else {
                 throw new Exception("No se encontraron ordenes " . $stmt->error);

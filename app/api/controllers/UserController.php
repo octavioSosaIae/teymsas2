@@ -54,7 +54,12 @@ switch ($function) {
     case "getSession": 
         getSession();
         break;
-}
+
+        case "getSessionAdmin": 
+            getSessionAdmin();
+            break;
+    }
+
 
 
 
@@ -417,6 +422,25 @@ function getSession()
         $response->setBody([
             'success' => false,
             'message' => 'No existe sesión de usuario.'
+        ]);
+    }
+    $response->send();
+}
+function getSessionAdmin()
+{
+    $response = new Response;
+
+    if ((isset($_SESSION['id_user'])) && (isset($_SESSION['role_user'])) && ($_SESSION['role_user'] === "A")) {
+        $response->setStatusCode(200);
+        $response->setBody([
+            'success' => true,
+            'message' => 'Existe sesión de admin.'
+        ]);
+    } else {
+        $response->setStatusCode(400);
+        $response->setBody([
+            'success' => false,
+            'message' => 'No existe sesión de admin.'
         ]);
     }
     $response->send();

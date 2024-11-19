@@ -34,7 +34,7 @@ async function obtenerProductos() {
                 document.querySelector("#contenedor-carrito").innerHTML += `
 
                 <div id="cart-item" class="cart-item">
-                <img src="../storage/imgproductos/Pro2.png" alt="Producto" class="product-image">
+                <img src="../storage/imgproductos/${product.thumbnail_product}" alt="Producto" class="product-image">
                 <div class="product-info">
                     <h2 class="product-title">${result.producto.description_product}</h2>
                     <div class="quantity-controls">

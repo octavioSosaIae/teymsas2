@@ -9,7 +9,7 @@ const containerProducts = document.querySelector('#container-products');
 arrayProducts.forEach(product => {
     containerProducts.innerHTML += `
                     <div class="producto">
-                    <img class="imgProducto" src="../storage/imgproductos/Pro1.png" alt="">
+                    <img class="imgProducto" src="../storage/imgproductos/${product.thumbnail_product}" alt="">
                     <div class="info">
                 <h2 class="title">${product.description_product}</h2>
                 <p class="price">U$S ${product.price_product}</p>

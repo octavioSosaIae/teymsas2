@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/css/dashboard_admin.css">
+    <script type="module" src="../assets/js/indexadmin.js"></script>
 </head>
 <body>
     <main>
@@ -16,10 +17,11 @@
         </div>
         <nav class="menu">
             <ul>
-                <li><a href="../admin/PaginaPrincipal.html">Dashboard</a></li>
+                <li><a href="../admin/index.html">Dashboard</a></li>
                 <li><a href="../admin/VerProducto.html">Ver Productos</a></li>
                 <li><a href="../admin/crearProduct.html">Crear producto</a></li>
-                <li><a href="../admin/VerReseña.html">Ver reseñas</a></li>
+               
+                
             </ul>
         </nav>
 
@@ -29,11 +31,11 @@
     <main class="main-content">
         <!-- Barra superior -->
         <header class="top-bar">
-            <span class="user-detail">Bienvenido, <?php echo $_SESSION["full_name"]; ?></span>
+            <span class="user-detail">Bienvenido </span>
             <div class="top-bar-icons">
                 <span class="icon">🔔</span>
                 <span class="icon">⚙️</span>
-                <span class="icon"><a href="http://localhost/eBanking/app/controllers/UserController.php?function=logout">🚪</a></span>
+                <span class="icon"><a href="../user/LoginRegistro.html">🚪</a></span>
             </div>
         </header>
 

@@ -12,7 +12,7 @@ window.onload = () => {
         if (password.value === passwordConfirm.value) {
             let RegisterFormData = new FormData(formRegister);
 
-        let complete_name_user = documet.querySelector("#full_name");
+        let complete_name_user = document.querySelector("#full_name");
         let phone_user = document.querySelector("#phone");
         let email_user = document.querySelector("#email");
         let password_user = document.querySelector("#password");
@@ -23,7 +23,7 @@ window.onload = () => {
         let id_city = document.querySelector("#ciudad");
 
         const response = new customersDAO().createCustomer(complete_name_user,phone_user,email_user,password_user,document_customer, address_customer, business_name_customer,rut_customer, id_city);
-        document.querySelector("#").valu
+        
 
             alert(response.message);
             formRegister.reset();
@@ -59,7 +59,7 @@ function changeForms() {
         LoginFormData.append("email", emailLogin.value);
         LoginFormData.append("password", passwordLogin.value);
 
-        let url = 'http://localhost/teymsas2/app/api/controllers/UserController.php?function=login';
+        let url = 'http://192.168.10.12/teymsas2/app/api/controllers/UserController.php?function=login';
 
         let config = {
             method: 'POST',
@@ -71,7 +71,7 @@ function changeForms() {
 
         if(datos.success){
             alert("Vuebvebudi")
-            location.href ="http://http://localhost/teymsas2/public/user/";
+            location.href ="http://http://192.168.10.12/teymsas2/public/user/";
         } else{
             alert(datos.error)
         }
