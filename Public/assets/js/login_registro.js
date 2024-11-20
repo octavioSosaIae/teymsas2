@@ -1,3 +1,5 @@
+import customersDAO from "./DAO/customersDAO.js";
+
 window.onload = () => {
     changeForms();
     cargarCiudades();
@@ -22,9 +24,8 @@ window.onload = () => {
         let rut_customer = document.querySelector("#rut");
         let id_city = document.querySelector("#ciudad");
 
-        const response = new customersDAO().createCustomer(complete_name_user,phone_user,email_user,password_user,document_customer, address_customer, business_name_customer,rut_customer, id_city);
+        const response = await new customersDAO().createCustomer(complete_name_user,phone_user,email_user,password_user,document_customer, address_customer, business_name_customer,rut_customer, id_city);
         
-
             alert(response.message);
             formRegister.reset();
         } else {
@@ -59,7 +60,7 @@ function changeForms() {
         LoginFormData.append("email", emailLogin.value);
         LoginFormData.append("password", passwordLogin.value);
 
-        let url = 'http://192.168.10.12/teymsas2/app/api/controllers/UserController.php?function=login';
+        let url = 'http://localhost/teymsas2/app/api/controllers/UserController.php?function=login';
 
         let config = {
             method: 'POST',
@@ -71,7 +72,7 @@ function changeForms() {
 
         if(datos.success){
             alert("Vuebvebudi")
-            location.href ="http://http://192.168.10.12/teymsas2/public/user/";
+            location.href ="http://http://localhost/teymsas2/public/user/";
         } else{
             alert(datos.error)
         }
@@ -81,26 +82,27 @@ function changeForms() {
 
             // Definimos los departamentos y sus ciudades
     let departamentos = {
-        "Artigas": ["Artigas", "Bella Unión", "Tomás Gomensoro"],
-        "Canelones": ["Canelones", "La Paz", "Progreso", "Pando"],
-        "Cerro Largo": ["Melo", "Batoví", "Tacuarembó"],
+        //"Artigas": ["Artigas", "Bella Unión", "Tomás Gomensoro"],
+        //"Canelones": ["Canelones", "La Paz", "Progreso", "Pando"],
+        //"Cerro Largo": ["Melo", "Batoví", "Tacuarembó"],
         "Colonia": ["Colonia del Sacramento", "Carmelo", "Juan Lacaze", "Nueva Helvecia","Valdense","Rosario","Tarariras"],
-        "Durazno": ["Durazno", "Villa del Carmen", "La Paloma"],
-        "Flores": ["Trinidad", "Isla Manga", "La Tablada"],
-        "Florida": ["Florida", "Sarandí Grande", "Fray Marcos"],
-        "Lavalleja": [" Minas", "Solís de Mataojo", "José Pedro Varela"],
+        //"Durazno": ["Durazno", "Villa del Carmen", "La Paloma"],
+       // "Flores": ["Trinidad", "Isla Manga", "La Tablada"],
+        //"Florida": ["Florida", "Sarandí Grande", "Fray Marcos"],
+        //"Lavalleja": [" Minas", "Solís de Mataojo", "José Pedro Varela"],
         "Maldonado": ["Maldonado", "Punta del Este", "San Carlos", "La Barra"],
         "Montevideo": ["Montevideo"],
-        "Paysandú": ["Paysandú", "Quebracho", "Guichón"],
-        "Rio Negro": ["Fray Bentos", "Young", "Nuevo Berlín"],
-        "Rivera": ["Rivera", "Tranqueras", "Vichadero"],
-        "Rocha": ["Rocha", "Castillos", "Chuy", "La Paloma"],
-        "Salto": ["Salto", "Concordia", "San Antonio"],
+        //"Paysandú": ["Paysandú", "Quebracho", "Guichón"],
+        //"Rio Negro": ["Fray Bentos", "Young", "Nuevo Berlín"],
+        //"Rivera": ["Rivera", "Tranqueras", "Vichadero"],
+        //"Rocha": ["Rocha", "Castillos", "Chuy", "La Paloma"],
+        //"Salto": ["Salto", "Concordia", "San Antonio"],
         "San José": ["San José de Mayo", "Ciudad del Plata", "Libertad"],
-        "Soriano": ["Mercedes", "Dolores", "Palmar"],
-        "Tacuarembó": ["Tacuarembó", "San Gregorio", "San Javier"],
-        "Treinta y Tres": ["Treinta y Tres", "Castillos", "María Albina"]
+        //"Soriano": ["Mercedes", "Dolores", "Palmar"],
+        //"Tacuarembó": ["Tacuarembó", "San Gregorio", "San Javier"],
+        //"Treinta y Tres": ["Treinta y Tres", "Castillos", "María Albina"]
     };
+    
 
         // Función que se ejecuta al seleccionar un departamento
     function cargarCiudades() {

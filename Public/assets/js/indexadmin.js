@@ -5,7 +5,7 @@ Sesion();
     const session = await new userDAO().getSessionAdmin();
 if (!session) {
     console.log("hola");
-    location.href = "http://192.168.10.12/teymsas2/public/user"
+    location.href = "http://localhost/teymsas2/public/user"
 }    
 
 }
